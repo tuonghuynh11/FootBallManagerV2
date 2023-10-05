@@ -1,0 +1,76 @@
+<UserControl x:Class="FootBallProject.TransferWindow"
+
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FootBallProject"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:uc="clr-namespace:FootBallProject.UserControlBar"
+        mc:Ignorable="d"
+        Height="720" Width="1290"
+
+        DataContext="{StaticResource TeamPlayersVM}"
+        Name="transferWindow1">
+    <Grid Margin="60,0,15,0" Height="690"  >
+        <Border CornerRadius="10" Background="LightSeaGreen" >
+            <Grid>
+                <TextBlock Grid.Row="1" Grid.Column="1" Margin="50,20,500,632" Text="Danh sách cầu thủ" FontSize="29" FontWeight="Bold" FontFamily="Microsoft YaHei"/>
+        <Border Grid.Column="1" Grid.Row="1" Margin="0 100 10 400" >
+
+            <DataGrid ItemsSource="{Binding ClubPlayerList, NotifyOnSourceUpdated=True,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedPlayer, Mode=TwoWay}" IsReadOnly="True" AutoGenerateColumns="False" Name="dgrid1" Margin="100,-24,100,24" Background="#E3F42A">
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name" Width="200"  Binding="{Binding Name}" />
+                    <DataGridTextColumn Header="Team" Width="200" Binding="{Binding ClubID}"/>
+                    <DataGridTextColumn Header="Nationality" Width="200" Binding="{Binding Nationality}"/>
+                    <DataGridTextColumn Header="Price"  Width="200" Binding="{Binding Price}"/>
+                    <DataGridTemplateColumn Header="Button">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate >
+                                <Button  Name="Sell" Command="{Binding  RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.TransferCommand}" CommandParameter="{Binding ElementName=transferWindow1}">
+                                    Sell
+                                </Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+
+            </DataGrid>
+        </Border>
+                <Border Grid.Column="1" Grid.Row="1" Margin="0 400 10 0">
+                    <DataGrid  ItemsSource="{Binding TransferPlayers, NotifyOnSourceUpdated=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedPlayer, Mode=TwoWay}"  AutoGenerateColumns="False" Name="dgrid2" Margin="100 0 100 70" Background="#E3F42A">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Number" Binding="{Binding Number}" Visibility="Hidden">
+
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Name" Width="200" Binding="{Binding Name}"/>
+                            <DataGridTextColumn Header="Team" Width="200" Binding="{Binding ClubID}"/>
+
+
+
+                            <DataGridTextColumn Header="Nationality" Width="200" Binding="{Binding Nationality}"/>
+                            <DataGridTextColumn Header="Price"  Width="200" Binding="{Binding Price}"/>
+                            <DataGridTemplateColumn Header="Button">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Name="Buy" Command="{Binding  RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.BuyCommand}" CommandParameter="{Binding ElementName=transferWindow1}" >
+
+                                            <TextBlock>Buy</TextBlock>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+
+                    </DataGrid>
+                </Border>
+            </Grid>
+        </Border>
+
+    </Grid>
+   
+</UserControl>
+

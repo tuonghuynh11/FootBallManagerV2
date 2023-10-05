@@ -1,0 +1,763 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:viewmodel="clr-namespace:FootBallProject.ViewModel"
+                    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                    xmlns:view="clr-namespace:FootBallProject.View"
+                    xmlns:object="clr-namespace:FootBallProject.Object"
+                   >
+    <viewmodel:CreateNewMatchViewModel x:Key="CreateNewMatchVM"></viewmodel:CreateNewMatchViewModel>
+    <viewmodel:ListMatchRightBarViewModel x:Key="ListMatchRightSideBarVM"></viewmodel:ListMatchRightBarViewModel>
+    <viewmodel:LoginViewModel x:Key="LoginViewM"></viewmodel:LoginViewModel>
+    <object:LeagueCardOb x:Key="LeagueCardOb"></object:LeagueCardOb>
+    <viewmodel:ListMatchViewModel x:Key="ListMatchVM"></viewmodel:ListMatchViewModel>
+    <viewmodel:LeagueRightBarViewModel x:Key="LeagueRightBarVM"></viewmodel:LeagueRightBarViewModel>
+    <object:EmptyCard x:Key="EmptyCardOb"></object:EmptyCard>
+    <viewmodel:MatchResultViewModel x:Key="MatchResultVM" ></viewmodel:MatchResultViewModel>
+    <viewmodel:ListofLeagueViewModel x:Key="ListofLeaguevm"></viewmodel:ListofLeagueViewModel>
+    <!--<DataTemplate DataType="{x:Type viewmodel:MatchResultViewModel}">
+        <view:MatchResult></view:MatchResult>
+    </DataTemplate>-->
+    <DataTemplate DataType="{x:Type viewmodel:MatchResultViewModel}">
+        <view:MatchResult2></view:MatchResult2>
+    </DataTemplate>
+    <Style x:Key="ButtonTitleBar" TargetType="{x:Type Button}">
+        <Setter Property="MinHeight" Value="{Binding ActualWidth, RelativeSource={RelativeSource Self}}" />
+        <Setter Property="MinWidth" Value="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" />
+        <Setter Property="Background" Value="{DynamicResource Transparent}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border Background="{TemplateBinding Background}" BorderThickness="0">
+                        <Path
+                            MinWidth="24"
+                            MinHeight="24"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Data="{TemplateBinding Content}"
+                            Fill="{TemplateBinding Foreground}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource White}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="BorderButtonTitleBar" TargetType="{x:Type Border}">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="CornerRadius" Value="5" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource DarkGray}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style
+        x:Key="BorderClosebuttonTitleBar"
+        BasedOn="{StaticResource BorderButtonTitleBar}"
+        TargetType="{x:Type Border}">
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource ErrorMain}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!--  Newfeed  -->
+    <!--<Style
+        x:Key="RichTextBoxCreatePost"
+        BasedOn="{StaticResource MaterialDesignRichTextBox}"
+        TargetType="RichTextBox">
+        <Setter Property="AcceptsReturn" Value="True" />
+        <Setter Property="AcceptsTab" Value="True" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Background" Value="{DynamicResource White}" />
+        <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="Height" Value="auto" />
+        <Setter Property="MinHeight" Value="40" />
+        <Setter Property="MaxHeight" Value="300" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RichTextBox">
+                    <Border
+                        x:Name="brdCreatePost"
+                        Padding="8"
+                        Background="{TemplateBinding Background}"
+                        CornerRadius="10">
+                        <Border.Effect>
+                            <DropShadowEffect
+                                BlurRadius="10"
+                                Opacity="0.3"
+                                ShadowDepth="0"
+                                Color="DarkGray" />
+                        </Border.Effect>
+                        <ScrollViewer x:Name="PART_ContentHost" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style
+        x:Key="TextBoxCreatePost"
+        BasedOn="{StaticResource MaterialDesignTextBox}"
+        TargetType="TextBox">
+        <Setter Property="AcceptsReturn" Value="True" />
+        <Setter Property="AcceptsTab" Value="True" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Background" Value="{DynamicResource White}" />
+        <Setter Property="HorizontalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="Height" Value="auto" />
+        <Setter Property="MinHeight" Value="40" />
+        <Setter Property="MaxHeight" Value="300" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border
+                        x:Name="brdCreatePost"
+                        Padding="8"
+                        Background="{TemplateBinding Background}"
+                        CornerRadius="10">
+                        <Border.Effect>
+                            <DropShadowEffect
+                                BlurRadius="10"
+                                Opacity="0.3"
+                                ShadowDepth="0"
+                                Color="DarkGray" />
+                        </Border.Effect>
+                        <ScrollViewer x:Name="PART_ContentHost" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>-->
+
+    <Style
+        x:Key="PrimaryButton"
+        BasedOn="{StaticResource MaterialDesignRaisedDarkButton}"
+        TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="{DynamicResource PrimaryMain}" />
+        <Setter Property="Foreground" Value="{DynamicResource White}" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Height" Value="40" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="8" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource PrimaryLight}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!--<Style x:Key="ImageAdded" TargetType="{x:Type Button}">
+        <Setter Property="Height" Value="90" />
+        <Setter Property="Width" Value="90" />
+        <Setter Property="Margin" Value="16,0,0,0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate x:Name="ImageAddedControl" TargetType="Button">
+                    <Border
+                        Background="Transparent"
+                        BorderBrush="LightGray"
+                        BorderThickness="2"
+                        CornerRadius="8">
+                        <Grid>
+                            <Image Source="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}" Stretch="Uniform" />
+                            <Button
+                                x:Name="btnDelete"
+                                Width="20"
+                                Height="20"
+                                Margin="5"
+                                Padding="0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                Background="Transparent"
+                                Command="{TemplateBinding Command}"
+                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Button}}}"
+                                Content="{StaticResource CloseButton}"
+                                Foreground="LightGray"
+                                Style="{StaticResource ButtonTitleBar}"
+                                Visibility="Collapsed" />
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="btnDelete" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>-->
+
+    <Style
+        x:Key="TextBoxAsTextBlock"
+        BasedOn="{StaticResource MaterialDesignTextBox}"
+        TargetType="{x:Type TextBox}">
+        <Setter Property="IsReadOnly" Value="True" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="materialDesign:TextFieldAssist.DecorationVisibility" Value="Hidden" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="TextBlock.LineHeight" Value="25" />
+        <Setter Property="TextBlock.LineStackingStrategy" Value="BlockLineHeight" />
+        <Setter Property="FontSize" Value="16" />
+    </Style>
+
+    <Style
+        x:Key="CommentTextBox"
+        BasedOn="{StaticResource MaterialDesignTextBox}"
+        TargetType="{x:Type TextBox}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border
+                        x:Name="brdCreatePost"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="Gray"
+                        BorderThickness="1"
+                        CornerRadius="24">
+                        <Border.Effect>
+                            <DropShadowEffect
+                                BlurRadius="8"
+                                Opacity="0.3"
+                                ShadowDepth="0"
+                                Color="White" />
+                        </Border.Effect>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox
+                                x:Name="txbComment"
+                                Grid.Column="0"
+                                Margin="16,8"
+                                VerticalAlignment="Center"
+                                materialDesign:HintAssist.Hint="Thêm bình luận..."
+                                materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
+                                BorderThickness="0"
+                                FontSize="14"
+                                Style="{StaticResource MaterialDesignTextBoxBase}">
+                                <TextBox.InputBindings>
+                                    <KeyBinding
+                                        Key="Enter"
+                                        Command="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}"
+                                        CommandParameter="{Binding ElementName=txbComment}" />
+                                </TextBox.InputBindings>
+                            </TextBox>
+                            <Button
+                                Grid.Column="1"
+                                Margin="0,8,16,8"
+                                Command="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}"
+                                CommandParameter="{Binding ElementName=txbComment}">
+                                <Button.Template>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Image
+                                            Width="24"
+                                            Height="24"
+                                            Source="{StaticResource Send}" />
+                                    </ControlTemplate>
+                                </Button.Template>
+                            </Button>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="MaterialDesignSnackbarActionButton" TargetType="Button">
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="Foreground" Value="{DynamicResource SecondaryHueMidBrush}" />
+        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="materialDesign:RippleAssist.Feedback" Value="{DynamicResource MaterialDesignSnackbarRipple}" />
+        <Setter Property="TextBlock.FontWeight" Value="Medium" />
+        <Setter Property="TextBlock.FontSize" Value="14" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Height" Value="36" />
+        <Setter Property="Margin" Value="8,-10,-8,-10" />
+        <Setter Property="Padding" Value="8" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid x:Name="Root" Background="{TemplateBinding Background}">
+                        <materialDesign:Ripple
+                            Padding="{TemplateBinding Padding}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Focusable="False"
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Background" Value="{DynamicResource MaterialDesignSnackbarMouseOver}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" Value="0.38" />
+                        </Trigger>
+                        <Trigger Property="DockPanel.Dock" Value="Bottom">
+                            <Setter Property="Margin" Value="0,18,-8,-8" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="MaterialDesignCalendarNew" TargetType="{x:Type Calendar}">
+        <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
+        <Setter Property="Background" Value="{DynamicResource Background}" />
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="CalendarDayButtonStyle" Value="{StaticResource MaterialDesignCalendarDayButton}" />
+        <Setter Property="CalendarButtonStyle" Value="{StaticResource MaterialDesignCalendarButton}" />
+        <Setter Property="materialDesign:CalendarAssist.HeaderBackground" Value="{DynamicResource Background}" />
+        <Setter Property="materialDesign:CalendarAssist.HeaderForeground" Value="DimGray" />
+        <Setter Property="materialDesign:CalendarAssist.Orientation" Value="Vertical" />
+        <Setter Property="materialDesign:ShadowAssist.ShadowDepth" Value="Depth0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Calendar}">
+                    <Border
+                        Padding="4"
+                        Background="{DynamicResource Background}"
+                        CornerRadius="8">
+                        <CalendarItem
+                            x:Name="PART_CalendarItem"
+                            materialDesign:CalendarAssist.HeaderBackground="{TemplateBinding materialDesign:CalendarAssist.HeaderBackground}"
+                            materialDesign:CalendarAssist.HeaderForeground="{TemplateBinding materialDesign:CalendarAssist.HeaderForeground}"
+                            materialDesign:CalendarAssist.IsHeaderVisible="{TemplateBinding materialDesign:CalendarAssist.IsHeaderVisible}"
+                            materialDesign:CalendarAssist.Orientation="{TemplateBinding materialDesign:CalendarAssist.Orientation}"
+                            materialDesign:ShadowAssist.ShadowDepth="{TemplateBinding materialDesign:ShadowAssist.ShadowDepth}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Foreground="{TemplateBinding Foreground}"
+                            Style="{DynamicResource MaterialDesignCalendarItemPortrait}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  AdminNotification  -->
+    <Style
+        x:Key="AdminNotificationButton"
+        BasedOn="{StaticResource MaterialDesignRaisedButton}"
+        TargetType="{x:Type Button}">
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="8" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+    <Style
+        x:Key="ButtonInPopupBox"
+        BasedOn="{StaticResource MaterialDesignPaperLightButton}"
+        TargetType="Button">
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="MinHeight" Value="48" />
+    </Style>
+
+    <!--<ControlTemplate x:Key="TextBoxErrorTemplate">
+        <StackPanel>
+            <AdornedElementPlaceholder x:Name="placeholder" />
+            <TextBlock
+                DockPanel.Dock="Bottom"
+                Foreground="#FFF44336"
+                MaxWidth="220"
+                FontSize="10"
+                Text="{Binding ElementName=placeholder, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}"
+                TextWrapping="Wrap"
+                HorizontalAlignment="Left" />
+        </StackPanel>
+    </ControlTemplate>-->
+
+    <!--  UserInfo  -->
+    <Style x:Key="Retangle" TargetType="{x:Type Rectangle}">
+        <Setter Property="Width" Value="300" />
+        <Setter Property="Height" Value="28" />
+        <Setter Property="Fill" Value="#FFE0E0E0" />
+        <Setter Property="RadiusX" Value="4" />
+        <Setter Property="RadiusY" Value="4" />
+        <Setter Property="Stroke" Value="Gray" />
+    </Style>
+
+    <Style
+        x:Key="TextBox"
+        BasedOn="{StaticResource MaterialDesignTextBox}"
+        TargetType="{x:Type TextBox}">
+        <Setter Property="Foreground" Value="{DynamicResource BlackDefault}" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="MaxLines" Value="1" />
+        <Setter Property="Height" Value="32" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Padding" Value="12,4" />
+        <Setter Property="materialDesign:TextFieldAssist.DecorationVisibility" Value="Hidden" />
+    </Style>
+
+    <Style x:Key="LabelText" TargetType="{x:Type Label}">
+        <Setter Property="Background" Value="Transparent" />
+        <!--<Setter Property="Foreground" Value="Gray" />-->
+        <Setter Property="Margin" Value="0,0" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding}" />
+                        <TextBlock Foreground="red" Text=" *" />
+                    </StackPanel>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style
+        x:Key="DatePickerInfo"
+        BasedOn="{StaticResource MaterialDesignDatePicker}"
+        TargetType="DatePicker">
+        <Setter Property="Height" Value="32" />
+        <Setter Property="Padding" Value="0,4" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Padding" Value="16,4" />
+        <Setter Property="materialDesign:HintAssist.IsFloating" Value="False" />
+        <Setter Property="materialDesign:TextFieldAssist.DecorationVisibility" Value="Hidden" />
+        <Setter Property="materialDesign:TextFieldAssist.HasOutlinedTextField" Value="False" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
+    <Style
+        x:Key="ComboboxInfo"
+        BasedOn="{StaticResource MaterialDesignComboBox}"
+        TargetType="{x:Type ComboBox}">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Height" Value="32" />
+        <Setter Property="Padding" Value="12,4" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryDark}" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Padding" Value="10,0" />
+        <Setter Property="materialDesign:TextFieldAssist.DecorationVisibility" Value="Hidden" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
+    <Style x:Key="SeparatorStyle" TargetType="{x:Type Separator}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Separator}">
+                    <Grid Margin="0,6,0,4" SnapsToDevicePixels="true">
+                        <Rectangle
+                            Height="1"
+                            Margin="30,0,1,1"
+                            Fill="#E0E0E0" />
+                        <Rectangle
+                            Height="1"
+                            Margin="30,1,1,0"
+                            Fill="White" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="HorizontalDividerBorder" TargetType="{x:Type Border}">
+        <Setter Property="Background" Value="{DynamicResource MaterialDesignDivider}" />
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Height" Value="1" />
+    </Style>
+
+    <Style x:Key="BorderStyle" TargetType="{x:Type Border}">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Background" Value="#FFE0E0E0" />
+        <Setter Property="BorderBrush" Value="{DynamicResource BlackDefault}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="5" />
+    </Style>
+
+    <!--  rightsidebar resource  -->
+    <Style x:Key="textblock_item" TargetType="TextBlock">
+        <Setter Property="Margin" Value="4,0,4,0" />
+        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Height" Value="25" />
+    </Style>
+
+    <Style x:Key="text_grid_item" TargetType="Grid">
+        <Setter Property="Margin" Value="0,4,0,4" />
+    </Style>
+
+    <Style
+        x:Key="grid_button_item"
+        BasedOn="{StaticResource MaterialDesignFlatLightButton}"
+        TargetType="Button">
+        <Setter Property="Margin" Value="0,4,0,4" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Foreground" Value="#DD000000" />
+        <Setter Property="Height" Value="25" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
+    <Style
+        x:Key="textbox_item"
+        BasedOn="{StaticResource MaterialDesignOutlinedTextBox}"
+        TargetType="TextBox">
+        <Setter Property="Margin" Value="4,4,4,16" />
+        <Setter Property="Height" Value="50" />
+        <Setter Property="AcceptsReturn" Value="True" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="HorizontalScrollBarVisibility" Value="Visible" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="materialDesign:HintAssist.IsFloating" Value="False" />
+        <Setter Property="materialDesign:TextFieldAssist.TextFieldCornerRadius" Value="8" />
+        <Style.Triggers>
+            <Trigger Property="Validation.HasError" Value="True">
+                <Setter Property="materialDesign:HintAssist.Foreground" Value="{DynamicResource MaterialDesignValidationErrorBrush}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style
+        x:Key="combobox_item"
+        BasedOn="{StaticResource MaterialDesignOutlinedComboBox}"
+        TargetType="ComboBox">
+        <Setter Property="Margin" Value="4,4,4,16" />
+        <Setter Property="Height" Value="50" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="materialDesign:HintAssist.IsFloating" Value="False" />
+        <Setter Property="materialDesign:TextFieldAssist.TextFieldCornerRadius" Value="8" />
+        <Style.Triggers>
+            <Trigger Property="Validation.HasError" Value="True">
+                <Setter Property="materialDesign:HintAssist.Foreground" Value="{DynamicResource MaterialDesignValidationErrorBrush}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style
+        x:Key="datepicker_item"
+        BasedOn="{StaticResource MaterialDesignOutlinedDatePicker}"
+        TargetType="DatePicker">
+        <Setter Property="Margin" Value="4,4,8,16" />
+        <Setter Property="Height" Value="50" />
+        <Setter Property="Language" Value="vi-VN" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="materialDesign:HintAssist.IsFloating" Value="False" />
+        <Setter Property="materialDesign:TextFieldAssist.TextFieldCornerRadius" Value="8" />
+        <Style.Triggers>
+            <Trigger Property="Validation.HasError" Value="True">
+                <Setter Property="materialDesign:HintAssist.Foreground" Value="{DynamicResource MaterialDesignValidationErrorBrush}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style
+        x:Key="ComboBoxTriggerValidation"
+        BasedOn="{StaticResource MaterialDesignOutlinedComboBox}"
+        TargetType="{x:Type ComboBox}">
+        <Style.Triggers>
+            <Trigger Property="Validation.HasError" Value="True">
+                <Setter Property="materialDesign:HintAssist.Foreground" Value="{DynamicResource MaterialDesignValidationErrorBrush}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style
+        x:Key="rounded_btn"
+        BasedOn="{StaticResource MaterialDesignFlatMidBgButton}"
+        TargetType="Button">
+        <Setter Property="Margin" Value="4" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="8" />
+    </Style>
+
+    <!--  trainingform faculty resources  -->
+    <Style x:Key="OverrideBackgroundButton" TargetType="{x:Type Button}">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryHueMidBrush}" />
+        <Setter Property="TextBlock.FontWeight" Value="Medium" />
+        <Setter Property="TextBlock.FontSize" Value="14" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Padding" Value="16,4,16,4" />
+        <Setter Property="materialDesign:ShadowAssist.ShadowDepth" Value="Depth1" />
+        <Setter Property="Height" Value="32" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ButtonBase}">
+                    <Grid>
+                        <AdornerDecorator CacheMode="{Binding RelativeSource={RelativeSource Self}, Path=(materialDesign:ShadowAssist.CacheMode)}">
+                            <Border
+                                x:Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{Binding Path=(materialDesign:ButtonAssist.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"
+                                Effect="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(materialDesign:ShadowAssist.ShadowDepth), Converter={x:Static materialDesign:ShadowConverter.Instance}}" />
+                        </AdornerDecorator>
+                        <materialDesign:Ripple
+                            Padding="{TemplateBinding Padding}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Content="{TemplateBinding Content}"
+                            ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Focusable="False"
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                            <materialDesign:Ripple.Clip>
+                                <MultiBinding Converter="{StaticResource BorderClipConverter}">
+                                    <Binding ElementName="border" Path="ActualWidth" />
+                                    <Binding ElementName="border" Path="ActualHeight" />
+                                    <Binding ElementName="border" Path="CornerRadius" />
+                                    <Binding ElementName="border" Path="BorderThickness" />
+                                </MultiBinding>
+                            </materialDesign:Ripple.Clip>
+                        </materialDesign:Ripple>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style
+        x:Key="RadioButtonStyle"
+        BasedOn="{StaticResource MaterialDesignAccentRadioButton}"
+        TargetType="{x:Type RadioButton}">
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="{DynamicResource PrimaryDark}" />
+        <Setter Property="Width" Value="20" />
+        <Setter Property="Height" Value="20" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+
+    <Style
+        x:Key="TextBoxTriggerValidation"
+        BasedOn="{StaticResource MaterialDesignOutlinedTextBox}"
+        TargetType="{x:Type TextBox}">
+        <Style.Triggers>
+            <Trigger Property="Validation.HasError" Value="True">
+                <Setter Property="materialDesign:HintAssist.Foreground" Value="{DynamicResource MaterialDesignValidationErrorBrush}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <!--<Style
+        x:Key="combobox_item"
+        BasedOn="{StaticResource MaterialDesignOutlinedComboBox}"
+        TargetType="ComboBox">
+        <Setter
+            Property="Margin"
+            Value="8,4,8,16" />
+        <Setter
+            Property="Height"
+            Value="50" />
+        <Setter
+            Property="VerticalAlignment"
+            Value="Top" />
+        <Setter
+            Property="materialDesign:HintAssist.IsFloating"
+            Value="False" />
+        <Setter
+            Property="materialDesign:TextFieldAssist.TextFieldCornerRadius"
+            Value="8" />
+        <Setter
+            Property="materialDesign:TextFieldAssist.HasClearButton"
+            Value="True" />
+        <Setter
+            Property="materialDesign:ComboBoxAssist.ShowSelectedItem"
+            Value="True" />
+    </Style>-->
+
+    <!--  iconAnimation  -->
+    <Style x:Key="AutoDecreaseOpacityPackIcon" TargetType="materialDesign:PackIcon">
+        <Style.Triggers>
+            <Trigger Property="IsVisible" Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation
+                                AutoReverse="False"
+                                Storyboard.TargetProperty="Opacity"
+                                From="1.0"
+                                To="0.0"
+                                Duration="0:0:2" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+            </Trigger>
+            <Trigger Property="Opacity" Value="0.0">
+                <Setter Property="Visibility" Value="Hidden" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="CardContainer" TargetType="materialDesign:Card">
+        <Setter Property="Padding" Value="4" />
+        <Setter Property="materialDesign:ShadowAssist.ShadowDepth" Value="Depth1" />
+        <Setter Property="UniformCornerRadius" Value="8" />
+    </Style>
+    <SolidColorBrush x:Key="PrimaryLight" Color="#5c6bc0" />
+    <SolidColorBrush x:Key="PrimaryMain" Color="#3f51b5" />
+    <SolidColorBrush x:Key="PrimaryDark" Color="#303f9f" />
+    <SolidColorBrush x:Key="ErrorLight" Color="#ef5350" />
+    <SolidColorBrush x:Key="ErrorMain" Color="#d32f2f" />
+    <SolidColorBrush x:Key="White" Color="#FFFFFF" />
+    <!--<SolidColorBrush x:Key="SideBar" Color="#f0f2f5" />-->
+    <!--<SolidColorBrush x:Key="CenterColumn" Color="#FFFFFF" />-->
+    <SolidColorBrush x:Key="CenterColumn" Color="Transparent" />
+    <!--<SolidColorBrush x:Key="SideBar" Color="#FFFFFF" />-->
+    <SolidColorBrush x:Key="SideBar" Color="Transparent" />
+    <SolidColorBrush x:Key="SelectedItemGray" Color="#e3e3e3" />
+    <SolidColorBrush x:Key="Gray" Color="#f6f7fb" />
+    <SolidColorBrush x:Key="Transparent" Color="Transparent" />
+    <SolidColorBrush x:Key="Black" Color="Black" />
+    <SolidColorBrush x:Key="DarkGray" Color="#b0b0b0" />
+    <SolidColorBrush x:Key="Background" Color="#f0f2f5" />
+    <SolidColorBrush x:Key="BlueStatus" Color="#03a9f4" />
+    <SolidColorBrush x:Key="SecondaryMain" Color="#673ab7" />
+    <SolidColorBrush x:Key="Green" Color="#408400" />
+    <SolidColorBrush x:Key="Orange" Color="Orange" />
+    <SolidColorBrush x:Key="LightGreen" Color="LightGreen" />
+    <SolidColorBrush x:Key="BlackDefault" Color="#DD000000" />
+    <SolidColorBrush x:Key="GenaralInNotification" Color="#FA383E" />
+    <SolidColorBrush x:Key="CommentNotification" Color="#00A400" />
+    <SolidColorBrush x:Key="ClassNotification" Color="#1877F2" />
+
+</ResourceDictionary>

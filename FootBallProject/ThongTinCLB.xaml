@@ -1,0 +1,492 @@
+﻿<Window x:Class="FootBallProject.ThongTinCLB"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FootBallProject"
+        mc:Ignorable="d"
+        
+         xmlns:uc="clr-namespace:FootBallProject.UserControlBar"
+         xmlns:ucFormatTeam="clr-namespace:FootBallProject.UserControlBar.Formation"
+       
+        xmlns:convert="clr-namespace:FootBallProject.Class"
+        
+         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:devexpress="http://schemas.devexpress.com/winfx/2008/xaml/grid" 
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core" xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+        xmlns:dxgt="http://schemas.devexpress.com/winfx/2008/xaml/grid/themekeys"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        DataContext="{StaticResource ClubInfomationVM}"
+        WindowStyle="None"
+        
+        AllowsTransparency="True"
+        Background="Transparent" 
+        WindowStartupLocation="CenterScreen"
+        Title="ThongTinGiaiDau" Height="660" Width="1000" Loaded="Window_Loaded" Icon="/Icons/appicon.png">
+    <Window.Resources>
+        <convert:ConvertByteArrToImage x:Key="imageconvert"></convert:ConvertByteArrToImage>
+    </Window.Resources>
+    <Border BorderThickness="2" BorderBrush="DarkGreen" CornerRadius="10" Background="#f3f4f7">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <uc:TitleBarUC x:Name="titlebar" Tag="Realmarid" Foreground="#FF52AE4B" Grid.Row="0" />
+            <Grid Grid.Row="1" >
+                <TabControl Padding="0 0 0 0" Margin="0 0 0 0"  >
+                    <TabControl.Resources>
+                        <Style TargetType="TabItem">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="TabItem">
+                                        <Border
+                                    Name="Border"
+                                    Margin="2,0"
+                                    BorderBrush="Gainsboro"
+                                    BorderThickness="1,1,1,0"
+                                    CornerRadius="0,0,4,4">
+                                            <ContentPresenter
+                                        x:Name="ContentSite"
+                                        Margin="10,2"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        ContentSource="Header" />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter TargetName="Border" Property="Background" Value="#FF61C0FA" />
+                                            </Trigger>
+                                            <Trigger Property="IsSelected" Value="False">
+                                                <Setter TargetName="Border" Property="Background" Value="GhostWhite" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </TabControl.Resources>
+                    <TabItem Header="Đội hình chính" VerticalAlignment="Center" Height="19" HorizontalAlignment="Left">
+                        <Grid  Margin="0 0 0 0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="558.1"></ColumnDefinition>
+                                    <ColumnDefinition Width="41.9"/>
+                                    <ColumnDefinition Width="109*"></ColumnDefinition>
+                                    <ColumnDefinition Width="287*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border Grid.Column="0" CornerRadius="0 0 0 10"  Background="#171630" Grid.ColumnSpan="2">
+                                    <StackPanel Orientation="Vertical">
+                                        <Grid>
+                                            <Border Margin="10" CornerRadius="10" Height="500" VerticalAlignment="Top">
+                                                <Border.Background>
+                                                    <ImageBrush ImageSource="images/SDCT.png"></ImageBrush>
+                                                </Border.Background>
+                                                <Grid>
+                                                    <ucFormatTeam:_433UC x:Name="DoiHinhChienThuatUC433" ></ucFormatTeam:_433UC>
+                                                    <ucFormatTeam:_442UC x:Name="DoiHinhChienThuatUC442"></ucFormatTeam:_442UC>
+                                                    <ucFormatTeam:_4231UC x:Name="DoiHinhChienThuatUC4231"></ucFormatTeam:_4231UC>
+                                                  </Grid>
+                                            </Border>
+
+                                        </Grid>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Border CornerRadius="90" Width="70" Height="70" BorderBrush="White" BorderThickness="1" Margin="10 0 5 5">
+                                                <Border.Background>
+                                                    <ImageBrush ImageSource="{Binding Team.HINHANHHLV,Converter={StaticResource ResourceKey=imageconvert}}" ></ImageBrush>
+
+                                                </Border.Background>
+                                            </Border>
+
+                                            <!--Tên HLV-->
+                                            <StackPanel Orientation="Vertical" Margin="0 0 10 0">
+                                                <TextBlock Text="HLV" Foreground="#818591" Margin="10 0 10 10" FontSize="20"></TextBlock>
+                                                <TextBlock Text="{Binding Team.HLV}" Foreground="White" VerticalAlignment="Center" FontSize="17" Margin="10 0 10 0" ></TextBlock>
+
+                                            </StackPanel>
+                                            <!--Tên HLV-->
+                                            <!--Giá trị đội hình-->
+                                            <StackPanel Orientation="Vertical" Margin="10 0 10 0">
+                                                <TextBlock Text="Giá trị đội hình" Foreground="#818591" Margin="10 0 10 10" FontSize="20"></TextBlock>
+                                                <TextBlock x:Name="GTDHtbl" Text="{Binding Team.GIATRI }" Foreground="White" VerticalAlignment="Center" FontSize="17" Margin="10 0 10 0" Loaded="GTDHtbl_Loaded" />
+
+                                            </StackPanel>
+
+                                            <!--Giá trị đội hình-->
+                                            <!--Sơ đồ chiến thuật-->
+                                            <StackPanel Orientation="Vertical" Margin="0 0 15 0">
+                                                <TextBlock Text="Đội hình" Foreground="#818591" FontSize="20" HorizontalAlignment="Center" Margin="5 0 0 0"></TextBlock>
+                                                <Border Width="160" Background="#363954" CornerRadius="5" Margin="10">
+                                                    <TextBlock Text="{Binding Team.SODOCHIENTHUAT}" FontSize="17" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                                                </Border>
+                                            </StackPanel>
+
+                                            <!--Sơ đồ chiến thuật-->
+                                        </StackPanel>
+
+                                    </StackPanel>
+                                </Border>
+
+                                <Grid Grid.Column="2" Grid.ColumnSpan="2">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="230"></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Border Grid.Row="0"  Background="White" BorderBrush="Black" BorderThickness="0 0.5 0 0">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="200"></ColumnDefinition>
+                                                <ColumnDefinition></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel Orientation="Vertical" Grid.Column="0">
+                                                <!--Tên cầu thủ-->
+                                                <TextBlock x:Name="TenCauThutbl" Text="{Binding Path= SelectedItem.HOTEN,ElementName=dtgThongTinCLB,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="10" FontSize="18" FontWeight="Bold"></TextBlock>
+                                                <!--Quốc tịch-->
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="Quốc tịch: " Margin="10" FontSize="15" HorizontalAlignment="Left"></TextBlock>
+                                                    <TextBlock x:Name="QuocTichtbl" Text="{Binding Path= SelectedItem.QUOCGIA,ElementName=dtgThongTinCLB,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="7 10 10 10" FontSize="15" HorizontalAlignment="Right"></TextBlock>
+
+                                                </StackPanel>
+                                                <!--Chiều cao-->
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="Chiều cao: " Margin="10" FontSize="15"></TextBlock>
+                                                    <TextBlock x:Name="ChieuCaotbl" Text="{Binding Path= SelectedItem.CHIEUCAO,ElementName=dtgThongTinCLB,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="3 10 10 10" FontSize="15" HorizontalAlignment="Center"></TextBlock>
+
+                                                </StackPanel>
+                                                <!--Cân nặng-->
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="Cân nặng: " Margin="10" FontSize="15"></TextBlock>
+                                                    <TextBlock x:Name="CanNangtbl" Text="{Binding Path= SelectedItem.CANNANG,ElementName=dtgThongTinCLB,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="7 10 10 10" FontSize="15" HorizontalAlignment="Center"></TextBlock>
+
+                                                </StackPanel>
+                                                <!--Thể trạng-->
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="Thể trạng: " Margin="10" FontSize="15"></TextBlock>
+                                                    <TextBlock x:Name="TheTrangtbl" Text="{Binding Path= SelectedItem.THETRANG,ElementName=dtgThongTinCLB,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="7 10 10 10" FontSize="15"></TextBlock>
+
+                                                </StackPanel>
+                                                <!--Chân thuận-->
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="Chân thuận: " Margin="10 10 0 10" FontSize="15"></TextBlock>
+                                                    <TextBlock x:Name="ChanThuantbl" Text="{Binding Path= SelectedItem.CHANTHUAN,ElementName=dtgThongTinCLB,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="4 10 10 10" FontSize="15" HorizontalAlignment="Center"></TextBlock>
+
+                                                </StackPanel>
+
+                                            </StackPanel>
+                                            <Grid Grid.Column="1" >
+
+                                                <Border CornerRadius="10" Height="190" Margin="10" VerticalAlignment="Bottom" >
+                                                    <!--ảnh cầu thủ-->
+                                                    <Border.Background>
+                                                        <ImageBrush x:Name="AnhCauThutbl" ImageSource="{Binding Path= SelectedItem.HINHANH ,ElementName=dtgThongTinCLB,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,Converter={StaticResource ResourceKey=imageconvert}}" ></ImageBrush>
+                                                    </Border.Background>
+
+                                                </Border>
+                                                <!--Số áo-->
+                                                <TextBlock x:Name="SoAotbl" Text="{Binding Path= SelectedItem.SOAO,ElementName=dtgThongTinCLB,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  Margin="0,-7,10,0" FontSize="65" Foreground="#FFFF001C" Opacity="0.8" HorizontalAlignment="Right" VerticalAlignment="Top" ></TextBlock>
+
+                                            </Grid>
+
+
+                                        </Grid>
+                                    </Border>
+                                    <Border Grid.Row="1"  CornerRadius="0 0 10 0" BorderBrush="#FF57658A" BorderThickness="0 0 0 2"  Background="#FF878181">
+                                        <DataGrid x:Name="dtgThongTinCLB" ItemsSource="{Binding MainPlayers}" CanUserAddRows="False" SelectionMode="Single" ScrollViewer.VerticalScrollBarVisibility="Hidden" RowBackground="Transparent" IsReadOnly="True" Margin="20,20,17,20" GridLinesVisibility="None" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="Transparent" Foreground="White" FontSize="20"  BorderThickness="0" CanUserResizeColumns="False" CanUserResizeRows="False" AutoGenerateColumns="False" HorizontalGridLinesBrush="Black" >
+                                            <DataGrid.Resources>
+                                                <DataTemplate x:Key="DataTemplate"  >
+                                                    <StackPanel x:Name="stckpnlPosition" Orientation="Horizontal" HorizontalAlignment="Center"  VerticalAlignment="Center">
+                                                        <TextBlock Text="{Binding VITRIAO}" FontSize="15" Margin="0 0 10 0" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+
+                                                        <Button x:Name="bttPlayerInfo" Visibility="Hidden" VerticalAlignment="Center" HorizontalAlignment="Center" Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                                                    ToolTip="MaterialDesignFloatingActionMiniAccentButton" Height="25" Width="25" Click="bttPlayerInfo_Click">
+                                                            <materialDesign:PackIcon
+                                                    Kind="Search"
+                                                    Height="20"
+                                                    Width="20" />
+                                                        </Button>
+                                                    </StackPanel>
+                                                    <!--Tạo nút tìm kiếm khi hover 1 hàng-->
+                                                    <DataTemplate.Triggers>
+                                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=IsSelected}" Value="True">
+                                                            <Setter TargetName="bttPlayerInfo" Property="Visibility" Value="Visible"/>
+                                                        </DataTrigger>
+                                                        <!--Tạo nút trao đổi-->
+                                                        <!--<DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=IsMouseOver}" Value="True">
+                                                            <Setter TargetName="bttPlayerExchange" Property="Visibility" Value="Visible"/>
+                                                        </DataTrigger>-->
+                                                    </DataTemplate.Triggers>
+                                                    <!--Tạo nút tìm kiếm khi hover 1 hàng-->
+
+                                                </DataTemplate>
+
+                                                <Style TargetType="{x:Type DataGridColumnHeader}">
+                                                    <Setter Property="Foreground" Value="#FFF9F17E"></Setter>
+                                                    <Setter Property="Background" Value="Transparent"></Setter>
+                                                    <Setter Property="Margin" Value="22 10 15 10"></Setter>
+
+                                                </Style>
+                                                <!--Chỉnh backgroud row selected-->
+                                                <Style TargetType="{x:Type DataGridRow}" >
+                                                    <Style.Triggers>
+                                                        <Trigger Property="DataGridRow.IsSelected" Value="True">
+                                                            <Setter Property="Background" Value="Red" />
+                                                        </Trigger>
+                                                        <Trigger Property="DataGridRow.IsMouseOver" Value="True" >
+                                                            <Setter Property="BorderBrush"  Value="Orange" />
+                                                            <Setter Property="BorderThickness" Value="1"></Setter>
+                                                        </Trigger>
+
+                                                    </Style.Triggers>
+                                                </Style>
+
+                                                <!--căn giữa text trong datagrid-->
+                                                <Style TargetType="{x:Type DataGridCell}" >
+
+                                                    <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+                                                    <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                                                    <Style.Triggers>
+                                                        <Trigger Property="DataGridCell.IsSelected" Value="True">
+                                                            <Setter Property="Background" Value="#FF89A5F0" />
+                                                        </Trigger>
+
+                                                    </Style.Triggers>
+                                                </Style>
+
+
+                                            </DataGrid.Resources>
+
+                                            <DataGrid.Columns >
+
+
+                                                <!--<DataGridTextColumn x:Name="Positiom" Header="Vị trí"  Width="85"  Binding="{Binding Position}"   Foreground="White"  CanUserResize="False" FontSize="15"></DataGridTextColumn>-->
+                                                <DataGridTemplateColumn x:Name="Position" Header="Vị trí"  Width="105"  CellTemplate="{StaticResource DataTemplate}">
+                                                    <DataGridTemplateColumn.HeaderStyle>
+                                                        <Style TargetType="DataGridColumnHeader">
+                                                            <Setter Property="HorizontalAlignment"
+                                                  Value="Left" />
+                                                            <Setter Property="HorizontalContentAlignment"
+                                                  Value="Left" />
+                                                            <Setter Property="Margin" Value="15 0 0 0"></Setter>
+                                                            <Setter Property="Background" Value="Transparent"></Setter>
+                                                            <Setter Property="FontSize" Value="20"></Setter>
+                                                            <Setter Property="Foreground" Value="#FFF9F17E"></Setter>
+
+                                                        </Style>
+
+                                                    </DataGridTemplateColumn.HeaderStyle>
+
+
+                                                </DataGridTemplateColumn>
+                                                <DataGridTextColumn Header="Tên cầu thủ"  Width="160"  Binding="{Binding HOTEN}"   Foreground="White" CanUserResize="False" FontSize="15">
+                                                    <DataGridTextColumn.ElementStyle>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+                                                            <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+                                                        </Style>
+                                                    </DataGridTextColumn.ElementStyle>
+                                                </DataGridTextColumn>
+                                                <DataGridTextColumn Header="Vai trò"  Width="106"  Binding="{Binding VAITRO}"   Foreground="White" CanUserResize="False" FontSize="15"></DataGridTextColumn>
+
+
+
+                                            </DataGrid.Columns>
+                                        </DataGrid>
+                                    </Border>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+
+                    </TabItem>
+                    <TabItem Header="Nhân sự" Height="24" HorizontalAlignment="Right">
+                        <Border  Margin="0 5 0 0" BorderBrush="Black" BorderThickness="0 0.5 0 0">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition></ColumnDefinition>
+                                    <ColumnDefinition></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Border CornerRadius="10" Background="#FF82E6E6" Grid.Column="0" Margin="10 10 0 10">
+                                    <Grid >
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="45"></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <TextBlock Grid.Row="0" Text="Ban huấn luyện" FontSize="20" FontWeight="Bold" Foreground="Red" Margin="10 10 5 10" HorizontalAlignment="Center"></TextBlock>
+                                            <TextBlock Text="(" FontSize="20" FontWeight="Bold" Foreground="Black" Margin="0 10 0 10" HorizontalAlignment="Center"></TextBlock>
+                                            <TextBlock Text="{Binding StaffList.Count}" FontSize="20" FontWeight="Bold" Foreground="Black" Margin="0 10 0 10" HorizontalAlignment="Center"></TextBlock>
+                                            <TextBlock Text=")" FontSize="20" FontWeight="Bold" Foreground="Black" Margin="0 10 0 10" HorizontalAlignment="Center"></TextBlock>
+                                        </StackPanel>
+                                        <ListView  x:Name="lsNhanSu" Grid.Row="1" ItemsSource="{Binding StaffList}" IsHitTestVisible="True" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.CanContentScroll="False" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Background="Transparent" BorderBrush="Transparent" Margin="5,0,5,0" Padding="5">
+                                            <ListView.ItemContainerStyle>
+                                                <Style TargetType="ListViewItem">
+                                                    <Setter Property="Focusable" Value="False"/>
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+                                            <ListView.ItemTemplate >
+                                                <DataTemplate>
+                                                    <DockPanel>
+                                                        <materialDesign:Card DockPanel.Dock="Left" Width="200" Margin="10">
+                                                            <Grid>
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="140" />
+                                                                    <RowDefinition Height="*" />
+                                                                </Grid.RowDefinitions>
+                                                                <Image
+                                                        Margin="4"
+                                                    Source="{Binding HINHANH,Converter={StaticResource ResourceKey=imageconvert}}"
+                                                    Height="140"
+                                                    Width="196"
+                                                    Stretch="UniformToFill" />
+                                                                <StackPanel Grid.Row="1" Margin="0 15 0 15" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                                    <TextBlock Text="{Binding HOTEN}" VerticalAlignment="Center" HorizontalAlignment="Center"  FontWeight="Bold">
+                                                                    </TextBlock>
+                                                                </StackPanel>
+
+                                                            </Grid>
+                                                        </materialDesign:Card>
+                                                        <Border CornerRadius="10" Height="185" DockPanel.Dock="Right" Width="250" HorizontalAlignment="Center" VerticalAlignment="Center" Background="LightGreen">
+                                                            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                                <StackPanel.Resources>
+                                                                    <Style TargetType="TextBlock">
+                                                                        <Setter Property="FontSize" Value="15"></Setter>
+                                                                        <Setter Property="Margin" Value="7"></Setter>
+                                                                    </Style>
+                                                                </StackPanel.Resources>
+                                                                <!--Tuổi-->
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock Text="Tuổi: "></TextBlock>
+                                                                    <TextBlock Text="{Binding TUOI}"></TextBlock>
+                                                                </StackPanel>
+                                                                <!--Ngày Sinh-->
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock Text="Ngày sinh: "></TextBlock>
+                                                                    <TextBlock Text="{Binding NGAYSINH, StringFormat=d}"></TextBlock>
+                                                                </StackPanel>
+                                                                <!--Quốc tịch-->
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock Text="Quốc tịch: "></TextBlock>
+                                                                    <TextBlock Text="{Binding QUOCGIA}"></TextBlock>
+                                                                </StackPanel>
+                                                                <!--Chức vụ-->
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock Text="Chức vụ: "></TextBlock>
+                                                                    <TextBlock Text="{Binding CHUCVU}"></TextBlock>
+                                                                </StackPanel>
+                                                                <!--Gmail-->
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock Text="Gmail: "></TextBlock>
+                                                                    <TextBlock Text="{Binding GMAIL}"></TextBlock>
+                                                                </StackPanel>
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </DockPanel>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+
+                                    </Grid>
+
+                                </Border>
+                                <Border CornerRadius="10" Background="#FFDCC78F" Grid.Column="1" Margin="10 10 10 10">
+                                    <Grid >
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="45"></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                                            <TextBlock Grid.Row="0" Text="Danh sách cầu thủ" FontSize="20" FontWeight="Bold" Foreground="#FF8A4AD9" Margin="10" HorizontalAlignment="Center"></TextBlock>
+                                            <TextBlock Text="(" FontSize="20" FontWeight="Bold" Foreground="Black" Margin="0 10 0 10" HorizontalAlignment="Center"></TextBlock>
+                                            <TextBlock Text="{Binding PlayerList.Count}" FontSize="20" FontWeight="Bold" Foreground="Black" Margin="0 10 0 10" HorizontalAlignment="Center"></TextBlock>
+                                            <TextBlock Text=")" FontSize="20" FontWeight="Bold" Foreground="Black" Margin="0 10 0 10" HorizontalAlignment="Center"></TextBlock>
+                                        </StackPanel>
+                                        <ListView  x:Name="lsPlayers" Grid.Row="1" ItemsSource="{Binding PlayerList}" IsHitTestVisible="True" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.CanContentScroll="False" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Background="Transparent" BorderBrush="Transparent" Margin="5,0,5,0" Padding="5">
+                                            <ListView.ItemContainerStyle>
+                                                <Style TargetType="ListViewItem">
+                                                    <Setter Property="Focusable" Value="False"/>
+                                                </Style>
+                                            </ListView.ItemContainerStyle>
+                                            <ListView.ItemTemplate >
+                                                <DataTemplate>
+                                                    <DockPanel>
+                                                        <materialDesign:Card DockPanel.Dock="Left" Width="200" Margin="10">
+                                                            <Grid>
+                                                                <Grid.RowDefinitions>
+                                                                    <RowDefinition Height="140" />
+                                                                    <RowDefinition Height="*" />
+                                                                </Grid.RowDefinitions>
+                                                                <Image
+                                                        Margin="4"
+                                                    Source="{Binding HINHANH,Converter={StaticResource ResourceKey=imageconvert}}"
+                                                    Height="140"
+                                                    Width="196"
+                                                    Stretch="UniformToFill" />
+                                                                <StackPanel Grid.Row="1" Margin="0 15 0 15" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                                    <TextBlock Text="{Binding HOTEN}" VerticalAlignment="Center" HorizontalAlignment="Center"  FontWeight="Bold">
+                                                                    </TextBlock>
+                                                                </StackPanel>
+
+                                                            </Grid>
+                                                        </materialDesign:Card>
+                                                        <Border CornerRadius="10" Height="185" DockPanel.Dock="Right" Width="240" HorizontalAlignment="Center" VerticalAlignment="Center" Background="LightGreen">
+                                                            <StackPanel Orientation="Vertical" Margin="20 0 0 0" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                                                <StackPanel.Resources>
+                                                                    <Style TargetType="TextBlock">
+                                                                        <Setter Property="FontSize" Value="15"></Setter>
+                                                                        <Setter Property="Margin" Value="7"></Setter>
+                                                                    </Style>
+                                                                </StackPanel.Resources>
+                                                                <!--Tuổi-->
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock Text="Tuổi: "></TextBlock>
+                                                                    <TextBlock Text="{Binding TUOI}"></TextBlock>
+                                                                </StackPanel>
+                                                                <!--Ngày Sinh-->
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock Text="Quốc tịch: "></TextBlock>
+                                                                    <TextBlock Text="{Binding QUOCGIA}"></TextBlock>
+                                                                </StackPanel>
+                                                                <!--Quốc tịch-->
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock Text="Chiều cao: "></TextBlock>
+                                                                    <TextBlock Text="{Binding CHIEUCAO}"></TextBlock>
+                                                                </StackPanel>
+                                                                <!--Chức vụ-->
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock Text="Cân nặng: "></TextBlock>
+                                                                    <TextBlock Text="{Binding CANNANG}"></TextBlock>
+                                                                </StackPanel>
+                                                                <!--Gmail-->
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <TextBlock Text="Giá trị: "></TextBlock>
+                                                                    <TextBlock Text="{Binding GIATRICAUTHU,StringFormat='c0'}"></TextBlock>
+                                                                </StackPanel>
+                                                            </StackPanel>
+                                                        </Border>
+                                                    </DockPanel>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+
+                                    </Grid>
+
+                                </Border>
+
+                            </Grid>
+                        </Border>
+                    </TabItem>
+                </TabControl>
+            </Grid>
+
+
+        </Grid>
+    </Border>
+
+</Window>

@@ -1,0 +1,74 @@
+﻿<Window x:Class="FootBallProject.ChangePass"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FootBallProject"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        WindowStartupLocation="CenterScreen"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        AllowsTransparency="True" Background="Transparent" WindowStyle="None"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        
+        DataContext="{StaticResource MainVM}"
+        mc:Ignorable="d"
+        Title="ChangePass" Height="400" Width="600" Icon="/Icons/appicon.png">
+    <Border CornerRadius="20" Padding="6" BorderBrush="#fbc42d" BorderThickness="2" Background="#bfe7bf">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="320"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Button x:Name="Close_but" Height="30" Width="30" VerticalAlignment="Center"
+                        HorizontalAlignment="Right" Margin="0 0 5 0" BorderBrush="{x:Null}" Click="Close_but_Click">
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Images/x_icon.png"/>
+                    </Button.Background>
+                </Button>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Label Content="Mật khẩu cũ" HorizontalAlignment="Left" 
+                       Margin="17,16,0,0" VerticalAlignment="Top"
+                       FontSize="20" Foreground="#f6546a"/>
+                <Label Content="Mật khẩu mới" HorizontalAlignment="Left" 
+                    Margin="11,96,0,0" VerticalAlignment="Top"
+                    FontSize="20"/>
+                <Label Content="Xác nhận mật khẩu" HorizontalAlignment="Left" 
+                    Margin="11,176,0,0" VerticalAlignment="Top"
+                    FontSize="20"/>
+                <!--<TextBox x:Name="Oldpass" HorizontalAlignment="Left" Margin="219,31,0,0" 
+                         TextWrapping="Wrap" VerticalAlignment="Top" 
+                         Width="330" FontSize="20" Background="#e9f7e9"/>-->
+                <PasswordBox x:Name="Oldpass" HorizontalAlignment="Left" 
+                         Margin="219,16,0,0" VerticalAlignment="Top" 
+                         Width="330" FontSize="20" Background="#e9f7e9"/>
+                <!--<TextBox x:Name="newPass" HorizontalAlignment="Left" Margin="219,112,0,0" 
+                    TextWrapping="Wrap" VerticalAlignment="Top" 
+                    Width="330" FontSize="20" Background="#e9f7e9"/>-->
+                <PasswordBox x:Name="newPass" HorizontalAlignment="Left" 
+                         Margin="219,95,0,0" VerticalAlignment="Top" 
+                         Width="330" FontSize="20" Background="#e9f7e9"/>
+                <!--<TextBox x:Name="xacnhan" HorizontalAlignment="Left" Margin="219,191,0,0" 
+                    TextWrapping="Wrap" VerticalAlignment="Top" 
+                    Width="330" FontSize="20" Background="#e9f7e9"/>-->
+                <PasswordBox x:Name="xacnhan" HorizontalAlignment="Left" 
+                         Margin="219,176,0,0" VerticalAlignment="Top" 
+                         Width="330" FontSize="20" Background="#e9f7e9"/>
+                <Button Width="100" Margin="399,312,85,-24" Background="#f6546a" 
+                        BorderBrush="{x:Null}" Content="OKAY" Click="Button_Click"/>
+                <Label Content="Xác nhận OTP" HorizontalAlignment="Left" 
+                    Margin="17,256,0,0" VerticalAlignment="Top"
+                    FontSize="20"/>
+                <TextBox x:Name="tbOTP" HorizontalAlignment="Left" 
+                         Margin="219,256,0,0" VerticalAlignment="Top" 
+                         Width="200" FontSize="20" Background="#e9f7e9"/>
+                <Button x:Name="getOTP" Width="100" Margin="449,256,35,32" Background="#fbc42d" 
+                    BorderBrush="{x:Null}" Content="Lấy OTP" Click="getOTP_Click" />
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

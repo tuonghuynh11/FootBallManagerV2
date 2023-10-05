@@ -1,0 +1,131 @@
+﻿<Window x:Class="FootBallProject.TeamsPlayers"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:FootBallProject"
+        xmlns:uc="clr-namespace:FootBallProject.UserControlBar"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        Name ="TeamPlayers"
+        mc:Ignorable="d"
+        Background="#FFFFFF"
+        Title="TeamsPlayers" Height="800" Width="1300"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+
+        DataContext="{StaticResource TeamPlayersVM}">
+    <i:Interaction.Triggers>
+        
+    </i:Interaction.Triggers>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width = "60"/>
+
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="10"/>
+
+
+
+
+
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height ="23.04"/>
+            <RowDefinition Height="46.96"/>
+            <RowDefinition Height="0"/>
+            <RowDefinition Height="*"/>
+
+
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="3" Grid.Column="1" Margin="230 0 400 600">
+            <TextBlock Grid.Row="3" Grid.Column="1" FontSize ="36" HorizontalAlignment="Center"  
+         Text="My team's players" FontFamily="Blackadder ITC"
+                   Mouse.MouseEnter="TextBlock_MouseEnter"
+                   Mouse.MouseWheel="TextBlock_MouseWheel"  Grid.ColumnSpan="2"/>
+        </Border>
+        <uc:MenuBarUC Grid.Column="0" Grid.Row="3"/>
+        
+
+
+
+
+        <uc:ControlBarUC Grid.ColumnSpan="3" Grid.RowSpan="2"/>
+
+        <!--<ToolBarTray Grid.ColumnSpan="3" Grid.RowSpan="2" Background="#89D46F">
+            <ToolBar  Background ="#89D46F" Style="{DynamicResource MaterialDesignToolBar}" Grid.ColumnSpan="2" ClipToBounds="False" Margin="511,0,0,0">
+                <Button ToolTip="Copy" >
+                    <materialDesign:PackIcon Kind = "ContentCopy"/>
+                </Button>
+                <Button ToolTip="Mascara">
+                    <materialDesign:PackIcon Kind="Home"/>
+                </Button>
+                <Button ToolTip="Jip">
+                    <materialDesign:PackIcon Kind="Abacus"/>
+                </Button>
+                <Button ToolTip="Help">
+                    <materialDesign:PackIcon Kind="Help"/>
+                </Button>
+
+            </ToolBar>
+        </ToolBarTray>-->
+        <!--<Image Grid.Row="3" Grid.Column="1" Margin="100 60 100 420" Source="Resources/haaland-25-1665136294208.webp"/>-->
+        <!-- <ListView Name ="Players_List"  Foreground="#89D46F"  Background="#FF967D27" Grid.Row="3" Grid.Column="1"  MouseDoubleClick="PlayersMouseDoubleClick" Margin="49,290,49,33" BorderBrush="{DynamicResource MaterialDesignSelection}" >
+            <ListView.View >
+                <GridView >
+                    <GridViewColumn Header="Number" Width="100" DisplayMemberBinding="{Binding Number}"/>
+                    <GridViewColumn Header="Name" Width="100" DisplayMemberBinding="{Binding Name}"></GridViewColumn>
+                    <GridViewColumn Header="Age" Width="50" DisplayMemberBinding="{Binding Age}"/>
+                    <GridViewColumn Header="Nationality" Width="100" DisplayMemberBinding="{Binding Nationality}"/>
+                    <GridViewColumn Header="Position" Width="100" DisplayMemberBinding="{Binding Position}"/>
+                    <GridViewColumn Header="Button" Width="100">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Click me" VerticalAlignment="Center" Margin="0"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView> -->
+        <Button Grid.Row="3" Grid.Column="1" Margin="200 600 50 30" Width="100" Name="Add" Background="Gray" Foreground="White" Command="{Binding AddPlayerCommand}" CommandParameter="{Binding ElementName=TeamPlayers}">
+            Add
+        </Button>
+        <Button Grid.Row="3" Grid.Column="1" Margin="600 600 50 30" Width="100" Name="Delete" Background="Gray" Foreground="White" Command="{Binding DeletePlayerCommand}" CommandParameter="{Binding ElementName=TeamPlayers}">
+            Delete
+            </Button>
+
+        <Button Command="{Binding GoToEdit}" CommandParameter="{Binding ElementName=TeamPlayers}" Grid.Row="3" Grid.Column="1" Margin="1000 600 100 30" >Edit</Button>
+
+            <Border Background="Orange" Grid.Row="3" Grid.Column="1" Margin="50 60 50 150">
+            <DataGrid  ItemsSource="{Binding PlayerList,NotifyOnSourceUpdated=True,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  Background="Transparent" SelectedItem="{Binding SelectedPlayer, Mode=TwoWay}"  HorizontalAlignment="Left" Style ="{DynamicResource MaterialDesignDataGrid}" IsReadOnly="True" Name ="Players_List" AutoGenerateColumns="False" FontFamily="Roboto" SelectionChanged="Players_List_SelectionChanged"  >
+                <DataGrid.Columns>
+
+                    <DataGridTextColumn Header="ID"  Binding="{Binding Id}"/>
+                    <DataGridTextColumn Header="ClubID" Visibility="Hidden" Binding="{Binding ClubID}"/>
+
+                    <DataGridTextColumn Header="Kit Number" Binding="{Binding KitNumber}"/>
+                    <DataGridTextColumn Header="Name" Width="200" Binding="{Binding Name}"/>
+                    <DataGridTextColumn Header="Age" Width="100" Binding="{Binding Age}"/>
+                    <DataGridTextColumn Header="Club" Width="200" Binding="{Binding Club}"/>
+
+                    <DataGridTextColumn Header="Nationality" Width="150" Binding="{Binding Nationality}"/>
+                    <DataGridTextColumn Header="Position" Width="300" Binding="{Binding Position}"/>
+                    <!--<DataGridTextColumn Header="Appearances" Width="100" Binding="{Binding Appearance}"/>-->
+                    <DataGridTextColumn Header="Goals" Width="100" Binding="{Binding Goals}"/>
+                    <DataGridTextColumn Header="Price" Width="100" Binding="{Binding Price}"/>
+                </DataGrid.Columns>
+
+                <DataGrid.ItemContainerStyle>
+                    <Style TargetType="DataGridRow">
+                        <EventSetter Event="MouseDoubleClick" Handler="RowDoubleClick"/>
+                    </Style>
+                </DataGrid.ItemContainerStyle>
+                
+            </DataGrid>
+        </Border>
+
+    </Grid>
+</Window>

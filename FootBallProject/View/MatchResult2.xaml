@@ -1,0 +1,148 @@
+﻿<UserControl x:Class="FootBallProject.View.MatchResult2"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FootBallProject.View"
+             mc:Ignorable="d" 
+                 xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:viewmodel="clr-namespace:FootBallProject.ViewModel"
+        xmlns:match="clr-namespace:FootBallProject.Component.Match"
+             x:Name="EditResult"
+             d:DesignHeight="690" d:DesignWidth="355">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.1*"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="0.4*"></RowDefinition>
+            <RowDefinition Height="0.20*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="Chỉnh sửa kết quả" FontSize="20" FontWeight="Bold"></TextBlock>
+        <StackPanel Grid.Row="1">
+            <StackPanel Orientation="Horizontal">
+                <StackPanel>
+                    <TextBlock Margin="5 0 0 0" Text="{Binding MatchTeamInfoTeamA.DOIBONG.TEN}" FontSize="14" FontWeight="Bold"></TextBlock>
+                    <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
+                        <TextBlock Text="Số bàn thắng " FontSize="14"></TextBlock>
+                        <TextBlock Width="100" Height="20" VerticalAlignment="Top" Text="{Binding ScoreTeamA, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" FontSize="14"></TextBlock>
+
+                    </StackPanel>
+                </StackPanel>
+                <Button
+                Command="{Binding CreateNewCard1}"
+                Content="Thêm"
+                FontSize="16"
+                Margin="40 0 0 0"
+                Width="100"
+                HorizontalAlignment="Right"
+                Style="{StaticResource rounded_btn}"
+                Background="green"
+                    ></Button>
+               
+                </StackPanel>
+            <ScrollViewer Height="200" VerticalScrollBarVisibility="auto">
+                <StackPanel>
+                    <ItemsControl ItemsSource="{Binding CardTeamADisplays}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <match:ItemCard Margin="20 0 6 1"></match:ItemCard>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </ScrollViewer>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Margin="0 3 0 0">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel>
+                        <TextBlock Margin="5 0 0 0" Text="{Binding MatchTeamInfoTeamB.DOIBONG.TEN}" FontSize="14" FontWeight="Bold"></TextBlock>
+                        <StackPanel Margin="5 0 0 0" Orientation="Horizontal">
+                            <TextBlock Text="Số bàn thắng " FontSize="14"></TextBlock>
+                            <TextBlock Width="100" Height="20" FontSize="14" VerticalAlignment="Top" Text="{Binding ScoreTeamB, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"></TextBlock>
+                        </StackPanel>
+                    </StackPanel>
+                    <Button
+                Command="{Binding CreateNewCard2}"
+                Content="Thêm"
+                FontSize="16"
+                Width="100"
+                Margin="40 0 0 0"
+                HorizontalAlignment="Right"
+                Style="{StaticResource rounded_btn}"
+                Background="green"
+                    ></Button>
+                </StackPanel>
+
+                <ScrollViewer Height="200" VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <ItemsControl ItemsSource="{Binding CardTeamBDisplays}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <match:ItemCard Margin="20 0 6 1"></match:ItemCard>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </ScrollViewer>
+            </StackPanel>
+            
+        </StackPanel>
+        <StackPanel Grid.Row="3" Orientation="Vertical" Visibility="{Binding Enable, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <TextBlock Text="Tỉ số luân lưu" FontSize="14"></TextBlock>
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 0">
+                <Grid Width="355" Height="80">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock FontSize="14" Grid.Column="0" Style="{StaticResource textblock_item}" Text="{Binding MatchTeamInfoTeamA.DOIBONG.TEN,FallbackValue='Tên đội A'}"></TextBlock>
+                        <ComboBox Grid.Column="1" Width="150" ItemsSource="{Binding CacTiSoLuanLuuDoiA }"
+                      SelectedItem="{Binding TiSoLuanLuuDoiA, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                      Style="{StaticResource combobox_item}"
+                      materialDesign:HintAssist.Hint="{Binding MatchTeamInfoTeamA.DOIBONG.TEN}"
+                      />
+                    </StackPanel>
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Style="{StaticResource textblock_item}" Text="{Binding MatchTeamInfoTeamB.DOIBONG.TEN,FallbackValue='Tên đội B'}"></TextBlock>
+                        <ComboBox Grid.Column="1" Width="150" ItemsSource="{Binding CacTiSoLuanLuuDoiB, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                      SelectedItem="{Binding TiSoLuanLuuDoiB, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                      Style="{StaticResource combobox_item}"
+                      materialDesign:HintAssist.Hint="{Binding MatchTeamInfoTeamA.DOIBONG.TEN}"
+                      />
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </StackPanel>
+        <Grid
+            Grid.Row="4"
+            Margin="8"
+            Style="{StaticResource text_grid_item}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button
+                Grid.Column="2"
+                Command="{Binding SaveCommand}"
+                Content="Lưu"
+                FontSize="16"
+                Style="{StaticResource rounded_btn}"
+                Background="green"/>
+            <Button
+                Grid.Column="1"
+                Background="{StaticResource DarkGray}"
+                Command="{Binding CancelCommand}"
+                Content="Hủy"
+               
+                FontSize="16"
+                Foreground="White"
+                Style="{StaticResource rounded_btn}" />
+        </Grid>
+    </Grid>
+
+</UserControl>

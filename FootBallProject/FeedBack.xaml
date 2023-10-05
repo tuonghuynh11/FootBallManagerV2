@@ -1,0 +1,223 @@
+﻿<Window x:Class="FootBallProject.FeedBack"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FootBallProject"
+        mc:Ignorable="d"
+         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+          TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        AllowsTransparency="True" Background="Transparent" WindowStyle="None"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        DataContext="{StaticResource FeedBackVM}"
+        x:Name="feedbackform"
+          WindowStartupLocation="CenterScreen"
+         Height="600" 
+        Width="500" 
+        ResizeMode="NoResize" 
+        Title="FeedBack" Icon="/Icons/appicon.png" >
+   
+    <!--<Border CornerRadius="10" Padding="6" BorderBrush="#fbc42d" BorderThickness="2" Background="White">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <StackPanel Orientation="Vertical">
+                    <Button x:Name="Close_but" Height="20" Width="20" VerticalAlignment="Center"
+                        HorizontalAlignment="Right" Margin="0 0 5 0" BorderBrush="{x:Null}" Click="Close_but_Click">
+                        <Button.Background>
+                            <ImageBrush ImageSource="/Images/x_icon.png"/>
+                        </Button.Background>
+                    </Button>
+                    <TextBlock Text="Cảm ơn bạn đã sử dụng" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" FontSize="30" ></TextBlock>
+
+                </StackPanel>
+               
+            </Grid>
+            <Grid Grid.Row="1">
+                <StackPanel Orientation="Vertical" Height="270" >
+                    <StackPanel Orientation="Vertical" Margin="0 20 0 0"  HorizontalAlignment="Center">
+                        <Label Content="Đánh giá" FontSize="25" Margin="0 0 0 10" HorizontalAlignment="Center" HorizontalContentAlignment="Center"> </Label>
+                        <materialDesign:RatingBar Value="3"   x:Name="BasicRatingBar" >
+
+                        </materialDesign:RatingBar>
+                    </StackPanel>
+                  
+                    <Button 
+                    x:Name="ok"
+                    VerticalAlignment="Top"
+                    Background="#fbc42d"
+                    Style="{StaticResource MaterialDesignRaisedLightButton}"
+                    Width="100" ToolTip="Xác nhận" 
+                    Content="_Xác nhận" Click="ok_Click" />
+                </StackPanel>
+            </Grid>
+
+        </Grid>
+    </Border>-->
+    <Border BorderBrush="#FF7DD213" BorderThickness="4" CornerRadius="10">
+        <Grid x:Name="main_grid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="70"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.Resources>
+                <SolidColorBrush x:Key="clrPrimary" Color="#FF35A0FE" />
+
+                <Style TargetType="TextBox" x:Key="textboxStyle" BasedOn="{StaticResource MaterialDesignFloatingHintTextBox}">
+                    <Setter Property="BorderBrush" Value="{StaticResource clrPrimary}"/>
+                    <Setter Property="AcceptsReturn" Value="True"/>
+                    <Setter Property="Width" Value="333"/>
+                    <Setter Property="FontSize" Value="14"/>
+                    <Setter Property="Padding" Value="8 0 8 8"/>
+                </Style>
+
+                <Style TargetType="materialDesign:PackIcon" x:Key="styleIcon">
+                    <Setter Property="Height" Value="20"/>
+                    <Setter Property="Width" Value="40"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="Foreground" Value="{StaticResource clrPrimary}"/>
+
+                </Style>
+
+                <Style TargetType="Border" x:Key="borderStyle">
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource clrPrimary}"/>
+                    <Setter Property="CornerRadius" Value="5"/>
+                    <Setter Property="Margin" Value="0 0 5 0"/>
+                </Style>
+            </Grid.Resources>
+            <Grid Grid.Row="0">
+                <Border CornerRadius="7 7 0 0">
+                    <Border.Background>
+                        <LinearGradientBrush>
+                            <GradientStop Color="#FF1CF321" Offset="2"/>
+                            <GradientStop Color="#FF2A589A" Offset="0"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                </Border>
+                <TextBlock 
+                        VerticalAlignment="Center" 
+                        HorizontalAlignment="Center"
+                        Foreground="White"
+                        FontSize="20" FontFamily="Inter"
+                        FontWeight="DemiBold">
+                        REPORT FORM
+                </TextBlock>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Border BorderBrush="#35a0fe" Background="White" CornerRadius="0 0 8 8" Margin="0,-1,0,-0.2" Height="523" VerticalAlignment="Bottom"></Border>
+                <StackPanel Grid.Row="1" >
+                    <StackPanel Orientation="Horizontal" Margin="30 16 30 0">
+                        <Border Style="{StaticResource borderStyle}">
+                            <materialDesign:PackIcon Kind="Email" Style="{StaticResource styleIcon}"/>
+                        </Border>
+                        <TextBox 
+                        x:Name="txbEmail"
+                        Style="{StaticResource textboxStyle}"
+                        materialDesign:HintAssist.Hint="E-mail"
+                        Margin="8 0 0 0" Width="384"
+                />
+                    </StackPanel>
+                    <GroupBox
+                        HorizontalAlignment="Left"
+                        Header="Subject"
+                        Margin="30 20 30 0"
+                        Width="430"
+                        Height="80">
+                        <TextBox
+                            x:Name="txbSubject"
+                            HorizontalAlignment="Left"
+                            TextWrapping="Wrap"
+                            MinWidth="280"
+                            AcceptsReturn="True"
+                            VerticalScrollBarVisibility="Auto"
+                            SpellCheck.IsEnabled="True"
+                            materialDesign:HintAssist.Hint="Subject" Margin="0,0,0,-4" Width="417"
+                        />
+                    </GroupBox>
+                    <GroupBox
+                    HorizontalAlignment="Left"
+                    Header="Chi tiết"
+                    Margin="30 15 30 0"
+                    Width="430"
+                    Height="190">
+                        <TextBox
+                        x:Name="txbBody"
+                        HorizontalAlignment="Left"
+                        TextWrapping="Wrap"
+                        MinWidth="280"
+                        AcceptsReturn="True"
+                        VerticalScrollBarVisibility="Auto"
+                        SpellCheck.IsEnabled="True"
+                        materialDesign:HintAssist.Hint="Vui lòng chia sẻ chi tiết nhất có thể..." Margin="0,0,0,-4" Width="417"
+                        />
+                    </GroupBox>
+                    <StackPanel Orientation="Horizontal" Margin="0 20 0 0">
+                        <Button
+                        x:Name="btnAttachment"
+                        Command="{Binding openFileImageDialog}"
+                        CommandParameter="{Binding ElementName=feedbackform}"
+                        Style="{StaticResource MaterialDesignRaisedButton}"
+                        Margin="30 0 50 0"
+                        Height="30"
+                        Width="auto"
+                        MaxWidth="430"
+                        BorderThickness="0.2"
+                        BorderBrush="Black"
+                        materialDesign:ButtonAssist.CornerRadius="10"
+                        Background="#e4e6eb"
+                        Foreground="Black">
+                            <Button.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="LinkVariant" Margin="0 2 5 0"/>
+                                    <TextBlock Text="Thêm ảnh chụp màn hình (đề xuất)"/>
+                                </StackPanel>
+
+
+                            </Button.Content>
+                        </Button>
+
+
+
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="220 50 0 0">
+                        <Button 
+                            Click="Close_but_Click"
+                            Content="HUỶ"
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            Margin="0 0 20 0"
+                            Height="50"
+                            Width="100"
+                            BorderThickness="2"
+                            BorderBrush="#35a0fe"
+                            materialDesign:ButtonAssist.CornerRadius="10"
+                            Background="White"
+                            Foreground="#35a0fe"
+                        />
+
+                        <Button Content="GỬI"
+                            Style="{StaticResource MaterialDesignRaisedButton}"
+                            Height="50"
+                            Width="100"
+                            BorderThickness="2"
+                            BorderBrush="#35a0fe"
+                            materialDesign:ButtonAssist.CornerRadius="10"
+                            Background="#35a0fe"
+                            Command="{Binding sendEmailReport}"
+                            CommandParameter="{Binding ElementName= feedbackform}"/>
+
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+
+        </Grid>
+    </Border>
+</Window>

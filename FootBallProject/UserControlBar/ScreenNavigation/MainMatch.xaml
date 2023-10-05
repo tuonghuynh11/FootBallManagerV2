@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="FootBallProject.UserControlBar.ScreenNavigation.MainMatch"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+               xmlns:local="clr-namespace:FootBallProject.UserControlBar.ScreenNavigation"
+             mc:Ignorable="d" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                     xmlns:viewmodel="clr-namespace:FootBallProject.ViewModel"
+        xmlns:uc="clr-namespace:FootBallProject.Usercontrol"
+           
+        xmlns:rightbar="clr-namespace:FootBallProject.Component.RightBar"
+ Style="{StaticResource Page_Style}" 
+             d:DesignHeight="790" d:DesignWidth="1290">
+    <Grid Margin="60,0,15,0" Height="690"  >
+        <Border CornerRadius="10" Background="Transparent" >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="809"></ColumnDefinition>
+                        <ColumnDefinition Width="420"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <uc:ListMatchUC></uc:ListMatchUC>
+                    <rightbar:MatchListRightBar Grid.Column="1"></rightbar:MatchListRightBar>
+                    <!--<ContentControl Grid.Column="1" Content="{Binding ContentViewModel, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                <ContentControl.Resources >
+                    <DataTemplate DataType="{x:Type viewmodel:ListofLeagueViewModel}">
+                        <uc:ListofLeague></uc:ListofLeague>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type viewmodel:ListMatchViewModel}">
+                        <uc:ListMatchUC></uc:ListMatchUC>
+                    </DataTemplate>
+                </ContentControl.Resources>
+            </ContentControl>
+            <ContentControl Grid.Column="2" Content="{Binding RightSideBar, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                <ContentControl.Resources>
+                    <DataTemplate DataType="{x:Type viewmodel:ListMatchRightBarViewModel}">
+                        <rightbar:MatchListRightBar></rightbar:MatchListRightBar>
+                    </DataTemplate>
+                    <DataTemplate DataType="{x:Type viewmodel:LeagueRightBarViewModel}">
+                        <rightbar:LeagueRightBar></rightbar:LeagueRightBar>
+                    </DataTemplate>
+                </ContentControl.Resources>
+            </ContentControl>-->
+                </Grid>
+            </Grid>
+        </Border>
+
+    </Grid>
+
+
+</UserControl>

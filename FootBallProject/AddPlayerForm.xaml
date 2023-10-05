@@ -1,0 +1,180 @@
+﻿<Window x:Class="FootBallProject.Window1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+
+        xmlns:local="clr-namespace:FootBallProject"
+        mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+       TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        
+        WindowStyle="None"
+        Background="Transparent"
+       AllowsTransparency="True"
+        Title="AddPlayerForm" Height="650" Width="1000"
+        DataContext="{StaticResource TeamPlayersVM}"
+        Name="AddPlayerForm"
+                WindowStartupLocation="CenterScreen" Loaded="AddPlayerForm_Loaded" Icon="/Icons/appicon.png">
+    <Window.Resources>
+        <Style TargetType="TextBox">
+
+            <Setter Property="Background" Value="White">
+
+            </Setter>
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Background" Value="White">
+
+            </Setter>
+        </Style>
+        <Style TargetType="Separator">
+            <Setter Property="Visibility" Value="Hidden"></Setter>
+        </Style>
+    </Window.Resources>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding AddLoaded}" CommandParameter="{Binding ElementName =AddPlayerForm}">
+
+            </i:InvokeCommandAction>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Border CornerRadius="20" Padding="6" BorderBrush="#fbc42d" BorderThickness="2" Background="#d3ffce">
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="300"></ColumnDefinition>
+                <ColumnDefinition Width="350"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Border Margin="300 10 0 450" Grid.ColumnSpan="3">
+                <TextBlock FontSize="50" HorizontalAlignment="Left"  FontFamily="Comic Sans MS" Margin="-49,0,0,0">ADD PLAYER HERE</TextBlock>
+
+            </Border>
+            <Grid Grid.Column="0">
+                <!-- Height = 550 Width = 450-->
+                <Border Margin="50 100 50 0">
+                    <StackPanel>
+                        <TextBlock FontSize="30">Tên</TextBlock>
+                        <Separator></Separator>
+
+                        <TextBlock FontSize="30">Tuổi</TextBlock>
+                        <Separator></Separator>
+
+                        <TextBlock FontSize="30">CLB</TextBlock>
+                        <Separator></Separator>
+
+                        <TextBlock FontSize="30">Chiều cao(cm)</TextBlock>
+                        <Separator></Separator>
+
+                        <TextBlock FontSize="30">Cân nặng(kg)</TextBlock>
+                        <Separator></Separator>
+
+                        <TextBlock FontSize="30">Chân thuận</TextBlock>
+                        <Separator></Separator>
+
+
+                        <TextBlock FontSize="30">Thể trạng</TextBlock>
+                        <Separator></Separator>
+                        <TextBlock FontSize="30">Vị trí</TextBlock>
+                        <Separator></Separator>
+                        <TextBlock FontSize="30">Số áo</TextBlock>
+                        <Separator></Separator>
+
+                        <TextBlock FontSize="30">Quốc tịch</TextBlock>
+                        <Separator></Separator>
+                        <TextBlock FontSize="30">Giá trị</TextBlock>
+
+
+                    </StackPanel>
+                </Border>
+
+
+
+            </Grid>
+            <Grid Grid.Column="1">
+                <Border Margin="0 100 50 0">
+                    <StackPanel>
+                        <TextBox FontSize="28" Height="40" Name="txbName"></TextBox>
+                        <Separator></Separator>
+                        <TextBox FontSize="28" Height="40" Name="txbAge"></TextBox>
+                        <Separator></Separator>
+                        <ComboBox  FontSize="28" Height="40" Name="txbclub" IsEditable="True" SelectedValuePath="Content" ItemsSource="{Binding ClubsNames}"></ComboBox>
+                        <Separator></Separator>
+                        <TextBox FontSize="28" Height="40" Name="txbHeight"></TextBox>
+                        <Separator></Separator>
+
+
+                        <TextBox FontSize="28" Height="40" Name="txbWeight"></TextBox>
+                        <Separator></Separator>
+
+                        <ComboBox  FontSize="28" Height="40" Name="txbFoot" SelectedItem="{Binding Path=Trái}" SelectedValuePath="Content">
+                            <ComboBoxItem>
+                                Trái
+                            </ComboBoxItem>
+                            <ComboBoxItem>Phải</ComboBoxItem>
+                        </ComboBox>
+                        <Separator></Separator>
+
+                        <ComboBox FontSize="28" Height="40" Name="txbPhysyque">
+                            <ComboBoxItem>Tốt</ComboBoxItem>
+                            <ComboBoxItem>Trung bình</ComboBoxItem>
+                            <ComboBoxItem>Yếu</ComboBoxItem>
+                        </ComboBox>
+                        <Separator></Separator>
+                        <ComboBox FontSize="28" Height="40" Name="txbPos" >
+                            <ComboBoxItem>GK</ComboBoxItem>
+                            <ComboBoxItem>CB</ComboBoxItem>
+                            <ComboBoxItem>LB</ComboBoxItem>
+                            <ComboBoxItem>RB</ComboBoxItem>
+                            <ComboBoxItem>CDM</ComboBoxItem>
+                            <ComboBoxItem>CM</ComboBoxItem>
+                            <ComboBoxItem>LM</ComboBoxItem>
+                            <ComboBoxItem>RM</ComboBoxItem>
+                            <ComboBoxItem>LW</ComboBoxItem>
+                            <ComboBoxItem>RW</ComboBoxItem>
+                            <ComboBoxItem>ST</ComboBoxItem>
+                        </ComboBox>
+                        <Separator></Separator>
+                        <TextBox FontSize="28" Height="40" Name="txbNumber" ></TextBox>
+                        <Separator></Separator>
+
+
+                        <ComboBox FontSize="28" Height="40" Name="txbNationality"   ItemsSource="{Binding Nationalities}" IsEditable="True" ></ComboBox>
+                        <Separator ></Separator>
+                        <TextBox FontSize="28" Height="40" Name="txbPrice"></TextBox>
+
+
+                    </StackPanel>
+                </Border>
+
+            </Grid>
+            <Grid Grid.Column="2">
+                <StackPanel Orientation="Vertical">
+                    <Button x:Name="Close_but" Height="50" Width="50" VerticalAlignment="Top"
+                        HorizontalAlignment="Right" Margin="0 10 5 0" BorderBrush="{x:Null}" Click="Close_but_Click">
+                        <Button.Background>
+                            <ImageBrush ImageSource="/Images/x_icon.png"/>
+                        </Button.Background>
+
+                    </Button>
+                    <Image x:Name = "cthimage"  Margin="0 0 0 50" HorizontalAlignment="Center" Height="200"  VerticalAlignment="Top" Width="200" Source="Images\default.png"/>
+                    <Button  Background="Orange"  Margin="0 0 0 50" Foreground="DarkRed" FontSize="22"  Width="200" Height="90" Command="{Binding LoadImageCommand}" CommandParameter="{Binding ElementName=AddPlayerForm}">Upload</Button>
+                    <Button Background="LightBlue"  Foreground="DarkRed" FontSize="22" Grid.Column="2"  Width="200" Height="90" Command="{Binding AddPlayerCommand2}" CommandParameter="{Binding ElementName=AddPlayerForm}" IsEnabled="True">Add</Button>
+
+                </StackPanel>
+               
+            </Grid>
+
+
+
+
+
+
+
+
+
+        </Grid>
+    </Border>
+</Window>

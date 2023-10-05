@@ -1,0 +1,40 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:vm ="clr-namespace:FootBallProject.ViewModel"
+                    xmlns:view="clr-namespace:FootBallProject.UserControlBar.ScreenNavigation"
+                     xmlns:view1="clr-namespace:FootBallProject.UserControlBar"
+                    >
+    <DataTemplate DataType="{x:Type vm:AdminScreenViewModel}">
+        <view:Admin />
+    </DataTemplate> 
+    <DataTemplate DataType="{x:Type vm:TeamBuilderViewModel}">
+        <view:TeamBuilder />
+    </DataTemplate> 
+    <DataTemplate DataType="{x:Type vm:FootballTeamListViewModel}">
+        <view:FootballTeamList />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:TrainCalendarViewModel}">
+        <view1:UserControl_Calendar />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:LeaderListViewModel}">
+        <view1:UserControl_DS_BLD />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:TeamPlayersViewModel}">
+        <view1:TeamPlayersUC />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:TransferPlayersViewModel}">
+        <view1:TransferWindowUC />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:StatisticalChartViewModel}">
+        <view:StatisticalChart />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:TransferConfirmViewModel}">
+        <view:TransferAccept />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:MainMatchViewModel}">
+        <view:MainMatch />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:MainLeagueViewModel}">
+        <view:MainLeague />
+    </DataTemplate>
+</ResourceDictionary>

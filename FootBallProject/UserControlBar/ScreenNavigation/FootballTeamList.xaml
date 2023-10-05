@@ -1,0 +1,151 @@
+﻿<UserControl x:Class="FootBallProject.UserControlBar.ScreenNavigation.FootballTeamList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FootBallProject.UserControlBar.ScreenNavigation"
+             mc:Ignorable="d" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             
+              xmlns:uc="clr-namespace:FootBallProject.UserControlBar"
+              xmlns:ucFormatTeam="clr-namespace:FootBallProject.UserControlBar.Formation"
+     
+              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+         xmlns:devexpress="http://schemas.devexpress.com/winfx/2008/xaml/grid" 
+         xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core" xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+        xmlns:dxgt="http://schemas.devexpress.com/winfx/2008/xaml/grid/themekeys" 
+             xmlns:devexpressmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+         Style="{StaticResource Page_Style}" 
+        FontFamily="{DynamicResource MaterialDesignFont}"
+         DataContext="{StaticResource FootballTeamListVM}"
+             d:DesignHeight="720" d:DesignWidth="1290">
+    <!--<i:Interaction.Triggers>
+        <i:EventTrigger EventName="ValidateRowDeletion">
+            <i:InvokeCommandAction Command="{Binding DeleteValidateRowCommand }" CommandParameter="{Binding ElementName=tbviewCLB}"  />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>-->
+    
+    <!--<devexpressmvvm:Interaction.Behaviors>
+        <devexpressmvvm:EventToCommand EventName="ValidateRowDeletion" Command="{Binding DeleteValidateRowCommand}" PassEventArgsToCommand="True" CommandParameter="{Binding ElementName=grdcontrolCLB}" />
+    </devexpressmvvm:Interaction.Behaviors>-->
+
+    <Grid Margin="60,0,15,0" Height="690"  >
+        <Border CornerRadius="10" Background="LightSeaGreen" >
+            <Grid  Margin="10 10 10 5">
+                <!--<DataGrid x:Name="dtg_DsClb"  CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False" IsReadOnly="True" Background="White" Margin="0,59,0,10"  HorizontalAlignment="Center" Width="976" AutoGenerateColumns="False">
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding ID}"></DataGridTextColumn>
+
+                        <DataGridTemplateColumn Header="Logo" Width="SizeToCells" IsReadOnly="True">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image Source="{Binding logo}" Width="30" Height="30"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTextColumn Header="Tên" Binding="{Binding Name}"  ></DataGridTextColumn>
+                        <DataGridTextColumn Header="Ngày thành lập" Binding="{Binding Founded}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Sân vận động" Binding="{Binding Stadium}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Quốc tịch" Binding="{Binding Nation}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Thành phố" Binding="{Binding City}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Huấn luyện viên" Binding="{Binding Coach}"></DataGridTextColumn>
+
+                    </DataGrid.Columns>
+                </DataGrid>-->
+
+
+                <devexpress:GridControl Margin="0,-1,0,6"  Name="grdcontrolCLB"   ItemsSource="{Binding DoiBongList}"  SelectionMode="Row" Grid.ColumnSpan="3" AllowRecursiveSelectionForCollapsedGroups="False" AllowCollectionView="False" >
+                    <devexpress:GridControl.View   >
+
+                        <devexpress:TableView   Name="tbviewCLB"  BestFitMode="Smart"  AddingNewRowCommand="{Binding AddingNewRowCommand}"  ValidateRowCommand="{Binding ValidateRowCommand}" ShowCheckBoxSelectorColumn="True"  ShowUpdateRowButtons="OnCellValueChange" AllowEditing="True" SearchPanelNullText="Tìm kiếm"  ShowSearchPanelMode="Always" SearchPanelFindMode="Always" SearchPanelHighlightResults="False" RowEditFinished="tbviewCLB_RowEditFinished" ValidateRow="tbviewCLB_ValidateRow" CellValueChanging="tbviewCLB_CellValueChanging" >
+
+                            <!--Thay đổi group text-->
+                            <devexpress:TableView.RuntimeLocalizationStrings>
+                                <devexpress:GridRuntimeStringCollection>
+                                    <devexpress:RuntimeStringIdInfo Id="GridGroupPanelText" Value="Kéo tiêu đề cột vào đây để gom nhóm theo cột đó"/>
+
+                                </devexpress:GridRuntimeStringCollection>
+                            </devexpress:TableView.RuntimeLocalizationStrings>
+                        </devexpress:TableView>
+                    </devexpress:GridControl.View>
+
+                    <devexpress:GridControl.Resources>
+                      
+                        <Style TargetType="devexpress:GridColumnHeader">
+                            <Setter Property="Background" Value="#FF41B3D9"/>
+                            <Setter Property="Foreground" Value="Black"></Setter>
+                        </Style>
+                        <Style TargetType="dxe:TextEditSettings">
+                            <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+                        </Style>
+                    </devexpress:GridControl.Resources>
+                    <devexpress:GridControl.Columns >
+                        <devexpress:GridColumn x:Name="IDcol" Header="ID" Width="60" FieldName="ID" ReadOnly="False" IsSmart="True" AllowEditing="false" AllowSearchPanel="True" HorizontalHeaderContentAlignment="Center">
+                            <devexpress:GridColumn.EditSettings>
+                                <dxe:TextEditSettings MaxWidth="50" MaxLength="50" HorizontalContentAlignment="Center"/>
+                            </devexpress:GridColumn.EditSettings>
+                        </devexpress:GridColumn>
+                        <devexpress:GridColumn Header="Logo" FieldName="HINHANH" IsSmart="True" HorizontalHeaderContentAlignment="Center"  AllowEditing="true" >
+                            
+                            <devexpress:GridColumn.EditSettings>
+                                <dxe:ImageEditSettings MaxWidth="50" ShowMenuMode="Hover" ShowMenu="True" ConvertEditValue="ImageEditSettings_ConvertEditValue" />
+                            </devexpress:GridColumn.EditSettings>
+                        </devexpress:GridColumn>
+                        <devexpress:GridColumn Header="Tên đội bóng" Width="150" FieldName="TEN"  IsSmart="True" HorizontalHeaderContentAlignment="Center" AllowEditing="true" ></devexpress:GridColumn>
+                        <devexpress:GridColumn x:Name="NTLcl"   Header="Ngày thành lập"   FieldName="NGAYTHANHLAP"  IsSmart="True"  HorizontalHeaderContentAlignment="Center" AllowEditing="true" >
+                       
+                            <devexpress:GridColumn.EditSettings>
+                                <dxe:DateEditSettings Mask="MM-dd-yyyy"  MaskUseAsDisplayFormat="True" HorizontalContentAlignment="Center"/>
+                            </devexpress:GridColumn.EditSettings>
+
+                        </devexpress:GridColumn>
+                        <devexpress:GridColumn Header="Sân vận động" Width="170" FieldName="SANNHA" IsSmart="True" HorizontalHeaderContentAlignment="Center" AllowEditing="true"  ></devexpress:GridColumn>
+                        <devexpress:GridColumn Header="Quốc tịch" Width="100" FieldName="QUOCGIA" IsSmart="True" HorizontalHeaderContentAlignment="Center" AllowEditing="true"  >
+                            <devexpress:GridColumn.EditSettings>
+                                <dxe:ComboBoxEditSettings MaxWidth="50" HorizontalContentAlignment="Center" ItemsSource="{Binding QuocTichList}"  />
+                            </devexpress:GridColumn.EditSettings>
+                        </devexpress:GridColumn>
+                        <devexpress:GridColumn Header="Thành phố" FieldName="TENTHANHPHO" IsSmart="True" HorizontalHeaderContentAlignment="Center" AllowEditing="true" >
+                            <devexpress:GridColumn.EditSettings>
+                                <dxe:ComboBoxEditSettings MaxWidth="50" HorizontalContentAlignment="Center" ItemsSource="{Binding ThanhPhoList}"  />
+                            </devexpress:GridColumn.EditSettings>
+                        </devexpress:GridColumn>
+                        <devexpress:GridColumn Header="Số thành viên" ReadOnly="True" Width="90" FieldName="SOLUONGTHANHVIEN" IsSmart="True" HorizontalHeaderContentAlignment="Center" AllowEditing="true" >
+                            <devexpress:GridColumn.EditSettings>
+                                <dxe:TextEditSettings MaxWidth="50" MaxLength="50" HorizontalContentAlignment="Center"/>
+                            </devexpress:GridColumn.EditSettings>
+                        </devexpress:GridColumn>
+                        <devexpress:GridColumn Header="Huấn luyện viên" FieldName="HLV" IsSmart="True" HorizontalHeaderContentAlignment="Center" AllowEditing="true" ></devexpress:GridColumn>
+                        <devexpress:GridColumn Header="Giá trị đội hình" ReadOnly="True" FieldName="GIATRI" IsSmart="True" HorizontalHeaderContentAlignment="Center" AllowEditing="true" >
+                            <devexpress:GridColumn.EditSettings>
+                                <dxe:TextEditSettings Mask="c0"  MaskType="Numeric" MaskUseAsDisplayFormat="True"/>
+                            </devexpress:GridColumn.EditSettings>
+                        </devexpress:GridColumn>
+
+                    </devexpress:GridControl.Columns>
+
+
+
+                </devexpress:GridControl>
+                <Border CornerRadius="2" Background="White" BorderThickness="0.5" BorderBrush="#5C84C1" Margin="598,7,278,0"  VerticalAlignment="Top" Height="24" Width="120" HorizontalAlignment="Right">
+                    <ComboBox Name="cbSearchColumn" Margin="4,0,0,0" materialDesign:HintAssist.Hint="Tìm kiếm theo"  materialDesign:TextFieldAssist.DecorationVisibility="Hidden" FontSize="12" HorizontalContentAlignment="Left" HorizontalAlignment="Left" VerticalContentAlignment="Center" BorderThickness="0" Height="24" Width="110" SelectionChanged="cbSearchColumn_SelectionChanged" >
+
+                    </ComboBox>
+                </Border>
+                <Button x:Name="addbt" Content="Thêm" Padding="0 0 0 2" Width="70" Height="24" Background="ForestGreen" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="265 7 0 0" Click="addbttClick" ></Button>
+                <Button x:Name="deletebt" Content="Xóa" Padding="0 0 0 2" Width="70" Height="24" Background="Red" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="70 7 0 0" Click="deletebt_Click"></Button>
+                <Button x:Name="ExportExcelbt" Content="Xuất Excel" Padding="0 0 0 2" Width="99" Height="24" Background="#FF0968FF" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="-150 7 0 0" Click="ExportExcelbt_Click"></Button>
+
+
+            </Grid>
+        </Border>
+
+    </Grid>
+</UserControl>

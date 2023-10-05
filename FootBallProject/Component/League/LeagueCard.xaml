@@ -1,0 +1,99 @@
+﻿<UserControl x:Class="FootBallProject.Component.League.LeagueCard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FootBallProject.Component.League"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             x:Name="LeagueCard1"
+             d:DesignHeight="80" d:DesignWidth="170"
+             Background="LightGreen">
+    <Grid>
+        <Button
+            x:Name="CardButton"
+            Width="170"
+            Height="80"
+            Padding="0"
+            Command="{Binding ShowInfo, Source={StaticResource LeagueRightBarVM}}"
+            CommandParameter="{Binding ElementName=LeagueCard1, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+            materialDesign:ShadowAssist.ShadowDepth="Depth0"
+            Background="{StaticResource MaterialDesignCardBackground}"
+            BorderBrush="{StaticResource MaterialDesignCardBackground}"
+            FontWeight="Normal"
+            Foreground="Black">
+            <materialDesign:Card Background="LightGreen" Height="80" Width="170">
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.7*"></RowDefinition>
+                        <RowDefinition Height="0.3*"></RowDefinition>
+                        <RowDefinition Height="0.3*"></RowDefinition>
+                        <RowDefinition Height="0.5*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                        <Grid Width="170">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120"></ColumnDefinition>
+                                <ColumnDefinition Width="50"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="{Binding DisplayName, FallbackValue='Tên giải đấu'}" FontSize="16" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Center"></TextBlock>
+                            <materialDesign:PopupBox x:Name="btnEnable" Grid.Column="1" HorizontalAlignment="left"
+                        >
+                                <StackPanel>
+                                    <Button Content="Chỉnh sửa"
+                                        Command="{Binding EditLeague,Source={StaticResource LeagueRightBarVM}}"
+                                        CommandParameter="{Binding ElementName=LeagueCard1, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                                        ></Button>
+                                    <Button Content="Xóa"
+                                        Command="{Binding DeleteLeague,Source={StaticResource LeagueRightBarVM}}"
+                                        CommandParameter="{Binding ElementName=LeagueCard1, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+></Button>
+                                </StackPanel>
+                            </materialDesign:PopupBox>
+                        </Grid>
+                       
+                        <!--<materialDesign:PopupBox
+                            Grid.Column="1"
+                            Padding="2,0,2,0"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top">
+                <StackPanel>
+                    <Button
+                                    Command="{Binding ShowTrainingFormCardInfo}"
+                                    CommandParameter="{Binding ElementName=TrainingFormCardComponent}"
+                                    Content="Xem thông tin"
+                                    DataContext="{DynamicResource AdminFacultyTrainingFormRightSideBarVM}" />
+                    <Button
+                                    Command="{Binding EditTrainingFormCardInfo}"
+                                    CommandParameter="{Binding ElementName=TrainingFormCardComponent, Path=DataContext}"
+                                    Content="Chỉnh sửa"
+                                    DataContext="{DynamicResource AdminFacultyTrainingFormRightSideBarVM}"
+                                    Visibility="{Binding Converter={utils:PropertyByRoleConverter}, ConverterParameter='Visibility2'}" />
+                    <Button
+                                    Command="{Binding DeleteTrainingFormCardInfo}"
+                                    CommandParameter="{Binding ElementName=TrainingFormCardComponent, Path=DataContext}"
+                                    Content="Xóa"
+                                    DataContext="{DynamicResource AdminFacultyTrainingFormRightSideBarVM}"
+                                    Visibility="{Binding Converter={utils:PropertyByRoleConverter}, ConverterParameter='Visibility2'}" />
+                </StackPanel>
+            </materialDesign:PopupBox>-->
+                    </StackPanel>
+                    <!--<StackPanel Grid.Row="1" Orientation="Horizontal">
+                        <TextBlock Text="Ngày bắt đầu: "></TextBlock>
+                        <TextBlock Text="{Binding StartTime}"></TextBlock>
+                    </StackPanel>
+                    <StackPanel Grid.Row="2" Orientation="Horizontal">
+                        <TextBlock Text="Ngày kết thúc: "></TextBlock>
+                        <TextBlock Text="{Binding EndTime}"></TextBlock>
+                    </StackPanel>-->
+                    <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 10 0">
+                        <TextBlock Text="Số đội: "></TextBlock>
+                        <TextBlock Text="{Binding SoDoi}"></TextBlock>
+                    </StackPanel>
+                </Grid>
+            </materialDesign:Card>
+
+        </Button>
+    </Grid>
+
+</UserControl>

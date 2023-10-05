@@ -1,0 +1,112 @@
+﻿<Window x:Class="FootBallProject.DS_BLD_ADD"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FootBallProject"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        AllowsTransparency="True" Background="Transparent" WindowStyle="None"
+        DataContext="{StaticResource MainVM}"
+        WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d"
+        Title="DS_BLD_ADD" Height="330" Width="600" Icon="/Icons/appicon.png">
+    <Border CornerRadius="10" Padding="6" BorderBrush="#fbc42d" BorderThickness="2" Background="#d3ffce">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="15"></RowDefinition>
+                <RowDefinition Height="300"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Button x:Name="Close_but" Height="20" Width="20" VerticalAlignment="Center"
+                        HorizontalAlignment="Right" Margin="0 0 5 0" BorderBrush="{x:Null}" Click="Close_but_Click">
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Images/x_icon.png"/>
+                    </Button.Background>
+
+                </Button>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Label x:Name="ttname" 
+                   HorizontalAlignment="Center"
+                   FontSize="15" FontWeight="Bold" Height="40" Margin="0,0,0,260">
+                    Thêm thành viên
+                </Label>
+                <Label x:Name="nncname" Margin="60,27,445,248" Height="25">
+                    ID Đội Bóng
+                </Label>
+                <Label x:Name="htname" Margin="60,66,445,208" Height="25">
+                    Họ và tên
+                </Label>
+                <Label x:Name="nsname" Margin="60,109,445,166" Height="25">
+                    Ngày sinh
+                </Label>
+                <Label x:Name="cvname" Margin="60,150,445,125" Height="25">
+                    Chức vụ
+                </Label>
+                <Label x:Name="dcname" Margin="60,189,445,86" Height="25">
+                    Địa chỉ mail
+                </Label>
+                <Label x:Name="qtname" Margin="60,229,445,46" Height="25">
+                    Quốc tịch
+                </Label>
+                <TextBox x:Name="tbID" Width="250" 
+                       HorizontalAlignment="Center" IsReadOnly="True"
+                       Height="25" Background="White" Margin="0,29,0,246"/>
+                <!--<ComboBox x:Name="cbID" Width="250" 
+                       HorizontalAlignment="Center"
+                       Height="25" Background="White" Margin="0,29,0,246"/>-->
+                <TextBox x:Name="tbht" Width="250" 
+                       HorizontalAlignment="Center"
+                       Height="25" Background="White" Margin="0,66,0,208"/>
+                <DatePicker x:Name="nsdp" Width="250" 
+                        HorizontalAlignment="Center"
+                        Height="25" Margin="0,109,0,0"
+                        Background="White" VerticalAlignment="Top">
+                </DatePicker>
+                <!--<TextBox x:Name="tbcv" Width="250" 
+                       HorizontalAlignment="Center"
+                       Height="25" Background="White" Margin="0,150,0,125"/>-->
+                <ComboBox x:Name="cbCV" Width="250" 
+                       HorizontalAlignment="Center"
+                       Height="25" Background="White" Margin="0,150,0,125"/>
+                <TextBox x:Name="tbdc" Width="250" 
+                       HorizontalAlignment="Center"
+                       Height="25" Background="White" Margin="0,189,0,86"/>
+                <!--<TextBox x:Name="tbqt" Width="250" 
+                       HorizontalAlignment="Center"
+                       Height="25" Background="White" Margin="0,229,0,46"/>-->
+                <ComboBox x:Name="cbqt" Width="250" 
+                       HorizontalAlignment="Center"
+                       Height="25" Background="White" Margin="0,229,0,46"/>
+                <Button 
+                x:Name="AddNewPerson_2"
+                VerticalAlignment="Top"
+                HorizontalAlignment="Left"
+                Background="#31AC4C"
+                Style="{StaticResource MaterialDesignRaisedLightButton}"
+                Width="100" Height="40"
+                ToolTip="Thêm" 
+                 RenderTransformOrigin="-0.35,0.314" Margin="459,214,0,0" Click="AddNewPerson_2_Click">
+                    _Thêm
+                </Button>
+                <Image x:Name = "bldimage" HorizontalAlignment="Left" Height="100" Margin="459,29,0,0" 
+                       VerticalAlignment="Top" Width="100" 
+                       Source="Images\bldavt.png" Stretch="Fill"/>
+                <Button 
+                    x:Name="Upload"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                    Background="#ef9021"
+                    Style="{StaticResource MaterialDesignRaisedLightButton}"
+                    Width="100" Height="40"
+                    ToolTip="Upload" 
+                    RenderTransformOrigin="-0.35,0.314" Margin="459,150,0,0" Content="_Upload" Click="Upload_Click"/>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

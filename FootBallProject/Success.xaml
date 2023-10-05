@@ -1,0 +1,31 @@
+﻿<Window x:Class="FootBallProject.Success"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FootBallProject"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        AllowsTransparency="True" Background="Transparent" WindowStyle="None"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        
+        DataContext="{StaticResource MainVM}"
+        WindowStartupLocation="CenterScreen"
+        mc:Ignorable="d"
+        Title="Success" Height="300" Width="300" Icon="/Icons/appicon.png">
+    <Border CornerRadius="10" Padding="6" BorderBrush="#fbc42d" BorderThickness="2" Background="White">
+        <Grid>
+            <Image HorizontalAlignment="Center" Height="119" 
+                   Margin="0,10,0,0" VerticalAlignment="Top" 
+                   Width="210" Source="/Images/179-1795386_patient-success-success-icon-png.png"/>
+            <Label Content="Thành công!" FontSize="25" Height="40" 
+                   Width="150" Margin="69,144,69,104" Foreground="#3aa476"/>
+            <Button Width="100" Margin="94,209,94,47" Background="#3aa476" BorderBrush="{x:Null}" Click="Button_Click">
+                OKAY
+            </Button>
+        </Grid>
+    </Border>
+</Window>

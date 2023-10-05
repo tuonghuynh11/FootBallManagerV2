@@ -1,0 +1,106 @@
+﻿<UserControl x:Class="FootBallProject.UserControlBar.ScreenNavigation.TransferAccept"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FootBallProject.UserControlBar.ScreenNavigation"
+             mc:Ignorable="d" 
+             
+             xmlns:uc="clr-namespace:FootBallProject.UserControlBar"
+         xmlns:ucFormatTeam="clr-namespace:FootBallProject.UserControlBar.Formation"
+             xmlns:convert ="clr-namespace:FootBallProject.Class"
+              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:devexpress="http://schemas.devexpress.com/winfx/2008/xaml/grid" 
+    xmlns:dx="http://schemas.devexpress.com/winfx/2008/xaml/core" xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
+        xmlns:dxgt="http://schemas.devexpress.com/winfx/2008/xaml/grid/themekeys"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+               Style="{StaticResource Page_Style}" 
+             DataContext="{StaticResource TransferConfirmVM}"
+             d:DesignHeight="720" d:DesignWidth="1290">
+    <UserControl.Resources>
+        <convert:ConvertByteArrToImage x:Key="imageconvert"/>
+        <convert:ConvertStringToCurrency x:Key="currencyconvert"/>
+    </UserControl.Resources>
+    <Grid Margin="60,10,15,0" Height="690" >
+        <Border CornerRadius="10" >
+            <materialDesign:Card UniformCornerRadius="10">
+                <StackPanel Orientation="Vertical" Margin="20">
+                    <TextBlock Text="Danh sách đang chờ" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="30" FontWeight="Bold" ></TextBlock>
+                    <Border Margin="0 30 0 0" >
+
+                        <DataGrid  CanUserAddRows="False" ItemsSource="{Binding TransferPlayers}" BorderBrush="Orange" BorderThickness="1" AutoGenerateColumns="False" Name="AcceptTransferdgrid" Background="#E3F42A" MouseDoubleClick="AcceptTransferdgrid_MouseDoubleClick" SelectionMode="Single" CanUserDeleteRows="False">
+                            <DataGrid.Resources>
+
+                            </DataGrid.Resources>
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Header="Đội mua" Width="200"  IsReadOnly="True">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate >
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Source="{Binding HINHANHDOIMUA, Converter={StaticResource ResourceKey=imageconvert } }" DockPanel.Dock="Left" Width="30" Height="30"></Image>
+                                                <Separator Background="Transparent" Width="20" Foreground="Transparent" BorderBrush="Transparent" BorderThickness="0"></Separator>
+                                                <TextBlock  Text="{Binding TENDOIMUA}" VerticalAlignment="Center"></TextBlock>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn  Header="Đội bán" Width="200"  IsReadOnly="True">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate >
+                                            <StackPanel Orientation="Horizontal">
+                                                <Image Source="{Binding HINHANHDOIBAN, Converter={StaticResource ResourceKey=imageconvert } }" DockPanel.Dock="Left" Width="30" Height="30"></Image>
+                                                <Separator Background="Transparent" Width="20" Foreground="Transparent" BorderBrush="Transparent" BorderThickness="0"></Separator>
+                                                <TextBlock  Text="{Binding TENDOIBAN}" VerticalAlignment="Center"></TextBlock>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn  Header="Cầu thủ" Width="200"  IsReadOnly="True">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate >
+                                            <TextBlock  Text="{Binding TENCAUTHU}" VerticalAlignment="Center"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn  Header="Giá trị" Width="200"  IsReadOnly="True">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate >
+                                            <TextBlock  Text="{Binding GIATRICAUTHU , Converter={StaticResource ResourceKey=currencyconvert}}"  VerticalAlignment="Center"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTemplateColumn Width="auto"   IsReadOnly="True">
+
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate >
+                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                <Button  Name="Cancel" Content="Hủy bỏ" Margin="0 0 15 0" Click="Cancel_Click">
+                                                </Button>
+                                                <Button  Name="Confirm" Content="Xác nhận" Click="Confirm_Click" >
+                                                </Button>
+                                            </StackPanel>
+
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+
+                                </DataGridTemplateColumn>
+
+
+                            </DataGrid.Columns>
+
+                        </DataGrid>
+                    </Border>
+                </StackPanel>
+
+            </materialDesign:Card>
+        </Border>
+
+    </Grid>
+</UserControl>

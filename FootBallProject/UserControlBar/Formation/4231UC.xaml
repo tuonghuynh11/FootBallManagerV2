@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="FootBallProject.UserControlBar.Formation._4231UC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FootBallProject.UserControlBar.Formation"
+             mc:Ignorable="d" 
+              xmlns:drag="clr-namespace:FootBallProject.DragAndDrop"
+             d:DesignHeight="500" d:DesignWidth="600">
+    <!--<Border Margin="10" CornerRadius="10" Height="500" VerticalAlignment="Top">
+        <Border.Background>
+            <ImageBrush ImageSource="/images/SDCT.png" ></ImageBrush>
+        </Border.Background>
+
+    </Border>-->
+    <Grid>
+        <Canvas x:Name="SD433canvas" AllowDrop="True">
+            <Canvas.Children>
+                <!--Tiền đạo-->
+                <Image x:Name="ST" drag:DraggableExtender.CanDrag="True" AllowDrop="True"  Source="{Binding ST}" Width="90" Height="90" Canvas.Top="20" Canvas.Left="245" />
+                <Image x:Name="LW" drag:DraggableExtender.CanDrag="True" AllowDrop="True" Source="{Binding LW}" Width="90" Height="90" Canvas.Top="110" Canvas.Left="70"/>
+                <Image x:Name="RW" drag:DraggableExtender.CanDrag="True" AllowDrop="True" Source="{Binding RW}" Width="90" Height="90" Canvas.Top="110" Canvas.Left="425" />
+                <!--Tiền đạo-->
+                <!--Tiền vệ-->
+                <Image x:Name="CM1" drag:DraggableExtender.CanDrag="True" AllowDrop="True" Source="{Binding CM1}" Width="90" Height="90" Canvas.Top="210" Canvas.Left="170" />
+                <Image x:Name="CAM" drag:DraggableExtender.CanDrag="True" AllowDrop="True" Source="{Binding CAM}" Width="90" Height="90" Canvas.Top="110" Canvas.Left="245" />
+                <Image x:Name="CM2" drag:DraggableExtender.CanDrag="True" AllowDrop="True" Source="{Binding CM2}" Width="90" Height="90" Canvas.Top="210" Canvas.Left="324" />
+                <!--Tiền vệ-->
+                <!--Hậu vệ và thủ môn-->
+                <Image x:Name="LB" drag:DraggableExtender.CanDrag="True" AllowDrop="True" Source="{Binding LB}" Width="90" Height="90" Canvas.Top="290" Canvas.Left="70" />
+                <Image x:Name="CB1" drag:DraggableExtender.CanDrag="True" AllowDrop="True" Source="{Binding CB1}" Width="90" Height="90" Canvas.Top="310" Canvas.Left="170"/>
+                <Image x:Name="CB2" drag:DraggableExtender.CanDrag="True" AllowDrop="True" Source="{Binding CB2}" Width="90" Height="90" Canvas.Top="310" Canvas.Left="324" />
+                <Image x:Name="RB" drag:DraggableExtender.CanDrag="True" AllowDrop="True" Source="{Binding RB}" Width="90" Height="90" Canvas.Top="290" Canvas.Left="422" />
+
+                <Image x:Name="GK" drag:DraggableExtender.CanDrag="True"  AllowDrop="True"  Source="{Binding GK}" Width="90" Height="90" Canvas.Top="385" Canvas.Left="245" />
+
+                <!--Hậu vệ và thủ môn-->
+            </Canvas.Children>
+
+        </Canvas>
+
+    </Grid>
+
+
+
+
+</UserControl>

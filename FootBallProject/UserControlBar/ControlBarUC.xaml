@@ -1,0 +1,290 @@
+﻿<UserControl x:Class="FootBallProject.UserControlBar.ControlBarUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FootBallProject.UserControlBar"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             mc:Ignorable="d" 
+             Name="ucControlBar"
+             xmlns:convert ="clr-namespace:FootBallProject.Class"
+              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+              TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+              TextElement.FontWeight="Regular"
+              TextElement.FontSize="13"
+              TextOptions.TextFormattingMode="Ideal"
+              TextOptions.TextRenderingMode="Auto"
+              DataContext="{StaticResource ControlBarVM}"
+              FontFamily="{DynamicResource MaterialDesignFont}"
+               Background="Transparent"
+ 
+    d:DesignHeight="800" d:DesignWidth="1300">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="MouseLeftButtonDown">
+            <i:InvokeCommandAction Command="{Binding MouseMoveWindowCommand}" CommandParameter="{Binding ElementName=ucControlBar}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <UserControl.Resources>
+        <convert:ConvertByteArrToImage x:Key="imageconvert"/>
+    </UserControl.Resources>
+    <StackPanel Orientation="Vertical">
+        <!--Thanh tiêu đề-->
+        <materialDesign:ColorZone
+                    Mode="Standard"
+                    Grid.Row="0"
+                    Height="20"
+                    CornerRadius="10 10 0 0"
+                >
+            <DockPanel Background="{Binding Background,ElementName=ucControlBar}">
+                <StackPanel Margin="2 2 5 2" Orientation="Horizontal"  Height="16" DockPanel.Dock="Right">
+
+                    <Button x:Name="btnMinimize"                          
+                            BorderThickness="0"
+                            Content="-"
+                            Foreground="White"
+                            FontSize="20"
+                            FontFamily="Montserrat"
+                            Cursor="Hand"
+                            Command="{Binding MinimizeWindowCommand }"
+                            CommandParameter="{Binding ElementName=ucControlBar}"
+                            >
+
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="#28AEED"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#278BEF"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Width="15" Height="15"
+                                        CornerRadius="9"
+                                        Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center"
+                                                      HorizontalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Separator Width="15" Background="Transparent" Foreground="Transparent" BorderBrush="Transparent" BorderThickness="0"></Separator>
+                    <Button x:Name="btnClose"                          
+                            BorderThickness="0"
+                            Content="X"
+                            Foreground="White"
+                            FontSize="15"
+                            FontFamily="Montserrat"
+                            Cursor="Hand"
+                            Command="{Binding CloseWindowCommand }"
+                            CommandParameter="{Binding ElementName=ucControlBar}" Height="16" Width="16"
+                            >
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="#DA34AE"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#C62DAE"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border Width="15" Height="15"
+                                        CornerRadius="9"
+                                        Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center"
+                                                      HorizontalAlignment="Center"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
+                </StackPanel>
+
+
+                <StackPanel Orientation="Horizontal" >
+
+                    <TextBlock
+                             VerticalAlignment="Center"
+                             Margin="16 0 0 0"
+                            Text="{Binding Tag, ElementName=ucControlBar}"
+                            FontWeight="Bold"
+                            >
+
+                    </TextBlock>
+                </StackPanel>
+
+
+            </DockPanel>
+        </materialDesign:ColorZone>
+
+        <DockPanel>
+            <materialDesign:ColorZone Height="65" Mode="PrimaryMid" Padding="16" Background="#FF52AE4B" DockPanel.Dock="Top">
+                <DockPanel >
+                    <StackPanel Orientation="Horizontal" Margin="0 0 10 0"  VerticalAlignment="Center" DockPanel.Dock="Right" >
+                        <Grid Margin="0 0 20 0" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <materialDesign:PopupBox x:Name="notifipopup" ToolTip="Bạn có 0 thông báo mới"  PlacementMode="BottomAndAlignRightEdges" StaysOpen="True" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 0 0 0" Opened="notifipopup_Opened" Closed="notifipopup_Closed"  >
+                                <materialDesign:PopupBox.ToggleContent>
+                                    <materialDesign:PackIcon Kind="Bell" Foreground="White" Height="25" Width="25"  Margin="0 0 0 0" />
+                                </materialDesign:PopupBox.ToggleContent>
+                                <ListView Name="lvUsers" Width="300" ScrollViewer.HorizontalScrollBarVisibility="Hidden" SelectionChanged="lvUsers_SelectionChanged">
+                                    <ListView.View>
+                                        <GridView >
+                                            <GridViewColumn Header="Thông báo"  Width="300"  >
+                                                <GridViewColumn.HeaderContainerStyle>
+                                                    <Style TargetType="{x:Type GridViewColumnHeader}">
+                                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                                                        <!--<Setter Property="HorizontalAlignment" Value="Center" />-->
+                                                        <Setter Property="VerticalAlignment" Value="Center" />
+                                                        <Setter Property="FontSize" Value="25" />
+                                                        <Setter Property="Background" Value="Orange" />
+                                                        <Setter Property="Foreground" Value="White" />
+                                                        <Setter Property="IsHitTestVisible" Value="False" />
+
+                                                    </Style>
+                                                </GridViewColumn.HeaderContainerStyle>
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock TextWrapping="Wrap" Text="{Binding NOTIFY}" />
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                        </GridView>
+                                    </ListView.View>
+                                    <ListView.GroupStyle>
+                                        <GroupStyle>
+                                            <GroupStyle.ContainerStyle>
+                                                <Style TargetType="{x:Type GroupItem}">
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate>
+                                                                <Expander IsExpanded="true">
+                                                                    <Expander.Header>
+                                                                        <StackPanel Orientation="Horizontal">
+                                                                            <TextBlock Text="{Binding Name}" FontWeight="Bold" Foreground="Red" FontSize="18" VerticalAlignment="Bottom" />
+                                                                            <TextBlock Text=" (" FontSize="18" Foreground="Silver" FontStyle="Italic" VerticalAlignment="Bottom"></TextBlock>
+                                                                            <TextBlock Text= "{Binding ItemCount}" FontSize="20" Foreground="Green" FontWeight="Bold" FontStyle="Italic" Margin="0,0,0,0" VerticalAlignment="Bottom" />
+                                                                            <TextBlock Text=")" FontSize="18" Foreground="Silver" FontStyle="Italic" VerticalAlignment="Bottom"></TextBlock>
+                                                                        </StackPanel>
+                                                                    </Expander.Header>
+                                                                    <ItemsPresenter />
+                                                                </Expander>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </GroupStyle.ContainerStyle>
+                                        </GroupStyle>
+                                    </ListView.GroupStyle>
+                                </ListView>
+                            </materialDesign:PopupBox>
+                            <materialDesign:Badged Badge="3" x:Name="numberofnotifies" BadgeForeground="White" BadgeBackground="Red"  VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 10 14 10">
+                            </materialDesign:Badged>
+
+                        </Grid>
+
+
+                        <Border CornerRadius="50" BorderThickness="1" BorderBrush="Gray" Height="30" Width="33">
+                            <Border.Background>
+                                <ImageBrush x:Name="avatar" Stretch="Fill" ImageSource="/images/avatar_temp.png"></ImageBrush>
+                            </Border.Background>
+                        </Border>
+                        <Label x:Name="UserNamelb" Content="User1" VerticalAlignment="Center" Margin="5"></Label>
+                        <ComboBox x:Name="Accountcbb" HorizontalAlignment="Center" VerticalAlignment="Center" materialDesign:TextFieldAssist.DecorationVisibility="Hidden" Width="17"  BorderThickness="0 0 0 0" BorderBrush="Gray" Background="Transparent" SelectionChanged="Accountcbb_SelectionChanged">
+                            <ComboBoxItem Content="Thông tin tài khoản"></ComboBoxItem>
+                            <ComboBoxItem Content="Đăng xuất"></ComboBoxItem>
+
+                        </ComboBox>
+                    </StackPanel>
+                    <!--<StackPanel
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    Margin="150 0 0 0"
+                    materialDesign:RippleAssist.IsCentered="True">
+                        -->
+                    <!--<ToggleButton
+                        Style="{DynamicResource MaterialDesignHamburgerToggleButton}" />-->
+                    <!--
+                        <materialDesign:ColorZone
+                            VerticalAlignment="Center"
+                           
+                            Mode="Standard"
+                            Padding="8 4 8 4"
+                            CornerRadius="20"
+                            Panel.ZIndex="1"
+                            Margin="110 0 0 0"
+                            Width="500"
+                            materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition  Width="Auto" />
+                                    <ColumnDefinition  Width="*" />
+                                    <ColumnDefinition   Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <TextBox 
+                                Grid.Column="1" Margin="8 0 0 0" 
+                                materialDesign:HintAssist.Hint="Search Matches, Players, Stats ..."
+                                materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
+                                BorderThickness="0"
+                                MinWidth="200"
+                                VerticalAlignment="Center"
+                               />
+                                <Button
+                                Style="{DynamicResource MaterialDesignToolButton}"
+                                 Grid.Column="2">
+                                    <materialDesign:PackIcon
+                                        Width="20"
+                                        Height="20"
+                                 Kind="Magnify"
+                                 Opacity=".56"
+                                 Margin="8 0 0 8" />
+                                </Button>
+                            </Grid>
+                        </materialDesign:ColorZone>
+
+                    </StackPanel>-->
+                    <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Center"
+                    Margin="230 0 0 0">
+                        <Label x:Name="FamousFootballQuotelb" FontFamily="VNI-Commerce" Width="700" Foreground="White" FontSize="17" FontWeight="Bold" Content='"If you do not believe you can do it then you have no chance at all" – Arsene Wenger' HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                            <Label.Triggers>
+                                <EventTrigger RoutedEvent="Loaded" >
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation 
+                                            Storyboard.TargetName="FamousFootballQuotelb"
+                                            Storyboard.TargetProperty="(TextBlock.Width)"
+                                            To="0"
+                                            Duration="0:0:20"
+                                            AutoReverse="True"
+                                            RepeatBehavior="Forever"    
+                                            >
+
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Label.Triggers>
+                        </Label>
+                    </StackPanel>
+                </DockPanel>
+            </materialDesign:ColorZone>
+
+        </DockPanel>
+
+    </StackPanel>
+
+</UserControl>
+
+
+
