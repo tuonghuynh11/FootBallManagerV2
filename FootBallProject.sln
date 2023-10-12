@@ -5,6 +5,8 @@ VisualStudioVersion = 17.2.32505.173
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FootBallProject", "FootBallProject\FootBallProject.csproj", "{DE560C58-246F-4749-BF14-79E6579D0832}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FootBallManagerAPI", "..\BackEnd\FootBallManagerV2API\FootBallManagerAPI\FootBallManagerAPI\FootBallManagerAPI.csproj", "{FD15856A-040D-4DE8-9A9F-4E6EC76DAA89}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{DE560C58-246F-4749-BF14-79E6579D0832}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DE560C58-246F-4749-BF14-79E6579D0832}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DE560C58-246F-4749-BF14-79E6579D0832}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD15856A-040D-4DE8-9A9F-4E6EC76DAA89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD15856A-040D-4DE8-9A9F-4E6EC76DAA89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD15856A-040D-4DE8-9A9F-4E6EC76DAA89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD15856A-040D-4DE8-9A9F-4E6EC76DAA89}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

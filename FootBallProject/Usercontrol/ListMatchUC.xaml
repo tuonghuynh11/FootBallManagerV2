@@ -72,7 +72,6 @@
                             VerticalContentAlignment="Center"
                             materialDesign:ComboBoxAssist.ShowSelectedItem="True"
                             materialDesign:HintAssist.Hint="Chọn vòng đấu"
-                            materialDesign:TextFieldAssist.HasClearButton="True"
                             ItemsSource="{Binding Leagues, UpdateSourceTrigger=PropertyChanged}"
                             SelectedItem="{Binding SelectedLeague, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Style="{StaticResource combobox_item}"
