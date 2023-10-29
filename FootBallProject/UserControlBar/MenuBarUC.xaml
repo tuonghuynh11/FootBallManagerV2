@@ -2,7 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"   
              xmlns:local="clr-namespace:FootBallProject.UserControlBar"
              mc:Ignorable="d" 
             xmlns:menu="clr-namespace:FootBallProject.Untilites"
@@ -33,7 +33,7 @@
 
         </materialDesign:ColorZone>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Width="auto">
-            <ToggleButton Margin="5 10 5 20" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"
+            <ToggleButton Margin="5 10 5 10" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"
                         Style="{DynamicResource MaterialDesignHamburgerToggleButton}" Click="Menu_Click" />
 
             <menu:Btn Width="130"  HorizontalAlignment="Left" IsChecked="True" Background="Transparent" VerticalAlignment="Center" Command="{Binding AdminCommand}" BorderThickness="0" Height="45" Style="{StaticResource BtnStyle}">
@@ -162,6 +162,14 @@
                         <Image Source="/Icons/feedback.png" Height="30" VerticalAlignment="Center"  ></Image>
                     </Border>
                     <TextBlock Text="Feedback" Margin="15 0 0 0" Foreground="White" VerticalAlignment="Center"></TextBlock>
+                </StackPanel>
+            </menu:Btn>
+            <menu:Btn Width="130"  HorizontalAlignment="Left" Background="Transparent" VerticalAlignment="Center" Command="{Binding SupplierHomeScreenCommand}" BorderThickness="0" Height="45" Style="{StaticResource BtnStyle}">
+                <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
+                    <Border Background="White" Height="30" Width="30" CornerRadius="2" >
+                        <Image Source="/Icons/deal.png" Height="30" VerticalAlignment="Center"  ></Image>
+                    </Border>
+                    <TextBlock Text="Supplier" Margin="15 0 0 0" Foreground="White" VerticalAlignment="Center"></TextBlock>
                 </StackPanel>
             </menu:Btn>
         </StackPanel>

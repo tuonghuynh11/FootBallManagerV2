@@ -15,5 +15,5 @@ public partial class Service
 
     public virtual ICollection<Fieldservice> Fieldservices { get; set; } = new List<Fieldservice>();
 
-    public virtual ICollection<Supplier> IdSuppliers { get; set; } = new List<Supplier>();
+    public virtual ICollection<Supplierservice> Supplierservices { get; set; } = new List<Supplierservice>();
 }

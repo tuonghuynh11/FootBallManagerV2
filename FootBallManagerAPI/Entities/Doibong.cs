@@ -31,6 +31,8 @@ public partial class Doibong
 
     public virtual ICollection<Diem> Diems { get; set; } = new List<Diem>();
 
+    public virtual ICollection<Doibongsupplier> Doibongsuppliers { get; set; } = new List<Doibongsupplier>();
+
     public virtual ICollection<Doihinhchinh> Doihinhchinhs { get; set; } = new List<Doihinhchinh>();
 
     public virtual ICollection<Huanluyenvien> Huanluyenviens { get; set; } = new List<Huanluyenvien>();

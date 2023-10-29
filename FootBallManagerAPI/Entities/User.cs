@@ -28,4 +28,6 @@ public partial class User
     public virtual Otp? IdotpNavigation { get; set; }
 
     public virtual Userrole? IduserroleNavigation { get; set; }
+
+    public virtual ICollection<Refreshtoken> Refreshtokens { get; set; } = new List<Refreshtoken>();
 }

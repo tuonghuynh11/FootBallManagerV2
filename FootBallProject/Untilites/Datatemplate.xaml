@@ -36,5 +36,8 @@
     </DataTemplate>
     <DataTemplate DataType="{x:Type vm:MainLeagueViewModel}">
         <view:MainLeague />
+    </DataTemplate> 
+    <DataTemplate DataType="{x:Type vm:SupplierHomeScreenViewModel}">
+        <view:SupplierHomeScreen />
     </DataTemplate>
 </ResourceDictionary>

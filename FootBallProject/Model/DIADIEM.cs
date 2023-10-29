@@ -18,7 +18,7 @@ namespace FootBallProject.Model
         public DIADIEM()
         {
             this.DOIBONGs = new HashSet<DOIBONG>();
-            this.FOOTBALLMATCHes = new HashSet<FOOTBALLMATCH>();
+            this.FIELDs = new HashSet<FIELD>();
         }
     
         public int ID { get; set; }
@@ -29,6 +29,6 @@ namespace FootBallProject.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DOIBONG> DOIBONGs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<FOOTBALLMATCH> FOOTBALLMATCHes { get; set; }
+        public virtual ICollection<FIELD> FIELDs { get; set; }
     }
 }

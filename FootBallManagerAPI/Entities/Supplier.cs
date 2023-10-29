@@ -19,5 +19,9 @@ public partial class Supplier
 
     public string? Images { get; set; }
 
-    public virtual ICollection<Service> IdServices { get; set; } = new List<Service>();
+    public virtual ICollection<Doibongsupplier> Doibongsuppliers { get; set; } = new List<Doibongsupplier>();
+
+    public virtual ICollection<Leaguesupplier> Leaguesuppliers { get; set; } = new List<Leaguesupplier>();
+
+    public virtual ICollection<Supplierservice> Supplierservices { get; set; } = new List<Supplierservice>();
 }

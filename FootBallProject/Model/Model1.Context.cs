@@ -33,15 +33,24 @@ namespace FootBallProject.Model
         public virtual DbSet<DIADIEM> DIADIEMs { get; set; }
         public virtual DbSet<DIEM> DIEMs { get; set; }
         public virtual DbSet<DOIBONG> DOIBONGs { get; set; }
+        public virtual DbSet<DOIBONGSUPPLIER> DOIBONGSUPPLIERs { get; set; }
         public virtual DbSet<DOIHINHCHINH> DOIHINHCHINHs { get; set; }
+        public virtual DbSet<FIELD> FIELDs { get; set; }
+        public virtual DbSet<FIELDSERVICE> FIELDSERVICEs { get; set; }
         public virtual DbSet<FOOTBALLMATCH> FOOTBALLMATCHes { get; set; }
         public virtual DbSet<HUANLUYENVIEN> HUANLUYENVIENs { get; set; }
         public virtual DbSet<ITEM> ITEMs { get; set; }
         public virtual DbSet<ITEMTYPE> ITEMTYPEs { get; set; }
         public virtual DbSet<LEAGUE> LEAGUEs { get; set; }
+        public virtual DbSet<LEAGUESUPPLIER> LEAGUESUPPLIERs { get; set; }
         public virtual DbSet<Notification> Notifications { get; set; }
         public virtual DbSet<QUOCTICH> QUOCTICHes { get; set; }
+        public virtual DbSet<REFRESHTOKEN> REFRESHTOKENs { get; set; }
         public virtual DbSet<ROUND> ROUNDs { get; set; }
+        public virtual DbSet<SERVICE> SERVICES { get; set; }
+        public virtual DbSet<SUPPLIER> SUPPLIERs { get; set; }
+        public virtual DbSet<SUPPLIERSERVICE> SUPPLIERSERVICEs { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<TAPLUYEN> TAPLUYENs { get; set; }
         public virtual DbSet<TEAMOFLEAGUE> TEAMOFLEAGUEs { get; set; }
         public virtual DbSet<THAMGIA> THAMGIAs { get; set; }

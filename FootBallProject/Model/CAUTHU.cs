@@ -19,6 +19,7 @@ namespace FootBallProject.Model
         public CAUTHU()
         {
             this.CHUYENNHUONGs = new HashSet<CHUYENNHUONG>();
+            this.DOIHINHCHINHs = new HashSet<DOIHINHCHINH>();
             this.ITEMs = new HashSet<ITEM>();
             this.THAMGIAs = new HashSet<THAMGIA>();
         }
@@ -107,6 +108,8 @@ namespace FootBallProject.Model
         public virtual ICollection<CHUYENNHUONG> CHUYENNHUONGs { get; set; }
         public virtual DOIBONG DOIBONG { get; set; }
         public virtual QUOCTICH QUOCTICH { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DOIHINHCHINH> DOIHINHCHINHs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ITEM> ITEMs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -14,6 +14,12 @@ namespace FootBallProject.Model
     
     public partial class USER
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public USER()
+        {
+            this.REFRESHTOKENs = new HashSet<REFRESHTOKEN>();
+        }
+    
         public int ID { get; set; }
         public Nullable<int> IDUSERROLE { get; set; }
         public string USERNAME { get; set; }
@@ -63,5 +69,7 @@ namespace FootBallProject.Model
         }
         public virtual OTP OTP { get; set; }
         public virtual USERROLE USERROLE { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<REFRESHTOKEN> REFRESHTOKENs { get; set; }
     }
 }

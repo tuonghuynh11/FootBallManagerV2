@@ -26,12 +26,25 @@ namespace FootBallProject.Model
             this.DIEMs = new HashSet<DIEM>();
             this.HUANLUYENVIENs = new HashSet<HUANLUYENVIEN>();
             this.DOIHINHCHINHs = new HashSet<DOIHINHCHINH>();
+            this.DOIBONGSUPPLIERs = new HashSet<DOIBONGSUPPLIER>();
             this.ITEMs = new HashSet<ITEM>();
             this.TEAMOFLEAGUEs = new HashSet<TEAMOFLEAGUE>();
             this.TAPLUYENs = new HashSet<TAPLUYEN>();
             this.THONGTINGIAIDAUs = new HashSet<THONGTINGIAIDAU>();
             this.THONGTINTRANDAUs = new HashSet<THONGTINTRANDAU>();
         }
+    
+        public string ID { get; set; }
+        public Nullable<int> IDQUOCTICH { get; set; }
+        public Nullable<int> THANHPHO { get; set; }
+        public byte[] HINHANH { get; set; }
+        public string TEN { get; set; }
+        public Nullable<int> SOLUONGTHANHVIEN { get; set; }
+        public Nullable<System.DateTime> NGAYTHANHLAP { get; set; }
+        public string SANNHA { get; set; }
+        public string SODOCHIENTHUAT { get; set; }
+        public Nullable<long> GIATRI { get; set; }
+
         public Image _Picture { get; set; }
         public Image Picture
         {
@@ -103,7 +116,10 @@ namespace FootBallProject.Model
                         THANHPHO = dd.ID;
 
                     }
+
                 }
+
+
             }
 
         }
@@ -141,17 +157,7 @@ namespace FootBallProject.Model
             set { }
 
         }
-        public string ID { get; set; }
-        public Nullable<int> IDQUOCTICH { get; set; }
-        public Nullable<int> THANHPHO { get; set; }
-        public byte[] HINHANH { get; set; }
-        public string TEN { get; set; }
-        public Nullable<int> SOLUONGTHANHVIEN { get; set; }
-        public Nullable<System.DateTime> NGAYTHANHLAP { get; set; }
-        public string SANNHA { get; set; }
-        public string SODOCHIENTHUAT { get; set; }
-        public Nullable<long> GIATRI { get; set; }
-    
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CAUTHU> CAUTHUs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -164,6 +170,8 @@ namespace FootBallProject.Model
         public virtual QUOCTICH QUOCTICH { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DOIHINHCHINH> DOIHINHCHINHs { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DOIBONGSUPPLIER> DOIBONGSUPPLIERs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ITEM> ITEMs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

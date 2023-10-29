@@ -11,17 +11,24 @@ namespace FootBallProject.Model
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-
+    
     public partial class LEAGUE
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public LEAGUE()
         {
+            this.LEAGUESUPPLIERs = new HashSet<LEAGUESUPPLIER>();
             this.ROUNDs = new HashSet<ROUND>();
             this.TEAMOFLEAGUEs = new HashSet<TEAMOFLEAGUE>();
             this.THONGTINGIAIDAUs = new HashSet<THONGTINGIAIDAU>();
         }
+    
+        public int ID { get; set; }
+        public Nullable<System.DateTime> NGAYBATDAU { get; set; }
+        public Nullable<System.DateTime> NGAYKETTHUC { get; set; }
+        public string TENGIAIDAU { get; set; }
+        public Nullable<int> IDQUOCGIA { get; set; }
+        public byte[] HINHANH { get; set; }
         public string QUOCGIA
         {
             get
@@ -32,27 +39,9 @@ namespace FootBallProject.Model
             }
             set { }
         }
-
-        public int SLDB
-        {
-            get
-            {
-                int qg = DataProvider.ins.DB.TEAMOFLEAGUEs.Where(p=>p.IDGIAIDAU==ID).Count();
-
-
-                    return qg;
-            }
-            set { }
-        }
-        public int ID { get; set; }
-        public Nullable<System.DateTime> NGAYBATDAU { get; set; }
-        public Nullable<System.DateTime> NGAYKETTHUC { get; set; }
-        public string TENGIAIDAU { get; set; }
-        public Nullable<int> IDQUOCGIA { get; set; }
-        public byte[] HINHANH { get; set; }
-        public Nullable<int> ISDELETE { get; set; }
-
         public virtual QUOCTICH QUOCTICH { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<LEAGUESUPPLIER> LEAGUESUPPLIERs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ROUND> ROUNDs { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
