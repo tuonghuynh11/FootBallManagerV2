@@ -77,13 +77,15 @@ public partial class FootBallManagerV2Context : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+
         => optionsBuilder.UseSqlServer("Data Source=LAPTOP-37LM0CEF\\SQLEXPRESS;Initial Catalog=FootBallManagerV2;Integrated Security=True;Trust Server Certificate=True");
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Cauthu>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__CAUTHU__3214EC277286B24E");
+            entity.HasKey(e => e.Id).HasName("PK__CAUTHU__3214EC27069414EF");
 
             entity.ToTable("CAUTHU");
 
@@ -134,7 +136,7 @@ public partial class FootBallManagerV2Context : DbContext
 
         modelBuilder.Entity<Chuyennhuong>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__CHUYENNH__3214EC2709FAD0F3");
+            entity.HasKey(e => e.Id).HasName("PK__CHUYENNH__3214EC27AC306685");
 
             entity.ToTable("CHUYENNHUONG");
 
@@ -156,7 +158,7 @@ public partial class FootBallManagerV2Context : DbContext
 
         modelBuilder.Entity<Diadiem>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__DIADIEM__3214EC27B3EE2BA6");
+            entity.HasKey(e => e.Id).HasName("PK__DIADIEM__3214EC2747645FC8");
 
             entity.ToTable("DIADIEM");
 
@@ -173,7 +175,7 @@ public partial class FootBallManagerV2Context : DbContext
 
         modelBuilder.Entity<Diem>(entity =>
         {
-            entity.HasKey(e => new { e.Iddoibong, e.Idgiaidau }).HasName("PK__DIEM__3EE06242C1B9581E");
+            entity.HasKey(e => new { e.Iddoibong, e.Idgiaidau }).HasName("PK__DIEM__3EE06242DA2AF470");
 
             entity.ToTable("DIEM");
 
@@ -192,7 +194,7 @@ public partial class FootBallManagerV2Context : DbContext
 
         modelBuilder.Entity<Doibong>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__DOIBONG__3214EC27F50971C7");
+            entity.HasKey(e => e.Id).HasName("PK__DOIBONG__3214EC278B84E431");
 
             entity.ToTable("DOIBONG");
 
@@ -319,11 +321,13 @@ public partial class FootBallManagerV2Context : DbContext
                 .HasConstraintName("fk_field_01");
         });
 
+
         modelBuilder.Entity<Fieldservice>(entity =>
         {
             entity.HasKey(e => new { e.IdField, e.IdService }).HasName("PR_FIELDSERVICE");
 
             entity.ToTable("FIELDSERVICE");
+
 
             entity.Property(e => e.IdField).HasColumnName("idField");
             entity.Property(e => e.IdService).HasColumnName("idService");
@@ -342,7 +346,7 @@ public partial class FootBallManagerV2Context : DbContext
 
         modelBuilder.Entity<Footballmatch>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__FOOTBALL__3214EC27E09D9471");
+            entity.HasKey(e => e.Id).HasName("PK__FOOTBALL__3214EC271227EF18");
 
             entity.ToTable("FOOTBALLMATCH");
 
@@ -366,7 +370,7 @@ public partial class FootBallManagerV2Context : DbContext
 
         modelBuilder.Entity<Huanluyenvien>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__HUANLUYE__3214EC270BCDCEDD");
+            entity.HasKey(e => e.Id).HasName("PK__HUANLUYE__3214EC2727CF6E7F");
 
             entity.ToTable("HUANLUYENVIEN");
 
@@ -405,7 +409,7 @@ public partial class FootBallManagerV2Context : DbContext
 
         modelBuilder.Entity<Item>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__ITEM__3214EC2711F18C14");
+            entity.HasKey(e => e.Id).HasName("PK__ITEM__3214EC2770AFC74B");
 
             entity.ToTable("ITEM");
 
@@ -438,7 +442,7 @@ public partial class FootBallManagerV2Context : DbContext
 
         modelBuilder.Entity<Itemtype>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__ITEMTYPE__3214EC277A719E6E");
+            entity.HasKey(e => e.Id).HasName("PK__ITEMTYPE__3214EC27AB4D8E06");
 
             entity.ToTable("ITEMTYPE");
 
@@ -448,7 +452,7 @@ public partial class FootBallManagerV2Context : DbContext
 
         modelBuilder.Entity<League>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__LEAGUE__3214EC27F6DA6008");
+            entity.HasKey(e => e.Id).HasName("PK__LEAGUE__3214EC275E61BAF4");
 
             entity.ToTable("LEAGUE");
 
@@ -500,7 +504,7 @@ public partial class FootBallManagerV2Context : DbContext
 
         modelBuilder.Entity<Notification>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Notifica__3214EC27DFD51058");
+            entity.HasKey(e => e.Id).HasName("PK__Notifica__3214EC27CA71BBCC");
 
             entity.ToTable("Notification");
 
@@ -518,7 +522,7 @@ public partial class FootBallManagerV2Context : DbContext
 
         modelBuilder.Entity<Otp>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__OTP__3214EC07F0BF1132");
+            entity.HasKey(e => e.Id).HasName("PK__OTP__3214EC0792811241");
 
             entity.ToTable("OTP");
 
@@ -529,7 +533,7 @@ public partial class FootBallManagerV2Context : DbContext
 
         modelBuilder.Entity<Quoctich>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__QUOCTICH__3214EC2768C58BB4");
+            entity.HasKey(e => e.Id).HasName("PK__QUOCTICH__3214EC278FF1125B");
 
             entity.ToTable("QUOCTICH");
 
@@ -562,7 +566,7 @@ public partial class FootBallManagerV2Context : DbContext
 
         modelBuilder.Entity<Round>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__ROUND__3214EC278151C1D6");
+            entity.HasKey(e => e.Id).HasName("PK__ROUND__3214EC277E3F2B1E");
 
             entity.ToTable("ROUND");
 
@@ -652,7 +656,7 @@ public partial class FootBallManagerV2Context : DbContext
 
         modelBuilder.Entity<Tapluyen>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__TAPLUYEN__3214EC27BABC2202");
+            entity.HasKey(e => e.Id).HasName("PK__TAPLUYEN__3214EC2748EE31DB");
 
             entity.ToTable("TAPLUYEN");
 
@@ -687,7 +691,7 @@ public partial class FootBallManagerV2Context : DbContext
 
         modelBuilder.Entity<Teamofleague>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__TEAMOFLE__3214EC27FBB823DA");
+            entity.HasKey(e => e.Id).HasName("PK__TEAMOFLE__3214EC276D00DC18");
 
             entity.ToTable("TEAMOFLEAGUE");
 
@@ -709,7 +713,7 @@ public partial class FootBallManagerV2Context : DbContext
 
         modelBuilder.Entity<Thamgium>(entity =>
         {
-            entity.HasKey(e => new { e.Idtran, e.Idcauthu }).HasName("PK__THAMGIA__ED8AA057C8CCFBC8");
+            entity.HasKey(e => new { e.Idtran, e.Idcauthu }).HasName("PK__THAMGIA__ED8AA057AFEFB5D6");
 
             entity.ToTable("THAMGIA");
 
@@ -730,7 +734,7 @@ public partial class FootBallManagerV2Context : DbContext
 
         modelBuilder.Entity<Thongtingiaidau>(entity =>
         {
-            entity.HasKey(e => new { e.Idgiaidau, e.Iddoibong }).HasName("PK__THONGTIN__44315CD7CF0E59AD");
+            entity.HasKey(e => new { e.Idgiaidau, e.Iddoibong }).HasName("PK__THONGTIN__44315CD7A4CCA015");
 
             entity.ToTable("THONGTINGIAIDAU");
 
@@ -771,7 +775,7 @@ public partial class FootBallManagerV2Context : DbContext
 
         modelBuilder.Entity<Thongtintrandau>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__THONGTIN__3214EC27CEEEF932");
+            entity.HasKey(e => e.Id).HasName("PK__THONGTIN__3214EC27A0CF0655");
 
             entity.ToTable("THONGTINTRANDAU");
 
@@ -797,7 +801,7 @@ public partial class FootBallManagerV2Context : DbContext
 
         modelBuilder.Entity<User>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__USERS__3214EC27AC9BB480");
+            entity.HasKey(e => e.Id).HasName("PK__USERS__3214EC27B2A0926E");
 
             entity.ToTable("USERS");
 
@@ -831,7 +835,7 @@ public partial class FootBallManagerV2Context : DbContext
 
         modelBuilder.Entity<Userrole>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__USERROLE__3214EC279ABF1B30");
+            entity.HasKey(e => e.Id).HasName("PK__USERROLE__3214EC277E76CD4C");
 
             entity.ToTable("USERROLE");
 

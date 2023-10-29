@@ -1,7 +1,9 @@
 using FootBallManagerAPI.Entities;
+
 using FootBallManagerAPI.Models;
 using FootBallManagerAPI.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text.Json.Serialization;
@@ -15,6 +17,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<FootBallManagerV2Context>(option => option.UseSqlServer(builder.Configuration.GetConnectionString("FootBallManagerV2")));
+
 
 
 builder.Services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
@@ -57,6 +60,22 @@ builder.Services.AddScoped<ILeagueSupplierRepository, LeagueSupplierRepository>(
 
 
 ///Add repository
+
+builder.Services.AddScoped<ICauthuRepository, CauthuRepository>();
+builder.Services.AddScoped<IChuyennhuongRepository, ChuyennhuongRepository>();
+builder.Services.AddScoped<IDiadiemRepository, DiadiemRepository>();
+builder.Services.AddScoped<IDiemRepository, DiemRepository>();
+builder.Services.AddScoped<IDoibongRepository, DoibongRepository>();
+builder.Services.AddScoped<IDoihinhchinhRepository, DoihinhchinhRepository>();
+builder.Services.AddScoped<IFieldRepository, FieldRepository>();
+builder.Services.AddScoped<IFootballmatchRepository, FootballmatchRepository>();
+builder.Services.AddScoped<IHuanluyenvienRepository, HuanluyenvienRepository>();
+builder.Services.AddScoped<IItemRepository, ItemRepository>();
+builder.Services.AddScoped<IItemtypeRepository, ItemtypeRepository>();
+builder.Services.AddScoped<ILeagueRepository, LeagueRepository>();
+builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+builder.Services.AddScoped<IFieldServiceRepository, FieldserviceRepository>();
+
 
 var app = builder.Build();
 
