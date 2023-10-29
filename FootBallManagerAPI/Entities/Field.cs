@@ -19,9 +19,9 @@ public partial class Field
 
     public int? Status { get; set; }
 
+    public virtual ICollection<Fieldservice> Fieldservices { get; set; } = new List<Fieldservice>();
+
     public virtual ICollection<Footballmatch> Footballmatches { get; set; } = new List<Footballmatch>();
 
     public virtual Diadiem? IdDiaDiemNavigation { get; set; }
-
-    public virtual ICollection<Service> IdServices { get; set; } = new List<Service>();
 }

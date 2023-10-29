@@ -13,7 +13,7 @@ public partial class Service
 
     public string? Images { get; set; }
 
-    public virtual ICollection<Field> IdFields { get; set; } = new List<Field>();
+    public virtual ICollection<Fieldservice> Fieldservices { get; set; } = new List<Fieldservice>();
 
     public virtual ICollection<Supplier> IdSuppliers { get; set; } = new List<Supplier>();
 }
