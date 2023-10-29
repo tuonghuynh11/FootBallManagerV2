@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FootBallManagerAPI.Entities;
+using FootBallManagerAPI.Repositories;
 
 namespace FootBallManagerAPI.Controllers
 {
@@ -13,40 +14,33 @@ namespace FootBallManagerAPI.Controllers
     [ApiController]
     public class CauthusController : ControllerBase
     {
-        private readonly FootBallManagerV2Context _context;
+        private readonly ICauthuRepository _cauthuRepo;
 
-        public CauthusController(FootBallManagerV2Context context)
+        public CauthusController(ICauthuRepository cauthuRepository)
         {
-            _context = context;
+            _cauthuRepo = cauthuRepository;
         }
 
         // GET: api/Cauthus
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Cauthu>>> GetCauthus()
         {
-          if (_context.Cauthus == null)
-          {
-              return NotFound();
-          }
-            return await _context.Cauthus.ToListAsync();
+            try
+            {
+                return Ok(await _cauthuRepo.GetAllCauthuAsync());
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         // GET: api/Cauthus/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Cauthu>> GetCauthu(int id)
         {
-          if (_context.Cauthus == null)
-          {
-              return NotFound();
-          }
-            var cauthu = await _context.Cauthus.FindAsync(id);
-
-            if (cauthu == null)
-            {
-                return NotFound();
-            }
-
-            return cauthu;
+            var cauthu = await _cauthuRepo.getCauthuByIdAsync(id);
+            return cauthu == null? NotFound() : Ok(cauthu);
         }
 
         // PUT: api/Cauthus/5
@@ -54,30 +48,12 @@ namespace FootBallManagerAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCauthu(int id, Cauthu cauthu)
         {
-            if (id != cauthu.Id)
+            if(id != cauthu.Id)
             {
-                return BadRequest();
+                return NotFound();
             }
-
-            _context.Entry(cauthu).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CauthuExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            await _cauthuRepo.updateCauthuAsync(id, cauthu);
+            return Ok();
         }
 
         // POST: api/Cauthus
@@ -85,39 +61,26 @@ namespace FootBallManagerAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Cauthu>> PostCauthu(Cauthu cauthu)
         {
-          if (_context.Cauthus == null)
-          {
-              return Problem("Entity set 'FootBallManagerV2Context.Cauthus'  is null.");
-          }
-            _context.Cauthus.Add(cauthu);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetCauthu", new { id = cauthu.Id }, cauthu);
+            try
+            {
+                var newCauthuId = await _cauthuRepo.addCauthuAsync(cauthu);
+                var cauthuNew = await _cauthuRepo.getCauthuByIdAsync(newCauthuId);
+                return cauthuNew == null ? NotFound() : Ok(cauthuNew);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+            
         }
 
         // DELETE: api/Cauthus/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCauthu(int id)
         {
-            if (_context.Cauthus == null)
-            {
-                return NotFound();
-            }
-            var cauthu = await _context.Cauthus.FindAsync(id);
-            if (cauthu == null)
-            {
-                return NotFound();
-            }
-
-            _context.Cauthus.Remove(cauthu);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            await _cauthuRepo.deleteCauthuAsync(id);
+            return Ok();
         }
 
-        private bool CauthuExists(int id)
-        {
-            return (_context.Cauthus?.Any(e => e.Id == id)).GetValueOrDefault();
-        }
     }
 }
