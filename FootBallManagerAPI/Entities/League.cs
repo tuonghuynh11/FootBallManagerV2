@@ -19,6 +19,8 @@ public partial class League
 
     public virtual Quoctich? IdquocgiaNavigation { get; set; }
 
+    public virtual ICollection<Leaguesupplier> Leaguesuppliers { get; set; } = new List<Leaguesupplier>();
+
     public virtual ICollection<Round> Rounds { get; set; } = new List<Round>();
 
     public virtual ICollection<Teamofleague> Teamofleagues { get; set; } = new List<Teamofleague>();

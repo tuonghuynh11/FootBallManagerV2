@@ -101,6 +101,7 @@ namespace FootBallProject.Model
             set { }
         }
         public virtual DIADIEM DIADIEM1 { get; set; }
+        public virtual FIELD FIELD { get; set; }
         public virtual ROUND ROUND { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<THAMGIA> THAMGIAs { get; set; }

@@ -25,9 +25,13 @@ public partial class FootBallManagerV2Context : DbContext
 
     public virtual DbSet<Doibong> Doibongs { get; set; }
 
+    public virtual DbSet<Doibongsupplier> Doibongsuppliers { get; set; }
+
     public virtual DbSet<Doihinhchinh> Doihinhchinhs { get; set; }
 
     public virtual DbSet<Field> Fields { get; set; }
+
+    public virtual DbSet<Fieldservice> Fieldservices { get; set; }
 
     public virtual DbSet<Footballmatch> Footballmatches { get; set; }
 
@@ -39,17 +43,23 @@ public partial class FootBallManagerV2Context : DbContext
 
     public virtual DbSet<League> Leagues { get; set; }
 
+    public virtual DbSet<Leaguesupplier> Leaguesuppliers { get; set; }
+
     public virtual DbSet<Notification> Notifications { get; set; }
 
     public virtual DbSet<Otp> Otps { get; set; }
 
     public virtual DbSet<Quoctich> Quoctiches { get; set; }
 
+    public virtual DbSet<Refreshtoken> Refreshtokens { get; set; }
+
     public virtual DbSet<Round> Rounds { get; set; }
 
     public virtual DbSet<Service> Services { get; set; }
 
     public virtual DbSet<Supplier> Suppliers { get; set; }
+
+    public virtual DbSet<Supplierservice> Supplierservices { get; set; }
 
     public virtual DbSet<Tapluyen> Tapluyens { get; set; }
 
@@ -67,7 +77,7 @@ public partial class FootBallManagerV2Context : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Data Source=LAPTOP-37LM0CEF\\SQLEXPRESS;Initial Catalog=FootBallManagerV2;Integrated Security=True;TrustServerCertificate=True");
+        => optionsBuilder.UseSqlServer("Data Source=LAPTOP-37LM0CEF\\SQLEXPRESS;Initial Catalog=FootBallManagerV2;Integrated Security=True;Trust Server Certificate=True");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -223,6 +233,37 @@ public partial class FootBallManagerV2Context : DbContext
                 .HasConstraintName("FK_DB3");
         });
 
+        modelBuilder.Entity<Doibongsupplier>(entity =>
+        {
+            entity.HasKey(e => new { e.IdDoiBong, e.IdSupplier }).HasName("PR_DOIBONGSUPPLIER");
+
+            entity.ToTable("DOIBONGSUPPLIER");
+
+            entity.Property(e => e.IdDoiBong)
+                .HasMaxLength(10)
+                .IsUnicode(false)
+                .HasColumnName("idDoiBong");
+            entity.Property(e => e.IdSupplier).HasColumnName("idSupplier");
+            entity.Property(e => e.Duration).HasColumnName("duration");
+            entity.Property(e => e.EndDate)
+                .HasColumnType("date")
+                .HasColumnName("endDate");
+            entity.Property(e => e.StartDate)
+                .HasColumnType("date")
+                .HasColumnName("startDate");
+            entity.Property(e => e.Status).HasColumnName("status");
+
+            entity.HasOne(d => d.DoiBong).WithMany(p => p.Doibongsuppliers)
+                .HasForeignKey(d => d.IdDoiBong)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_doibongsupplier_01");
+
+            entity.HasOne(d => d.IdSupplierNavigation).WithMany(p => p.Doibongsuppliers)
+                .HasForeignKey(d => d.IdSupplier)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_doibongsupplier_02");
+        });
+
         modelBuilder.Entity<Doihinhchinh>(entity =>
         {
             entity.HasKey(e => new { e.Iddoibong, e.Idcauthu });
@@ -276,25 +317,27 @@ public partial class FootBallManagerV2Context : DbContext
             entity.HasOne(d => d.IdDiaDiemNavigation).WithMany(p => p.Fields)
                 .HasForeignKey(d => d.IdDiaDiem)
                 .HasConstraintName("fk_field_01");
+        });
 
-            entity.HasMany(d => d.IdServices).WithMany(p => p.IdFields)
-                .UsingEntity<Dictionary<string, object>>(
-                    "Fieldservice",
-                    r => r.HasOne<Service>().WithMany()
-                        .HasForeignKey("IdService")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("fk_fieldservice_02"),
-                    l => l.HasOne<Field>().WithMany()
-                        .HasForeignKey("IdField")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("fk_fieldservice_01"),
-                    j =>
-                    {
-                        j.HasKey("IdField", "IdService").HasName("PR_FIELDSERVICE");
-                        j.ToTable("FIELDSERVICE");
-                        j.IndexerProperty<int>("IdField").HasColumnName("idField");
-                        j.IndexerProperty<int>("IdService").HasColumnName("idService");
-                    });
+        modelBuilder.Entity<Fieldservice>(entity =>
+        {
+            entity.HasKey(e => new { e.IdField, e.IdService }).HasName("PR_FIELDSERVICE");
+
+            entity.ToTable("FIELDSERVICE");
+
+            entity.Property(e => e.IdField).HasColumnName("idField");
+            entity.Property(e => e.IdService).HasColumnName("idService");
+            entity.Property(e => e.Status).HasColumnName("status");
+
+            entity.HasOne(d => d.IdFieldNavigation).WithMany(p => p.Fieldservices)
+                .HasForeignKey(d => d.IdField)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_fieldservice_01");
+
+            entity.HasOne(d => d.IdServiceNavigation).WithMany(p => p.Fieldservices)
+                .HasForeignKey(d => d.IdService)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_fieldservice_02");
         });
 
         modelBuilder.Entity<Footballmatch>(entity =>
@@ -427,6 +470,34 @@ public partial class FootBallManagerV2Context : DbContext
                 .HasConstraintName("fk_league_01");
         });
 
+        modelBuilder.Entity<Leaguesupplier>(entity =>
+        {
+            entity.HasKey(e => new { e.IdLeague, e.IdSupplier }).HasName("PR_LEAGUESUPPLIER");
+
+            entity.ToTable("LEAGUESUPPLIER");
+
+            entity.Property(e => e.IdLeague).HasColumnName("idLeague");
+            entity.Property(e => e.IdSupplier).HasColumnName("idSupplier");
+            entity.Property(e => e.Duration).HasColumnName("duration");
+            entity.Property(e => e.EndDate)
+                .HasColumnType("date")
+                .HasColumnName("endDate");
+            entity.Property(e => e.StartDate)
+                .HasColumnType("date")
+                .HasColumnName("startDate");
+            entity.Property(e => e.Status).HasColumnName("status");
+
+            entity.HasOne(d => d.IdLeagueNavigation).WithMany(p => p.Leaguesuppliers)
+                .HasForeignKey(d => d.IdLeague)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_leaguesupplier_01");
+
+            entity.HasOne(d => d.IdSupplierNavigation).WithMany(p => p.Leaguesuppliers)
+                .HasForeignKey(d => d.IdSupplier)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_leaguesupplier_02");
+        });
+
         modelBuilder.Entity<Notification>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__Notifica__3214EC27DFD51058");
@@ -466,6 +537,27 @@ public partial class FootBallManagerV2Context : DbContext
             entity.Property(e => e.Tenquocgia)
                 .HasMaxLength(100)
                 .HasColumnName("TENQUOCGIA");
+        });
+
+        modelBuilder.Entity<Refreshtoken>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK_RefreshToken");
+
+            entity.ToTable("REFRESHTOKEN");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnName("id");
+            entity.Property(e => e.IsUsed)
+                .IsRequired()
+                .HasDefaultValueSql("(CONVERT([bit],(0)))");
+            entity.Property(e => e.JwtId).HasColumnName("jwtId");
+            entity.Property(e => e.Token).HasColumnName("token");
+            entity.Property(e => e.UserId).HasColumnName("userId");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Refreshtokens)
+                .HasForeignKey(d => d.UserId)
+                .HasConstraintName("FK_RefreshToken_User_userId");
         });
 
         modelBuilder.Entity<Round>(entity =>
@@ -535,25 +627,27 @@ public partial class FootBallManagerV2Context : DbContext
             entity.Property(e => e.SupplierName)
                 .HasMaxLength(300)
                 .HasColumnName("supplierName");
+        });
 
-            entity.HasMany(d => d.IdServices).WithMany(p => p.IdSuppliers)
-                .UsingEntity<Dictionary<string, object>>(
-                    "Supplierservice",
-                    r => r.HasOne<Service>().WithMany()
-                        .HasForeignKey("IdService")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("fk_supplierservice_02"),
-                    l => l.HasOne<Supplier>().WithMany()
-                        .HasForeignKey("IdSupplier")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("fk_supplierservice_01"),
-                    j =>
-                    {
-                        j.HasKey("IdSupplier", "IdService").HasName("PR_SUPPLIERSERVICE");
-                        j.ToTable("SUPPLIERSERVICE");
-                        j.IndexerProperty<int>("IdSupplier").HasColumnName("idSupplier");
-                        j.IndexerProperty<int>("IdService").HasColumnName("idService");
-                    });
+        modelBuilder.Entity<Supplierservice>(entity =>
+        {
+            entity.HasKey(e => new { e.IdSupplier, e.IdService }).HasName("PR_SUPPLIERSERVICE");
+
+            entity.ToTable("SUPPLIERSERVICE");
+
+            entity.Property(e => e.IdSupplier).HasColumnName("idSupplier");
+            entity.Property(e => e.IdService).HasColumnName("idService");
+            entity.Property(e => e.Status).HasColumnName("status");
+
+            entity.HasOne(d => d.IdServiceNavigation).WithMany(p => p.Supplierservices)
+                .HasForeignKey(d => d.IdService)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_supplierservice_02");
+
+            entity.HasOne(d => d.IdSupplierNavigation).WithMany(p => p.Supplierservices)
+                .HasForeignKey(d => d.IdSupplier)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_supplierservice_01");
         });
 
         modelBuilder.Entity<Tapluyen>(entity =>

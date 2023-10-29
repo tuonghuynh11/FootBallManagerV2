@@ -39,6 +39,7 @@ namespace FootBallProject.ViewModel
 
         public ICommand MatchCommand { get; set; }
         public ICommand FeedBackCommand { get; set; }
+        public ICommand SupplierHomeScreenCommand { get; set; }
 
         private void Home() => CurrentView = new AdminScreenViewModel();
         private void Tactic() => CurrentView = new TeamBuilderViewModel(USER.IDDB);
@@ -52,6 +53,7 @@ namespace FootBallProject.ViewModel
         private void TransferConfirm() => CurrentView = new TransferConfirmViewModel();
         private void Match() => CurrentView = new MainMatchViewModel();
         private void League() => CurrentView = new MainLeagueViewModel();
+        private void SupplierHomeScreen() => CurrentView = new SupplierHomeScreenViewModel();
 
 
 
@@ -82,6 +84,7 @@ namespace FootBallProject.ViewModel
                 FeedBack feedBack = new FeedBack();
                 feedBack.Show();
             });
+            SupplierHomeScreenCommand = new RelayCommand<object>((p) => { return true; }, (p) => { SupplierHomeScreen(); });
 
 
             // Startup Page

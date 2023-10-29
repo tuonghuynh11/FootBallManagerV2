@@ -65,6 +65,18 @@
           <Property Name="SODOCHIENTHUAT" Type="varchar" MaxLength="20" />
           <Property Name="GIATRI" Type="bigint" />
         </EntityType>
+        <EntityType Name="DOIBONGSUPPLIER">
+          <Key>
+            <PropertyRef Name="idDoiBong" />
+            <PropertyRef Name="idSupplier" />
+          </Key>
+          <Property Name="idDoiBong" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="idSupplier" Type="int" Nullable="false" />
+          <Property Name="startDate" Type="date" />
+          <Property Name="endDate" Type="date" />
+          <Property Name="duration" Type="int" />
+          <Property Name="status" Type="int" />
+        </EntityType>
         <EntityType Name="DOIHINHCHINH">
           <Key>
             <PropertyRef Name="IDDOIBONG" />
@@ -74,6 +86,27 @@
           <Property Name="IDCAUTHU" Type="int" Nullable="false" />
           <Property Name="VITRI" Type="varchar" MaxLength="10" />
           <Property Name="VAITRO" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="FIELD">
+          <Key>
+            <PropertyRef Name="idField" />
+          </Key>
+          <Property Name="idField" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="idDiaDiem" Type="int" />
+          <Property Name="images" Type="varchar(max)" />
+          <Property Name="fieldName" Type="nvarchar" MaxLength="300" />
+          <Property Name="technicalInformation" Type="text" />
+          <Property Name="numOfSeats" Type="int" />
+          <Property Name="status" Type="int" />
+        </EntityType>
+        <EntityType Name="FIELDSERVICE">
+          <Key>
+            <PropertyRef Name="idField" />
+            <PropertyRef Name="idService" />
+          </Key>
+          <Property Name="idField" Type="int" Nullable="false" />
+          <Property Name="idService" Type="int" Nullable="false" />
+          <Property Name="status" Type="int" />
         </EntityType>
         <EntityType Name="FOOTBALLMATCH">
           <Key>
@@ -129,6 +162,18 @@
           <Property Name="IDQUOCGIA" Type="int" />
           <Property Name="HINHANH" Type="image" />
         </EntityType>
+        <EntityType Name="LEAGUESUPPLIER">
+          <Key>
+            <PropertyRef Name="idLeague" />
+            <PropertyRef Name="idSupplier" />
+          </Key>
+          <Property Name="idLeague" Type="int" Nullable="false" />
+          <Property Name="idSupplier" Type="int" Nullable="false" />
+          <Property Name="startDate" Type="date" />
+          <Property Name="endDate" Type="date" />
+          <Property Name="duration" Type="int" />
+          <Property Name="status" Type="int" />
+        </EntityType>
         <EntityType Name="Notification">
           <Key>
             <PropertyRef Name="ID" />
@@ -153,6 +198,19 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="TENQUOCGIA" Type="nvarchar" MaxLength="100" />
         </EntityType>
+        <EntityType Name="REFRESHTOKEN">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="userId" Type="int" Nullable="false" />
+          <Property Name="token" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="jwtId" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="IsRevoked" Type="bit" Nullable="false" />
+          <Property Name="IssuedAt" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="Expired" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="IsUsed" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="ROUND">
           <Key>
             <PropertyRef Name="ID" />
@@ -163,6 +221,46 @@
           <Property Name="NGAYBATDAU" Type="smalldatetime" />
           <Property Name="SOLUONGDOI" Type="int" />
           <Property Name="IDDISPLAY" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="SERVICES">
+          <Key>
+            <PropertyRef Name="idService" />
+          </Key>
+          <Property Name="idService" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="serviceName" Type="nvarchar" MaxLength="300" />
+          <Property Name="detail" Type="text" />
+          <Property Name="images" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="SUPPLIER">
+          <Key>
+            <PropertyRef Name="idSupplier" />
+          </Key>
+          <Property Name="idSupplier" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="supplierName" Type="nvarchar" MaxLength="300" />
+          <Property Name="addresss" Type="nvarchar" MaxLength="300" />
+          <Property Name="phoneNumber" Type="varchar" MaxLength="100" />
+          <Property Name="representativeName" Type="nvarchar" MaxLength="100" />
+          <Property Name="establishDate" Type="date" />
+          <Property Name="images" Type="varchar(max)" />
+        </EntityType>
+        <EntityType Name="SUPPLIERSERVICE">
+          <Key>
+            <PropertyRef Name="idSupplier" />
+            <PropertyRef Name="idService" />
+          </Key>
+          <Property Name="idSupplier" Type="int" Nullable="false" />
+          <Property Name="idService" Type="int" Nullable="false" />
+          <Property Name="status" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="TAPLUYEN">
           <Key>
@@ -362,6 +460,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DHC2">
+          <End Role="CAUTHU" Type="Self.CAUTHU" Multiplicity="1" />
+          <End Role="DOIHINHCHINH" Type="Self.DOIHINHCHINH" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CAUTHU">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DOIHINHCHINH">
+              <PropertyRef Name="IDCAUTHU" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_doibongsupplier_01">
+          <End Role="DOIBONG" Type="Self.DOIBONG" Multiplicity="1" />
+          <End Role="DOIBONGSUPPLIER" Type="Self.DOIBONGSUPPLIER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DOIBONG">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DOIBONGSUPPLIER">
+              <PropertyRef Name="idDoiBong" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_doibongsupplier_02">
+          <End Role="SUPPLIER" Type="Self.SUPPLIER" Multiplicity="1" />
+          <End Role="DOIBONGSUPPLIER" Type="Self.DOIBONGSUPPLIER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SUPPLIER">
+              <PropertyRef Name="idSupplier" />
+            </Principal>
+            <Dependent Role="DOIBONGSUPPLIER">
+              <PropertyRef Name="idSupplier" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_fbm_01">
           <End Role="ROUND" Type="Self.ROUND" Multiplicity="0..1" />
           <End Role="FOOTBALLMATCH" Type="Self.FOOTBALLMATCH" Multiplicity="*" />
@@ -375,14 +509,50 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_fbm_02">
-          <End Role="DIADIEM" Type="Self.DIADIEM" Multiplicity="0..1" />
+          <End Role="FIELD" Type="Self.FIELD" Multiplicity="0..1" />
           <End Role="FOOTBALLMATCH" Type="Self.FOOTBALLMATCH" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FIELD">
+              <PropertyRef Name="idField" />
+            </Principal>
+            <Dependent Role="FOOTBALLMATCH">
+              <PropertyRef Name="DIADIEM" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_field_01">
+          <End Role="DIADIEM" Type="Self.DIADIEM" Multiplicity="0..1" />
+          <End Role="FIELD" Type="Self.FIELD" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="DIADIEM">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="FOOTBALLMATCH">
-              <PropertyRef Name="DIADIEM" />
+            <Dependent Role="FIELD">
+              <PropertyRef Name="idDiaDiem" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_fieldservice_01">
+          <End Role="FIELD" Type="Self.FIELD" Multiplicity="1" />
+          <End Role="FIELDSERVICE" Type="Self.FIELDSERVICE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FIELD">
+              <PropertyRef Name="idField" />
+            </Principal>
+            <Dependent Role="FIELDSERVICE">
+              <PropertyRef Name="idField" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_fieldservice_02">
+          <End Role="SERVICES" Type="Self.SERVICES" Multiplicity="1" />
+          <End Role="FIELDSERVICE" Type="Self.FIELDSERVICE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SERVICES">
+              <PropertyRef Name="idService" />
+            </Principal>
+            <Dependent Role="FIELDSERVICE">
+              <PropertyRef Name="idService" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -458,6 +628,44 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_leaguesupplier_01">
+          <End Role="LEAGUE" Type="Self.LEAGUE" Multiplicity="1" />
+          <End Role="LEAGUESUPPLIER" Type="Self.LEAGUESUPPLIER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LEAGUE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LEAGUESUPPLIER">
+              <PropertyRef Name="idLeague" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_leaguesupplier_02">
+          <End Role="SUPPLIER" Type="Self.SUPPLIER" Multiplicity="1" />
+          <End Role="LEAGUESUPPLIER" Type="Self.LEAGUESUPPLIER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SUPPLIER">
+              <PropertyRef Name="idSupplier" />
+            </Principal>
+            <Dependent Role="LEAGUESUPPLIER">
+              <PropertyRef Name="idSupplier" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RefreshToken_User_userId">
+          <End Role="USERS" Type="Self.USERS" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="REFRESHTOKEN" Type="Self.REFRESHTOKEN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USERS">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="REFRESHTOKEN">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_round_01">
           <End Role="LEAGUE" Type="Self.LEAGUE" Multiplicity="0..1" />
           <End Role="ROUND" Type="Self.ROUND" Multiplicity="*" />
@@ -467,6 +675,30 @@
             </Principal>
             <Dependent Role="ROUND">
               <PropertyRef Name="IDGIAIDAU" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_supplierservice_01">
+          <End Role="SUPPLIER" Type="Self.SUPPLIER" Multiplicity="1" />
+          <End Role="SUPPLIERSERVICE" Type="Self.SUPPLIERSERVICE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SUPPLIER">
+              <PropertyRef Name="idSupplier" />
+            </Principal>
+            <Dependent Role="SUPPLIERSERVICE">
+              <PropertyRef Name="idSupplier" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_supplierservice_02">
+          <End Role="SERVICES" Type="Self.SERVICES" Multiplicity="1" />
+          <End Role="SUPPLIERSERVICE" Type="Self.SUPPLIERSERVICE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SERVICES">
+              <PropertyRef Name="idService" />
+            </Principal>
+            <Dependent Role="SUPPLIERSERVICE">
+              <PropertyRef Name="idService" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -632,16 +864,25 @@
           <EntitySet Name="DIADIEM" EntityType="Self.DIADIEM" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DIEM" EntityType="Self.DIEM" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DOIBONG" EntityType="Self.DOIBONG" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DOIBONGSUPPLIER" EntityType="Self.DOIBONGSUPPLIER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DOIHINHCHINH" EntityType="Self.DOIHINHCHINH" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FIELD" EntityType="Self.FIELD" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FIELDSERVICE" EntityType="Self.FIELDSERVICE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FOOTBALLMATCH" EntityType="Self.FOOTBALLMATCH" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HUANLUYENVIEN" EntityType="Self.HUANLUYENVIEN" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ITEM" EntityType="Self.ITEM" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ITEMTYPE" EntityType="Self.ITEMTYPE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LEAGUE" EntityType="Self.LEAGUE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LEAGUESUPPLIER" EntityType="Self.LEAGUESUPPLIER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Notification" EntityType="Self.Notification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OTP" EntityType="Self.OTP" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="QUOCTICH" EntityType="Self.QUOCTICH" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="REFRESHTOKEN" EntityType="Self.REFRESHTOKEN" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ROUND" EntityType="Self.ROUND" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SERVICES" EntityType="Self.SERVICES" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SUPPLIER" EntityType="Self.SUPPLIER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SUPPLIERSERVICE" EntityType="Self.SUPPLIERSERVICE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TAPLUYEN" EntityType="Self.TAPLUYEN" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TEAMOFLEAGUE" EntityType="Self.TEAMOFLEAGUE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="THAMGIA" EntityType="Self.THAMGIA" Schema="dbo" store:Type="Tables" />
@@ -689,13 +930,37 @@
             <End Role="DOIBONG" EntitySet="DOIBONG" />
             <End Role="DOIHINHCHINH" EntitySet="DOIHINHCHINH" />
           </AssociationSet>
+          <AssociationSet Name="FK_DHC2" Association="Self.FK_DHC2">
+            <End Role="CAUTHU" EntitySet="CAUTHU" />
+            <End Role="DOIHINHCHINH" EntitySet="DOIHINHCHINH" />
+          </AssociationSet>
+          <AssociationSet Name="fk_doibongsupplier_01" Association="Self.fk_doibongsupplier_01">
+            <End Role="DOIBONG" EntitySet="DOIBONG" />
+            <End Role="DOIBONGSUPPLIER" EntitySet="DOIBONGSUPPLIER" />
+          </AssociationSet>
+          <AssociationSet Name="fk_doibongsupplier_02" Association="Self.fk_doibongsupplier_02">
+            <End Role="SUPPLIER" EntitySet="SUPPLIER" />
+            <End Role="DOIBONGSUPPLIER" EntitySet="DOIBONGSUPPLIER" />
+          </AssociationSet>
           <AssociationSet Name="fk_fbm_01" Association="Self.fk_fbm_01">
             <End Role="ROUND" EntitySet="ROUND" />
             <End Role="FOOTBALLMATCH" EntitySet="FOOTBALLMATCH" />
           </AssociationSet>
           <AssociationSet Name="fk_fbm_02" Association="Self.fk_fbm_02">
-            <End Role="DIADIEM" EntitySet="DIADIEM" />
+            <End Role="FIELD" EntitySet="FIELD" />
             <End Role="FOOTBALLMATCH" EntitySet="FOOTBALLMATCH" />
+          </AssociationSet>
+          <AssociationSet Name="fk_field_01" Association="Self.fk_field_01">
+            <End Role="DIADIEM" EntitySet="DIADIEM" />
+            <End Role="FIELD" EntitySet="FIELD" />
+          </AssociationSet>
+          <AssociationSet Name="fk_fieldservice_01" Association="Self.fk_fieldservice_01">
+            <End Role="FIELD" EntitySet="FIELD" />
+            <End Role="FIELDSERVICE" EntitySet="FIELDSERVICE" />
+          </AssociationSet>
+          <AssociationSet Name="fk_fieldservice_02" Association="Self.fk_fieldservice_02">
+            <End Role="SERVICES" EntitySet="SERVICES" />
+            <End Role="FIELDSERVICE" EntitySet="FIELDSERVICE" />
           </AssociationSet>
           <AssociationSet Name="FK_HLV1" Association="Self.FK_HLV1">
             <End Role="QUOCTICH" EntitySet="QUOCTICH" />
@@ -721,9 +986,29 @@
             <End Role="QUOCTICH" EntitySet="QUOCTICH" />
             <End Role="LEAGUE" EntitySet="LEAGUE" />
           </AssociationSet>
+          <AssociationSet Name="fk_leaguesupplier_01" Association="Self.fk_leaguesupplier_01">
+            <End Role="LEAGUE" EntitySet="LEAGUE" />
+            <End Role="LEAGUESUPPLIER" EntitySet="LEAGUESUPPLIER" />
+          </AssociationSet>
+          <AssociationSet Name="fk_leaguesupplier_02" Association="Self.fk_leaguesupplier_02">
+            <End Role="SUPPLIER" EntitySet="SUPPLIER" />
+            <End Role="LEAGUESUPPLIER" EntitySet="LEAGUESUPPLIER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RefreshToken_User_userId" Association="Self.FK_RefreshToken_User_userId">
+            <End Role="USERS" EntitySet="USERS" />
+            <End Role="REFRESHTOKEN" EntitySet="REFRESHTOKEN" />
+          </AssociationSet>
           <AssociationSet Name="fk_round_01" Association="Self.fk_round_01">
             <End Role="LEAGUE" EntitySet="LEAGUE" />
             <End Role="ROUND" EntitySet="ROUND" />
+          </AssociationSet>
+          <AssociationSet Name="fk_supplierservice_01" Association="Self.fk_supplierservice_01">
+            <End Role="SUPPLIER" EntitySet="SUPPLIER" />
+            <End Role="SUPPLIERSERVICE" EntitySet="SUPPLIERSERVICE" />
+          </AssociationSet>
+          <AssociationSet Name="fk_supplierservice_02" Association="Self.fk_supplierservice_02">
+            <End Role="SERVICES" EntitySet="SERVICES" />
+            <End Role="SUPPLIERSERVICE" EntitySet="SUPPLIERSERVICE" />
           </AssociationSet>
           <AssociationSet Name="FK_TB1" Association="Self.FK_TB1">
             <End Role="HUANLUYENVIEN" EntitySet="HUANLUYENVIEN" />
@@ -799,15 +1084,24 @@
           <EntitySet Name="DIADIEMs" EntityType="officialleagueModel.DIADIEM" />
           <EntitySet Name="DIEMs" EntityType="officialleagueModel.DIEM" />
           <EntitySet Name="DOIBONGs" EntityType="officialleagueModel.DOIBONG" />
+          <EntitySet Name="DOIBONGSUPPLIERs" EntityType="officialleagueModel.DOIBONGSUPPLIER" />
           <EntitySet Name="DOIHINHCHINHs" EntityType="officialleagueModel.DOIHINHCHINH" />
+          <EntitySet Name="FIELDs" EntityType="officialleagueModel.FIELD" />
+          <EntitySet Name="FIELDSERVICEs" EntityType="officialleagueModel.FIELDSERVICE" />
           <EntitySet Name="FOOTBALLMATCHes" EntityType="officialleagueModel.FOOTBALLMATCH" />
           <EntitySet Name="HUANLUYENVIENs" EntityType="officialleagueModel.HUANLUYENVIEN" />
           <EntitySet Name="ITEMs" EntityType="officialleagueModel.ITEM" />
           <EntitySet Name="ITEMTYPEs" EntityType="officialleagueModel.ITEMTYPE" />
           <EntitySet Name="LEAGUEs" EntityType="officialleagueModel.LEAGUE" />
+          <EntitySet Name="LEAGUESUPPLIERs" EntityType="officialleagueModel.LEAGUESUPPLIER" />
           <EntitySet Name="Notifications" EntityType="officialleagueModel.Notification" />
           <EntitySet Name="QUOCTICHes" EntityType="officialleagueModel.QUOCTICH" />
+          <EntitySet Name="REFRESHTOKENs" EntityType="officialleagueModel.REFRESHTOKEN" />
           <EntitySet Name="ROUNDs" EntityType="officialleagueModel.ROUND" />
+          <EntitySet Name="SERVICES" EntityType="officialleagueModel.SERVICE" />
+          <EntitySet Name="SUPPLIERs" EntityType="officialleagueModel.SUPPLIER" />
+          <EntitySet Name="SUPPLIERSERVICEs" EntityType="officialleagueModel.SUPPLIERSERVICE" />
+          <EntitySet Name="sysdiagrams" EntityType="officialleagueModel.sysdiagram" />
           <EntitySet Name="TAPLUYENs" EntityType="officialleagueModel.TAPLUYEN" />
           <EntitySet Name="TEAMOFLEAGUEs" EntityType="officialleagueModel.TEAMOFLEAGUE" />
           <EntitySet Name="THAMGIAs" EntityType="officialleagueModel.THAMGIA" />
@@ -824,6 +1118,10 @@
           <AssociationSet Name="FK_CT2" Association="officialleagueModel.FK_CT2">
             <End Role="QUOCTICH" EntitySet="QUOCTICHes" />
             <End Role="CAUTHU" EntitySet="CAUTHUs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DHC2" Association="officialleagueModel.FK_DHC2">
+            <End Role="CAUTHU" EntitySet="CAUTHUs" />
+            <End Role="DOIHINHCHINH" EntitySet="DOIHINHCHINHs" />
           </AssociationSet>
           <AssociationSet Name="FK_ITEM_THEM_01" Association="officialleagueModel.FK_ITEM_THEM_01">
             <End Role="CAUTHU" EntitySet="CAUTHUs" />
@@ -845,9 +1143,9 @@
             <End Role="DIADIEM" EntitySet="DIADIEMs" />
             <End Role="DOIBONG" EntitySet="DOIBONGs" />
           </AssociationSet>
-          <AssociationSet Name="fk_fbm_02" Association="officialleagueModel.fk_fbm_02">
+          <AssociationSet Name="fk_field_01" Association="officialleagueModel.fk_field_01">
             <End Role="DIADIEM" EntitySet="DIADIEMs" />
-            <End Role="FOOTBALLMATCH" EntitySet="FOOTBALLMATCHes" />
+            <End Role="FIELD" EntitySet="FIELDs" />
           </AssociationSet>
           <AssociationSet Name="FK_D1" Association="officialleagueModel.FK_D1">
             <End Role="DOIBONG" EntitySet="DOIBONGs" />
@@ -864,6 +1162,10 @@
           <AssociationSet Name="FK_DHC1" Association="officialleagueModel.FK_DHC1">
             <End Role="DOIBONG" EntitySet="DOIBONGs" />
             <End Role="DOIHINHCHINH" EntitySet="DOIHINHCHINHs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_doibongsupplier_01" Association="officialleagueModel.fk_doibongsupplier_01">
+            <End Role="DOIBONG" EntitySet="DOIBONGs" />
+            <End Role="DOIBONGSUPPLIER" EntitySet="DOIBONGSUPPLIERs" />
           </AssociationSet>
           <AssociationSet Name="fk_item_02" Association="officialleagueModel.fk_item_02">
             <End Role="DOIBONG" EntitySet="DOIBONGs" />
@@ -884,6 +1186,22 @@
           <AssociationSet Name="fk_tttd_01" Association="officialleagueModel.fk_tttd_01">
             <End Role="DOIBONG" EntitySet="DOIBONGs" />
             <End Role="THONGTINTRANDAU" EntitySet="THONGTINTRANDAUs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_doibongsupplier_02" Association="officialleagueModel.fk_doibongsupplier_02">
+            <End Role="SUPPLIER" EntitySet="SUPPLIERs" />
+            <End Role="DOIBONGSUPPLIER" EntitySet="DOIBONGSUPPLIERs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_fbm_02" Association="officialleagueModel.fk_fbm_02">
+            <End Role="FIELD" EntitySet="FIELDs" />
+            <End Role="FOOTBALLMATCH" EntitySet="FOOTBALLMATCHes" />
+          </AssociationSet>
+          <AssociationSet Name="fk_fieldservice_01" Association="officialleagueModel.fk_fieldservice_01">
+            <End Role="FIELD" EntitySet="FIELDs" />
+            <End Role="FIELDSERVICE" EntitySet="FIELDSERVICEs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_fieldservice_02" Association="officialleagueModel.fk_fieldservice_02">
+            <End Role="SERVICE" EntitySet="SERVICES" />
+            <End Role="FIELDSERVICE" EntitySet="FIELDSERVICEs" />
           </AssociationSet>
           <AssociationSet Name="fk_fbm_01" Association="officialleagueModel.fk_fbm_01">
             <End Role="ROUND" EntitySet="ROUNDs" />
@@ -921,6 +1239,10 @@
             <End Role="QUOCTICH" EntitySet="QUOCTICHes" />
             <End Role="LEAGUE" EntitySet="LEAGUEs" />
           </AssociationSet>
+          <AssociationSet Name="fk_leaguesupplier_01" Association="officialleagueModel.fk_leaguesupplier_01">
+            <End Role="LEAGUE" EntitySet="LEAGUEs" />
+            <End Role="LEAGUESUPPLIER" EntitySet="LEAGUESUPPLIERs" />
+          </AssociationSet>
           <AssociationSet Name="fk_round_01" Association="officialleagueModel.fk_round_01">
             <End Role="LEAGUE" EntitySet="LEAGUEs" />
             <End Role="ROUND" EntitySet="ROUNDs" />
@@ -932,6 +1254,22 @@
           <AssociationSet Name="FK_TTGD1" Association="officialleagueModel.FK_TTGD1">
             <End Role="LEAGUE" EntitySet="LEAGUEs" />
             <End Role="THONGTINGIAIDAU" EntitySet="THONGTINGIAIDAUs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_leaguesupplier_02" Association="officialleagueModel.fk_leaguesupplier_02">
+            <End Role="SUPPLIER" EntitySet="SUPPLIERs" />
+            <End Role="LEAGUESUPPLIER" EntitySet="LEAGUESUPPLIERs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RefreshToken_User_userId" Association="officialleagueModel.FK_RefreshToken_User_userId">
+            <End Role="USER" EntitySet="USERS" />
+            <End Role="REFRESHTOKEN" EntitySet="REFRESHTOKENs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_supplierservice_02" Association="officialleagueModel.fk_supplierservice_02">
+            <End Role="SERVICE" EntitySet="SERVICES" />
+            <End Role="SUPPLIERSERVICE" EntitySet="SUPPLIERSERVICEs" />
+          </AssociationSet>
+          <AssociationSet Name="fk_supplierservice_01" Association="officialleagueModel.fk_supplierservice_01">
+            <End Role="SUPPLIER" EntitySet="SUPPLIERs" />
+            <End Role="SUPPLIERSERVICE" EntitySet="SUPPLIERSERVICEs" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="OTP">
@@ -967,6 +1305,7 @@
           <NavigationProperty Name="OTP" Relationship="officialleagueModel.FK_US_02" FromRole="USER" ToRole="OTP" />
           <NavigationProperty Name="USERROLE" Relationship="officialleagueModel.FK_US_01" FromRole="USER" ToRole="USERROLE" />
           <Property Name="AVATAR" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="REFRESHTOKENs" Relationship="officialleagueModel.FK_RefreshToken_User_userId" FromRole="USER" ToRole="REFRESHTOKEN" />
         </EntityType>
         <Association Name="FK_US_02">
           <End Type="officialleagueModel.OTP" Role="OTP" Multiplicity="0..1" />
@@ -1014,6 +1353,7 @@
           <NavigationProperty Name="CHUYENNHUONGs" Relationship="officialleagueModel.FK_CN1" FromRole="CAUTHU" ToRole="CHUYENNHUONG" />
           <NavigationProperty Name="DOIBONG" Relationship="officialleagueModel.FK_CT1" FromRole="CAUTHU" ToRole="DOIBONG" />
           <NavigationProperty Name="QUOCTICH" Relationship="officialleagueModel.FK_CT2" FromRole="CAUTHU" ToRole="QUOCTICH" />
+          <NavigationProperty Name="DOIHINHCHINHs" Relationship="officialleagueModel.FK_DHC2" FromRole="CAUTHU" ToRole="DOIHINHCHINH" />
           <NavigationProperty Name="ITEMs" Relationship="officialleagueModel.FK_ITEM_THEM_01" FromRole="CAUTHU" ToRole="ITEM" />
           <NavigationProperty Name="THAMGIAs" Relationship="officialleagueModel.FK_TG2" FromRole="CAUTHU" ToRole="THAMGIA" />
         </EntityType>
@@ -1036,7 +1376,7 @@
           <Property Name="IDQUOCGIA" Type="Int32" />
           <NavigationProperty Name="QUOCTICH" Relationship="officialleagueModel.FK_1" FromRole="DIADIEM" ToRole="QUOCTICH" />
           <NavigationProperty Name="DOIBONGs" Relationship="officialleagueModel.FK_DB3" FromRole="DIADIEM" ToRole="DOIBONG" />
-          <NavigationProperty Name="FOOTBALLMATCHes" Relationship="officialleagueModel.fk_fbm_02" FromRole="DIADIEM" ToRole="FOOTBALLMATCH" />
+          <NavigationProperty Name="FIELDs" Relationship="officialleagueModel.fk_field_01" FromRole="DIADIEM" ToRole="FIELD" />
         </EntityType>
         <EntityType Name="DIEM">
           <Key>
@@ -1069,11 +1409,26 @@
           <NavigationProperty Name="HUANLUYENVIENs" Relationship="officialleagueModel.FK_DB1" FromRole="DOIBONG" ToRole="HUANLUYENVIEN" />
           <NavigationProperty Name="QUOCTICH" Relationship="officialleagueModel.FK_DB2" FromRole="DOIBONG" ToRole="QUOCTICH" />
           <NavigationProperty Name="DOIHINHCHINHs" Relationship="officialleagueModel.FK_DHC1" FromRole="DOIBONG" ToRole="DOIHINHCHINH" />
+          <NavigationProperty Name="DOIBONGSUPPLIERs" Relationship="officialleagueModel.fk_doibongsupplier_01" FromRole="DOIBONG" ToRole="DOIBONGSUPPLIER" />
           <NavigationProperty Name="ITEMs" Relationship="officialleagueModel.fk_item_02" FromRole="DOIBONG" ToRole="ITEM" />
           <NavigationProperty Name="TEAMOFLEAGUEs" Relationship="officialleagueModel.FK_TEAMOFLEAGUE_02" FromRole="DOIBONG" ToRole="TEAMOFLEAGUE" />
           <NavigationProperty Name="TAPLUYENs" Relationship="officialleagueModel.FK_TL2" FromRole="DOIBONG" ToRole="TAPLUYEN" />
           <NavigationProperty Name="THONGTINGIAIDAUs" Relationship="officialleagueModel.FK_TTGD2" FromRole="DOIBONG" ToRole="THONGTINGIAIDAU" />
           <NavigationProperty Name="THONGTINTRANDAUs" Relationship="officialleagueModel.fk_tttd_01" FromRole="DOIBONG" ToRole="THONGTINTRANDAU" />
+        </EntityType>
+        <EntityType Name="DOIBONGSUPPLIER">
+          <Key>
+            <PropertyRef Name="idDoiBong" />
+            <PropertyRef Name="idSupplier" />
+          </Key>
+          <Property Name="idDoiBong" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="idSupplier" Type="Int32" Nullable="false" />
+          <Property Name="startDate" Type="DateTime" Precision="0" />
+          <Property Name="endDate" Type="DateTime" Precision="0" />
+          <Property Name="duration" Type="Int32" />
+          <Property Name="status" Type="Int32" />
+          <NavigationProperty Name="DOIBONG" Relationship="officialleagueModel.fk_doibongsupplier_01" FromRole="DOIBONGSUPPLIER" ToRole="DOIBONG" />
+          <NavigationProperty Name="SUPPLIER" Relationship="officialleagueModel.fk_doibongsupplier_02" FromRole="DOIBONGSUPPLIER" ToRole="SUPPLIER" />
         </EntityType>
         <EntityType Name="DOIHINHCHINH">
           <Key>
@@ -1084,7 +1439,34 @@
           <Property Name="IDCAUTHU" Type="Int32" Nullable="false" />
           <Property Name="VITRI" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="VAITRO" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CAUTHU" Relationship="officialleagueModel.FK_DHC2" FromRole="DOIHINHCHINH" ToRole="CAUTHU" />
           <NavigationProperty Name="DOIBONG" Relationship="officialleagueModel.FK_DHC1" FromRole="DOIHINHCHINH" ToRole="DOIBONG" />
+        </EntityType>
+        <EntityType Name="FIELD">
+          <Key>
+            <PropertyRef Name="idField" />
+          </Key>
+          <Property Name="idField" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="idDiaDiem" Type="Int32" />
+          <Property Name="images" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="fieldName" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="technicalInformation" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="numOfSeats" Type="Int32" />
+          <Property Name="status" Type="Int32" />
+          <NavigationProperty Name="DIADIEM" Relationship="officialleagueModel.fk_field_01" FromRole="FIELD" ToRole="DIADIEM" />
+          <NavigationProperty Name="FOOTBALLMATCHes" Relationship="officialleagueModel.fk_fbm_02" FromRole="FIELD" ToRole="FOOTBALLMATCH" />
+          <NavigationProperty Name="FIELDSERVICEs" Relationship="officialleagueModel.fk_fieldservice_01" FromRole="FIELD" ToRole="FIELDSERVICE" />
+        </EntityType>
+        <EntityType Name="FIELDSERVICE">
+          <Key>
+            <PropertyRef Name="idField" />
+            <PropertyRef Name="idService" />
+          </Key>
+          <Property Name="idField" Type="Int32" Nullable="false" />
+          <Property Name="idService" Type="Int32" Nullable="false" />
+          <Property Name="status" Type="Int32" />
+          <NavigationProperty Name="FIELD" Relationship="officialleagueModel.fk_fieldservice_01" FromRole="FIELDSERVICE" ToRole="FIELD" />
+          <NavigationProperty Name="SERVICE" Relationship="officialleagueModel.fk_fieldservice_02" FromRole="FIELDSERVICE" ToRole="SERVICE" />
         </EntityType>
         <EntityType Name="FOOTBALLMATCH">
           <Key>
@@ -1096,7 +1478,7 @@
           <Property Name="IDVONG" Type="Int32" />
           <Property Name="DIADIEM" Type="Int32" />
           <Property Name="THOIGIAN" Type="DateTime" Precision="0" />
-          <NavigationProperty Name="DIADIEM1" Relationship="officialleagueModel.fk_fbm_02" FromRole="FOOTBALLMATCH" ToRole="DIADIEM" />
+          <NavigationProperty Name="FIELD" Relationship="officialleagueModel.fk_fbm_02" FromRole="FOOTBALLMATCH" ToRole="FIELD" />
           <NavigationProperty Name="ROUND" Relationship="officialleagueModel.fk_fbm_01" FromRole="FOOTBALLMATCH" ToRole="ROUND" />
           <NavigationProperty Name="THAMGIAs" Relationship="officialleagueModel.FK_TG1" FromRole="FOOTBALLMATCH" ToRole="THAMGIA" />
           <NavigationProperty Name="THONGTINTRANDAUs" Relationship="officialleagueModel.fk_tttd_02" FromRole="FOOTBALLMATCH" ToRole="THONGTINTRANDAU" />
@@ -1153,9 +1535,24 @@
           <Property Name="IDQUOCGIA" Type="Int32" />
           <Property Name="HINHANH" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="QUOCTICH" Relationship="officialleagueModel.fk_league_01" FromRole="LEAGUE" ToRole="QUOCTICH" />
+          <NavigationProperty Name="LEAGUESUPPLIERs" Relationship="officialleagueModel.fk_leaguesupplier_01" FromRole="LEAGUE" ToRole="LEAGUESUPPLIER" />
           <NavigationProperty Name="ROUNDs" Relationship="officialleagueModel.fk_round_01" FromRole="LEAGUE" ToRole="ROUND" />
           <NavigationProperty Name="TEAMOFLEAGUEs" Relationship="officialleagueModel.FK_TEAMOFLEAGUE_01" FromRole="LEAGUE" ToRole="TEAMOFLEAGUE" />
           <NavigationProperty Name="THONGTINGIAIDAUs" Relationship="officialleagueModel.FK_TTGD1" FromRole="LEAGUE" ToRole="THONGTINGIAIDAU" />
+        </EntityType>
+        <EntityType Name="LEAGUESUPPLIER">
+          <Key>
+            <PropertyRef Name="idLeague" />
+            <PropertyRef Name="idSupplier" />
+          </Key>
+          <Property Name="idLeague" Type="Int32" Nullable="false" />
+          <Property Name="idSupplier" Type="Int32" Nullable="false" />
+          <Property Name="startDate" Type="DateTime" Precision="0" />
+          <Property Name="endDate" Type="DateTime" Precision="0" />
+          <Property Name="duration" Type="Int32" />
+          <Property Name="status" Type="Int32" />
+          <NavigationProperty Name="LEAGUE" Relationship="officialleagueModel.fk_leaguesupplier_01" FromRole="LEAGUESUPPLIER" ToRole="LEAGUE" />
+          <NavigationProperty Name="SUPPLIER" Relationship="officialleagueModel.fk_leaguesupplier_02" FromRole="LEAGUESUPPLIER" ToRole="SUPPLIER" />
         </EntityType>
         <EntityType Name="Notification">
           <Key>
@@ -1179,6 +1576,20 @@
           <NavigationProperty Name="HUANLUYENVIENs" Relationship="officialleagueModel.FK_HLV1" FromRole="QUOCTICH" ToRole="HUANLUYENVIEN" />
           <NavigationProperty Name="LEAGUEs" Relationship="officialleagueModel.fk_league_01" FromRole="QUOCTICH" ToRole="LEAGUE" />
         </EntityType>
+        <EntityType Name="REFRESHTOKEN">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Guid" Nullable="false" />
+          <Property Name="userId" Type="Int32" Nullable="false" />
+          <Property Name="token" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="jwtId" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsRevoked" Type="Boolean" Nullable="false" />
+          <Property Name="IssuedAt" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="Expired" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="IsUsed" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="USER" Relationship="officialleagueModel.FK_RefreshToken_User_userId" FromRole="REFRESHTOKEN" ToRole="USER" />
+        </EntityType>
         <EntityType Name="ROUND">
           <Key>
             <PropertyRef Name="ID" />
@@ -1191,6 +1602,53 @@
           <Property Name="IDDISPLAY" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="FOOTBALLMATCHes" Relationship="officialleagueModel.fk_fbm_01" FromRole="ROUND" ToRole="FOOTBALLMATCH" />
           <NavigationProperty Name="LEAGUE" Relationship="officialleagueModel.fk_round_01" FromRole="ROUND" ToRole="LEAGUE" />
+        </EntityType>
+        <EntityType Name="SERVICE">
+          <Key>
+            <PropertyRef Name="idService" />
+          </Key>
+          <Property Name="idService" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="serviceName" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="images" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="FIELDSERVICEs" Relationship="officialleagueModel.fk_fieldservice_02" FromRole="SERVICE" ToRole="FIELDSERVICE" />
+          <NavigationProperty Name="SUPPLIERSERVICEs" Relationship="officialleagueModel.fk_supplierservice_02" FromRole="SERVICE" ToRole="SUPPLIERSERVICE" />
+        </EntityType>
+        <EntityType Name="SUPPLIER">
+          <Key>
+            <PropertyRef Name="idSupplier" />
+          </Key>
+          <Property Name="idSupplier" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="supplierName" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="addresss" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="phoneNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="representativeName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="establishDate" Type="DateTime" Precision="0" />
+          <Property Name="images" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DOIBONGSUPPLIERs" Relationship="officialleagueModel.fk_doibongsupplier_02" FromRole="SUPPLIER" ToRole="DOIBONGSUPPLIER" />
+          <NavigationProperty Name="LEAGUESUPPLIERs" Relationship="officialleagueModel.fk_leaguesupplier_02" FromRole="SUPPLIER" ToRole="LEAGUESUPPLIER" />
+          <NavigationProperty Name="SUPPLIERSERVICEs" Relationship="officialleagueModel.fk_supplierservice_01" FromRole="SUPPLIER" ToRole="SUPPLIERSERVICE" />
+        </EntityType>
+        <EntityType Name="SUPPLIERSERVICE">
+          <Key>
+            <PropertyRef Name="idSupplier" />
+            <PropertyRef Name="idService" />
+          </Key>
+          <Property Name="idSupplier" Type="Int32" Nullable="false" />
+          <Property Name="idService" Type="Int32" Nullable="false" />
+          <Property Name="status" Type="Int32" />
+          <NavigationProperty Name="SERVICE" Relationship="officialleagueModel.fk_supplierservice_02" FromRole="SUPPLIERSERVICE" ToRole="SERVICE" />
+          <NavigationProperty Name="SUPPLIER" Relationship="officialleagueModel.fk_supplierservice_01" FromRole="SUPPLIERSERVICE" ToRole="SUPPLIER" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="TAPLUYEN">
           <Key>
@@ -1295,6 +1753,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DHC2">
+          <End Type="officialleagueModel.CAUTHU" Role="CAUTHU" Multiplicity="1" />
+          <End Type="officialleagueModel.DOIHINHCHINH" Role="DOIHINHCHINH" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CAUTHU">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DOIHINHCHINH">
+              <PropertyRef Name="IDCAUTHU" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ITEM_THEM_01">
           <End Type="officialleagueModel.CAUTHU" Role="CAUTHU" Multiplicity="0..1" />
           <End Type="officialleagueModel.ITEM" Role="ITEM" Multiplicity="*" />
@@ -1355,15 +1825,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_fbm_02">
+        <Association Name="fk_field_01">
           <End Type="officialleagueModel.DIADIEM" Role="DIADIEM" Multiplicity="0..1" />
-          <End Type="officialleagueModel.FOOTBALLMATCH" Role="FOOTBALLMATCH" Multiplicity="*" />
+          <End Type="officialleagueModel.FIELD" Role="FIELD" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="DIADIEM">
               <PropertyRef Name="ID" />
             </Principal>
-            <Dependent Role="FOOTBALLMATCH">
-              <PropertyRef Name="DIADIEM" />
+            <Dependent Role="FIELD">
+              <PropertyRef Name="idDiaDiem" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1412,6 +1882,18 @@
             </Principal>
             <Dependent Role="DOIHINHCHINH">
               <PropertyRef Name="IDDOIBONG" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_doibongsupplier_01">
+          <End Type="officialleagueModel.DOIBONG" Role="DOIBONG" Multiplicity="1" />
+          <End Type="officialleagueModel.DOIBONGSUPPLIER" Role="DOIBONGSUPPLIER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DOIBONG">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="DOIBONGSUPPLIER">
+              <PropertyRef Name="idDoiBong" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1472,6 +1954,54 @@
             </Principal>
             <Dependent Role="THONGTINTRANDAU">
               <PropertyRef Name="IDDOIBONG" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_doibongsupplier_02">
+          <End Type="officialleagueModel.SUPPLIER" Role="SUPPLIER" Multiplicity="1" />
+          <End Type="officialleagueModel.DOIBONGSUPPLIER" Role="DOIBONGSUPPLIER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SUPPLIER">
+              <PropertyRef Name="idSupplier" />
+            </Principal>
+            <Dependent Role="DOIBONGSUPPLIER">
+              <PropertyRef Name="idSupplier" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_fbm_02">
+          <End Type="officialleagueModel.FIELD" Role="FIELD" Multiplicity="0..1" />
+          <End Type="officialleagueModel.FOOTBALLMATCH" Role="FOOTBALLMATCH" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FIELD">
+              <PropertyRef Name="idField" />
+            </Principal>
+            <Dependent Role="FOOTBALLMATCH">
+              <PropertyRef Name="DIADIEM" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_fieldservice_01">
+          <End Type="officialleagueModel.FIELD" Role="FIELD" Multiplicity="1" />
+          <End Type="officialleagueModel.FIELDSERVICE" Role="FIELDSERVICE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FIELD">
+              <PropertyRef Name="idField" />
+            </Principal>
+            <Dependent Role="FIELDSERVICE">
+              <PropertyRef Name="idField" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_fieldservice_02">
+          <End Type="officialleagueModel.SERVICE" Role="SERVICE" Multiplicity="1" />
+          <End Type="officialleagueModel.FIELDSERVICE" Role="FIELDSERVICE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SERVICE">
+              <PropertyRef Name="idService" />
+            </Principal>
+            <Dependent Role="FIELDSERVICE">
+              <PropertyRef Name="idService" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1583,6 +2113,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_leaguesupplier_01">
+          <End Type="officialleagueModel.LEAGUE" Role="LEAGUE" Multiplicity="1" />
+          <End Type="officialleagueModel.LEAGUESUPPLIER" Role="LEAGUESUPPLIER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LEAGUE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="LEAGUESUPPLIER">
+              <PropertyRef Name="idLeague" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_round_01">
           <End Type="officialleagueModel.LEAGUE" Role="LEAGUE" Multiplicity="0..1" />
           <End Type="officialleagueModel.ROUND" Role="ROUND" Multiplicity="*" />
@@ -1616,6 +2158,56 @@
             </Principal>
             <Dependent Role="THONGTINGIAIDAU">
               <PropertyRef Name="IDGIAIDAU" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_leaguesupplier_02">
+          <End Type="officialleagueModel.SUPPLIER" Role="SUPPLIER" Multiplicity="1" />
+          <End Type="officialleagueModel.LEAGUESUPPLIER" Role="LEAGUESUPPLIER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SUPPLIER">
+              <PropertyRef Name="idSupplier" />
+            </Principal>
+            <Dependent Role="LEAGUESUPPLIER">
+              <PropertyRef Name="idSupplier" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RefreshToken_User_userId">
+          <End Type="officialleagueModel.USER" Role="USER" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="officialleagueModel.REFRESHTOKEN" Role="REFRESHTOKEN" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="USER">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="REFRESHTOKEN">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_supplierservice_02">
+          <End Type="officialleagueModel.SERVICE" Role="SERVICE" Multiplicity="1" />
+          <End Type="officialleagueModel.SUPPLIERSERVICE" Role="SUPPLIERSERVICE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SERVICE">
+              <PropertyRef Name="idService" />
+            </Principal>
+            <Dependent Role="SUPPLIERSERVICE">
+              <PropertyRef Name="idService" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_supplierservice_01">
+          <End Type="officialleagueModel.SUPPLIER" Role="SUPPLIER" Multiplicity="1" />
+          <End Type="officialleagueModel.SUPPLIERSERVICE" Role="SUPPLIERSERVICE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SUPPLIER">
+              <PropertyRef Name="idSupplier" />
+            </Principal>
+            <Dependent Role="SUPPLIERSERVICE">
+              <PropertyRef Name="idSupplier" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1722,6 +2314,18 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="DOIBONGSUPPLIERs">
+            <EntityTypeMapping TypeName="officialleagueModel.DOIBONGSUPPLIER">
+              <MappingFragment StoreEntitySet="DOIBONGSUPPLIER">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="duration" ColumnName="duration" />
+                <ScalarProperty Name="endDate" ColumnName="endDate" />
+                <ScalarProperty Name="startDate" ColumnName="startDate" />
+                <ScalarProperty Name="idSupplier" ColumnName="idSupplier" />
+                <ScalarProperty Name="idDoiBong" ColumnName="idDoiBong" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="DOIHINHCHINHs">
             <EntityTypeMapping TypeName="officialleagueModel.DOIHINHCHINH">
               <MappingFragment StoreEntitySet="DOIHINHCHINH">
@@ -1729,6 +2333,28 @@
                 <ScalarProperty Name="VITRI" ColumnName="VITRI" />
                 <ScalarProperty Name="IDCAUTHU" ColumnName="IDCAUTHU" />
                 <ScalarProperty Name="IDDOIBONG" ColumnName="IDDOIBONG" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FIELDs">
+            <EntityTypeMapping TypeName="officialleagueModel.FIELD">
+              <MappingFragment StoreEntitySet="FIELD">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="numOfSeats" ColumnName="numOfSeats" />
+                <ScalarProperty Name="technicalInformation" ColumnName="technicalInformation" />
+                <ScalarProperty Name="fieldName" ColumnName="fieldName" />
+                <ScalarProperty Name="images" ColumnName="images" />
+                <ScalarProperty Name="idDiaDiem" ColumnName="idDiaDiem" />
+                <ScalarProperty Name="idField" ColumnName="idField" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FIELDSERVICEs">
+            <EntityTypeMapping TypeName="officialleagueModel.FIELDSERVICE">
+              <MappingFragment StoreEntitySet="FIELDSERVICE">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="idService" ColumnName="idService" />
+                <ScalarProperty Name="idField" ColumnName="idField" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1791,6 +2417,18 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="LEAGUESUPPLIERs">
+            <EntityTypeMapping TypeName="officialleagueModel.LEAGUESUPPLIER">
+              <MappingFragment StoreEntitySet="LEAGUESUPPLIER">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="duration" ColumnName="duration" />
+                <ScalarProperty Name="endDate" ColumnName="endDate" />
+                <ScalarProperty Name="startDate" ColumnName="startDate" />
+                <ScalarProperty Name="idSupplier" ColumnName="idSupplier" />
+                <ScalarProperty Name="idLeague" ColumnName="idLeague" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Notifications">
             <EntityTypeMapping TypeName="officialleagueModel.Notification">
               <MappingFragment StoreEntitySet="Notification">
@@ -1809,6 +2447,20 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="REFRESHTOKENs">
+            <EntityTypeMapping TypeName="officialleagueModel.REFRESHTOKEN">
+              <MappingFragment StoreEntitySet="REFRESHTOKEN">
+                <ScalarProperty Name="IsUsed" ColumnName="IsUsed" />
+                <ScalarProperty Name="Expired" ColumnName="Expired" />
+                <ScalarProperty Name="IssuedAt" ColumnName="IssuedAt" />
+                <ScalarProperty Name="IsRevoked" ColumnName="IsRevoked" />
+                <ScalarProperty Name="jwtId" ColumnName="jwtId" />
+                <ScalarProperty Name="token" ColumnName="token" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="ROUNDs">
             <EntityTypeMapping TypeName="officialleagueModel.ROUND">
               <MappingFragment StoreEntitySet="ROUND">
@@ -1818,6 +2470,49 @@
                 <ScalarProperty Name="TENVONGDAU" ColumnName="TENVONGDAU" />
                 <ScalarProperty Name="IDGIAIDAU" ColumnName="IDGIAIDAU" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SERVICES">
+            <EntityTypeMapping TypeName="officialleagueModel.SERVICE">
+              <MappingFragment StoreEntitySet="SERVICES">
+                <ScalarProperty Name="images" ColumnName="images" />
+                <ScalarProperty Name="detail" ColumnName="detail" />
+                <ScalarProperty Name="serviceName" ColumnName="serviceName" />
+                <ScalarProperty Name="idService" ColumnName="idService" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SUPPLIERs">
+            <EntityTypeMapping TypeName="officialleagueModel.SUPPLIER">
+              <MappingFragment StoreEntitySet="SUPPLIER">
+                <ScalarProperty Name="images" ColumnName="images" />
+                <ScalarProperty Name="establishDate" ColumnName="establishDate" />
+                <ScalarProperty Name="representativeName" ColumnName="representativeName" />
+                <ScalarProperty Name="phoneNumber" ColumnName="phoneNumber" />
+                <ScalarProperty Name="addresss" ColumnName="addresss" />
+                <ScalarProperty Name="supplierName" ColumnName="supplierName" />
+                <ScalarProperty Name="idSupplier" ColumnName="idSupplier" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SUPPLIERSERVICEs">
+            <EntityTypeMapping TypeName="officialleagueModel.SUPPLIERSERVICE">
+              <MappingFragment StoreEntitySet="SUPPLIERSERVICE">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="idService" ColumnName="idService" />
+                <ScalarProperty Name="idSupplier" ColumnName="idSupplier" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="officialleagueModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

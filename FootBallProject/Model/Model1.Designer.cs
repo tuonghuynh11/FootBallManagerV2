@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\Tuong_301\source\repos\FootBallManager6\FootBallProject\Model\Model1.edmx'. 
+﻿// T4 code generation is enabled for model 'D:\UIT\Môn Học\Kiểm chứng phần mềm - SE113.O12\Project\FootBallManagerV2\FootBallProject\Model\Model1.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

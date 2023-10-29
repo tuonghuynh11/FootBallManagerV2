@@ -20,6 +20,16 @@ namespace FootBallProject.Model
             this.Notifications = new HashSet<Notification>();
             this.TAPLUYENs = new HashSet<TAPLUYEN>();
         }
+    
+        public int ID { get; set; }
+        public string IDDOIBONG { get; set; }
+        public Nullable<int> IDQUOCTICH { get; set; }
+        public string HOTEN { get; set; }
+        public Nullable<int> TUOI { get; set; }
+        public string GMAIL { get; set; }
+        public Nullable<System.DateTime> NGAYSINH { get; set; }
+        public string CHUCVU { get; set; }
+        public byte[] HINHANH { get; set; }
         public string QUOCGIA
         {
             get
@@ -30,16 +40,6 @@ namespace FootBallProject.Model
             }
             set { }
         }
-        public int ID { get; set; }
-        public string IDDOIBONG { get; set; }
-        public Nullable<int> IDQUOCTICH { get; set; }
-        public string HOTEN { get; set; }
-        public Nullable<int> TUOI { get; set; }
-        public string GMAIL { get; set; }
-        public Nullable<System.DateTime> NGAYSINH { get; set; }
-        public string CHUCVU { get; set; }
-        public byte[] HINHANH { get; set; }
-    
         public virtual DOIBONG DOIBONG { get; set; }
         public virtual QUOCTICH QUOCTICH { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
