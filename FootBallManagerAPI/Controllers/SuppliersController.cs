@@ -68,9 +68,10 @@ namespace FootBallManagerAPI.Controllers
 
         // PUT: api/Suppliers/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("update/{id}")]
+
+        [HttpPut("updates/{id}")]
         [Authorize]
-        public async Task<IActionResult> UpdateSupplier(int id, Supplier supplier)
+        public async Task<IActionResult> UpdateSuppliers(int id, Supplier supplier)
         {
             try
             {
@@ -86,7 +87,7 @@ namespace FootBallManagerAPI.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SupplierExists(id))
+                    if (!await SupplierExists(id))
                     {
                         return NotFound();
                     }
@@ -104,12 +105,10 @@ namespace FootBallManagerAPI.Controllers
                 return Problem();
             }
         }
-
-
         //PATCH
         [HttpPatch("patch/{id}")]
         [Authorize]
-        public async Task<IActionResult> PatchThongtingiaidau(int id, JsonPatchDocument supplierModel)
+        public async Task<IActionResult> PatchSupplier(int id, JsonPatchDocument supplierModel)
         {
             try
             {
@@ -178,9 +177,18 @@ namespace FootBallManagerAPI.Controllers
             }
         }
 
-        private bool SupplierExists(int id)
+        private async Task<bool>SupplierExists(int id)
         {
-            return _supplierRepos.GetById(id)!=null;
+            try
+            {
+                return await _supplierRepos.GetById(id) != null;
+
+            }
+            catch 
+            {
+
+                return false;
+            }
         }
     }
 }

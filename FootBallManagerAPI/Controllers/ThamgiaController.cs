@@ -39,12 +39,12 @@ namespace FootBallManagerAPI.Controllers
         }
 
         // GET: api/Thamgia/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<List<Thamgium>>> GetThamgia(int id)
+        [HttpGet("{idTran}")]
+        public async Task<ActionResult<List<Thamgium>>> GetThamgia(int idTran)
         {
             try
             {
-                var thamgias = await _thamGiaRepos.GetById(id);
+                var thamgias = await _thamGiaRepos.GetById(idTran);
 
                 if (thamgias == null)
                 {
@@ -77,14 +77,13 @@ namespace FootBallManagerAPI.Controllers
                 try
                 {
                     await _thamGiaRepos.Update(thamgium);
-
+                    return NoContent();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     return NotFound();
                 }
 
-                return NoContent();
             }
             catch
             {
@@ -97,7 +96,7 @@ namespace FootBallManagerAPI.Controllers
         //PATCH
         [HttpPatch("patch/{idTran}/{idCauThu}")]
         [Authorize]
-        public async Task<IActionResult> PatchThongtingiaidau(int idTran, int idCauThu, JsonPatchDocument thamGiaModel)
+        public async Task<IActionResult> PatchThamGia(int idTran, int idCauThu, JsonPatchDocument thamGiaModel)
         {
             try
             {

@@ -51,7 +51,8 @@ namespace FootBallManagerAPI.Repository
 
         public async Task<bool> Patch(int idSupplier, int idLeague, JsonPatchDocument leagueSupplierModel)
         {
-            var leagueSupplier = await _context.Leaguesuppliers.FindAsync(idSupplier, idLeague);
+            var leagueSupplier = await _context.Leaguesuppliers.Where(sb => sb.IdSupplier == idSupplier && sb.IdLeague == idLeague).FirstOrDefaultAsync();
+            //var leagueSupplier = await _context.Leaguesuppliers.FindAsync(idSupplier, idLeague);
             if (leagueSupplier == null)
             {
                 return false;

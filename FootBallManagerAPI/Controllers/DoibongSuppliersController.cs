@@ -9,6 +9,7 @@ using FootBallManagerAPI.Entities;
 using FootBallManagerAPI.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
+using FootBallManagerAPI.Models;
 
 namespace FootBallManagerAPI.Controllers
 {
@@ -143,13 +144,15 @@ namespace FootBallManagerAPI.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost("create/")]
         [Authorize]
-        public async Task<ActionResult<Doibongsupplier>> PostDoibongsupplier(Doibongsupplier doibongsupplier)
+        public async Task<ActionResult<Doibongsupplier>> PostDoibongsupplier(DoiBongSupplierModel doiBongSupplier)
         {
             try
             {
-                int newId = await _doibongSupplierRepos.Create(doibongsupplier);
+                Doibongsupplier item = new Doibongsupplier() { IdDoiBong = doiBongSupplier.IdDoiBong, IdSupplier = doiBongSupplier.IdSupplier, StartDate = doiBongSupplier.StartDate, EndDate = doiBongSupplier.EndDate, Duration= doiBongSupplier.Duration,Status = doiBongSupplier.Status };
 
-                return CreatedAtAction("GetDoibongsupplier", new {  idSupplier=doibongsupplier.IdSupplier,  idDoiBong= doibongsupplier.IdDoiBong }, doibongsupplier);
+                int newId = await _doibongSupplierRepos.Create(item);
+
+                return CreatedAtAction("GetDoibongsupplier", new {  idSupplier=item.IdSupplier,  idDoiBong= item.IdDoiBong }, item);
             }
             catch
             {

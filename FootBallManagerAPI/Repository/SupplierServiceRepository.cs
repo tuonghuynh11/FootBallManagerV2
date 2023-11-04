@@ -51,7 +51,9 @@ namespace FootBallManagerAPI.Repository
         public async Task<bool> Patch(int idService, int idSupplier, JsonPatchDocument supplierServiceModel)
 
         {
-            var supplierService = await _context.Supplierservices.FindAsync(idSupplier,idService);
+            var supplierService = await _context.Supplierservices.Where(sb => sb.IdSupplier == idSupplier&&sb.IdService==idService).FirstOrDefaultAsync();
+
+            //var supplierService = await _context.Supplierservices.FindAsync(idSupplier,idService);
             if (supplierService == null)
             {
                 return false;

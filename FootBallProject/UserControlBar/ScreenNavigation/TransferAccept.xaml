@@ -33,7 +33,7 @@
                     <TextBlock Text="Danh sách đang chờ" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="30" FontWeight="Bold" ></TextBlock>
                     <Border Margin="0 30 0 0" >
 
-                        <DataGrid  CanUserAddRows="False" ItemsSource="{Binding TransferPlayers}" BorderBrush="Orange" BorderThickness="1" AutoGenerateColumns="False" Name="AcceptTransferdgrid" Background="#E3F42A" MouseDoubleClick="AcceptTransferdgrid_MouseDoubleClick" SelectionMode="Single" CanUserDeleteRows="False">
+                        <DataGrid   d:ItemsSource="{d:SampleData ItemCount=10}" CanUserAddRows="False" ItemsSource="{Binding TransferPlayers}" BorderBrush="Orange" BorderThickness="1" AutoGenerateColumns="False" Name="AcceptTransferdgrid" Background="#E3F42A" MouseDoubleClick="AcceptTransferdgrid_MouseDoubleClick" SelectionMode="Single" CanUserDeleteRows="False">
                             <DataGrid.Resources>
 
                             </DataGrid.Resources>

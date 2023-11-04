@@ -108,7 +108,7 @@ namespace FootBallManagerAPI.Controllers
         //PATCH
         [HttpPatch("patch/{id}")]
         [Authorize]
-        public async Task<IActionResult> PatchThongtingiaidau(int id, JsonPatchDocument otpModel)
+        public async Task<IActionResult> PatchOtp(int id, JsonPatchDocument otpModel)
         {
             try
             {
@@ -177,7 +177,16 @@ namespace FootBallManagerAPI.Controllers
 
         private bool OtpExists(int id)
         {
-            return _otpRepos.GetById(id) != null;
+            try
+            {
+                return _otpRepos.GetById(id) != null;
+
+            }
+            catch
+            {
+
+                return false;
+            }
         }
     }
 }

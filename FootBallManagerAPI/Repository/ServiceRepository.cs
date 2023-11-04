@@ -51,7 +51,9 @@ namespace FootBallManagerAPI.Repository
 
         public async Task <bool> Patch(int id, JsonPatchDocument serviceModel)
         {
-            var service = await _context.Services.FindAsync(id);
+            var service = await _context.Services.Where(sb => sb.IdService == id).FirstOrDefaultAsync();
+
+            //var service = await _context.Services.FindAsync(id);
             if (service == null)
             {
                 return false;

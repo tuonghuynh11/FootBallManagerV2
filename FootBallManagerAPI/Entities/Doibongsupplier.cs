@@ -17,7 +17,7 @@ public partial class Doibongsupplier
 
     public int? Status { get; set; }
 
-    public virtual Doibong DoiBong { get; set; } = null!;
+    public virtual Doibong IdDoiBongNavigation { get; set; } = null!;
 
     public virtual Supplier IdSupplierNavigation { get; set; } = null!;
 }

@@ -67,6 +67,23 @@ namespace FootBallProject.Model
             }
 
         }
+
+        public int _IDSUPPLIER;
+        public int IDSUPPLIER
+        {
+            get
+            {
+                var qg = DataProvider.ins.DB.SUPPLIERs.Find(IDNHANSU);
+
+                return qg == null ? -1 : qg.idSupplier;
+
+            }
+            set
+            {
+
+            }
+
+        }
         public virtual OTP OTP { get; set; }
         public virtual USERROLE USERROLE { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

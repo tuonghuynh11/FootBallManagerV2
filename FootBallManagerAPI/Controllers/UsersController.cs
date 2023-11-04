@@ -39,18 +39,19 @@ namespace FootBallManagerAPI.Controllers
         // GET: api/Users
         [HttpGet]
         [Authorize]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<IActionResult> GetUsers()
         {
-          if (_context.Users == null)
-          {
-              return NotFound();
-          }
+         
             try
             {
-                return await _context.Users.ToListAsync();
+                if (_context.Users == null)
+                {
+                    return NotFound();
+                }
+                return Ok (new { statusCode = StatusCodes.Status200OK, data = await _context.Users.ToListAsync() });
 
             }
-            catch 
+            catch (Exception ex)
             {
                 return Problem();
 
@@ -91,30 +92,42 @@ namespace FootBallManagerAPI.Controllers
         [Authorize]
         public async Task<IActionResult> UpdateUser(int id, User user)
         {
-            if (id != user.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(user).State = EntityState.Modified;
+           
 
             try
             {
+                if (id != user.Id)
+                {
+                    return BadRequest();
+                }
+
+                _context.Users.Update(user);
                 await _context.SaveChangesAsync();
+                return NoContent();
+
             }
-            catch (DbUpdateConcurrencyException)
+            catch
             {
-                if (!UserExists(id))
+                try
                 {
-                    return NotFound();
+                    if (!UserExists(id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        return Problem();
+                    }
                 }
-                else
+                catch 
                 {
-                    throw;
+
+                    return Problem();
+
                 }
+
             }
 
-            return NoContent();
         }
 
         // POST: api/Users
@@ -132,7 +145,7 @@ namespace FootBallManagerAPI.Controllers
             return CreatedAtAction("GetUser", new { id = user.Id }, user);
         }
         // PATCH: api/Users/patch
-        [HttpDelete("patch/{id}")]
+        [HttpPatch("patch/{id}")]
         [Authorize]
         public async Task<IActionResult> PatchUser(int id, JsonPatchDocument updateUser)
         {
@@ -206,7 +219,7 @@ namespace FootBallManagerAPI.Controllers
                 }
                 if (_context.Users == null)
                 {
-                    return NotFound();
+                    return Problem();
                 }
                 User user = await _context.Users.FindAsync(resetObj.IdUser);
                 if (user == null)
@@ -353,7 +366,7 @@ namespace FootBallManagerAPI.Controllers
                 }
 
                 //Check 3: Check accessToken expire
-
+      
                 var utcExpireDate = long.Parse(tokenInVerification.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Exp).Value);
                 var expireDate = ConvertUnixTimeToDateTime(utcExpireDate);
                 if (expireDate >= DateTime.UtcNow)
@@ -417,7 +430,9 @@ namespace FootBallManagerAPI.Controllers
                 await _context.SaveChangesAsync();
 
                 //Create New Token
-                var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == storedToken.UserId); ;
+                var user = await _context.Users.SingleOrDefaultAsync(u => u.Id == storedToken.UserId);
+                Userrole userrole = await _context.Userroles.FindAsync(user.Iduserrole);
+                user.IduserroleNavigation = userrole;
                 var token = await generateToken(user);
                 return Ok(new APIResponse()
                 {
@@ -444,7 +459,8 @@ namespace FootBallManagerAPI.Controllers
 
         private DateTime ConvertUnixTimeToDateTime(long utcExpireDate)
         {
-            var dateTimeInterval = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+           
+            var dateTimeInterval = new DateTime(1970, 1, 1, 0, 0, 0, 0,DateTimeKind.Utc);
             dateTimeInterval.AddSeconds(utcExpireDate).ToUniversalTime();
             return dateTimeInterval;
         }

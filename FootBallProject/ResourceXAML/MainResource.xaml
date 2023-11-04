@@ -24,4 +24,6 @@
     <viewmodel:ConfigVongLoai2ViewModel x:Key="ConfigVongLoai2VM"></viewmodel:ConfigVongLoai2ViewModel>
     <viewmodel:FeedBackViewModel x:Key="FeedBackVM"></viewmodel:FeedBackViewModel>
     <viewmodel:SupplierHomeScreenViewModel x:Key="SupplierHomeScreenkVM"></viewmodel:SupplierHomeScreenViewModel>
+    <viewmodel:SupplierInformationVIewModel x:Key="SupplierInformationVM"></viewmodel:SupplierInformationVIewModel>
+    <viewmodel:SupplierOfFootBallTeamViewModel x:Key="SupplierOfFootBallTeamVM"></viewmodel:SupplierOfFootBallTeamViewModel>
 </ResourceDictionary>

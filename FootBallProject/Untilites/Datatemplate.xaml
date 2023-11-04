@@ -40,4 +40,7 @@
     <DataTemplate DataType="{x:Type vm:SupplierHomeScreenViewModel}">
         <view:SupplierHomeScreen />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:SupplierOfFootBallTeamViewModel}">
+        <view:SupplierOfFootballTeam />
+    </DataTemplate>
 </ResourceDictionary>

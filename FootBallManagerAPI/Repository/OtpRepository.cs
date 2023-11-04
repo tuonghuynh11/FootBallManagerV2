@@ -51,7 +51,9 @@ namespace FootBallManagerAPI.Repository
 
         public async Task<bool> Patch(int id, JsonPatchDocument otpModel)
         {
-            var otp = await _context.Otps.FindAsync(id);
+            //var otp = await _context.Otps.FindAsync(id);
+            var otp = await _context.Otps.Where(sb => sb.Id==id).FirstOrDefaultAsync();
+
             if (otp == null)
             {
                 return false;

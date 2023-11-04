@@ -51,7 +51,9 @@ namespace FootBallManagerAPI.Repository
 
         public async Task<bool> Patch(int id, JsonPatchDocument tapLuyenModel)
         {
-            var tapluyen = await _context.Tapluyens.FindAsync(id);
+            var tapluyen = await _context.Tapluyens.Where(sb => sb.Id == id).FirstOrDefaultAsync();
+
+            //var tapluyen = await _context.Tapluyens.FindAsync(id);
             if (tapluyen == null)
             {
                 return false;

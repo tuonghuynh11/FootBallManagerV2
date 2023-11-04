@@ -96,7 +96,7 @@ namespace FootBallManagerAPI.Controllers
                     }
                     else
                     {
-                        throw;
+                        return Problem();
                     }
                 }
 

@@ -38,12 +38,12 @@ namespace FootBallManagerAPI.Repository
             {
                 return new List<Doibongsupplier>();
             }
-            return await _context.Doibongsuppliers.ToListAsync();
+            return await _context.Doibongsuppliers.Include(t=>t.IdDoiBongNavigation).Include(t => t.IdSupplierNavigation).ToListAsync();
         }
 
         public async Task<Doibongsupplier> GetById(int idSupplier, string idDoiBong)
         {
-            var doiBongSupplier = await _context.Doibongsuppliers.Where(g => g.IdSupplier == idSupplier &&g.IdDoiBong==idDoiBong).FirstOrDefaultAsync();
+            var doiBongSupplier = await _context.Doibongsuppliers.Where(g => g.IdSupplier == idSupplier &&g.IdDoiBong==idDoiBong).Include(t => t.IdDoiBongNavigation).FirstOrDefaultAsync();
 
 
             return doiBongSupplier;
@@ -51,7 +51,8 @@ namespace FootBallManagerAPI.Repository
 
         public async Task<bool> Patch(int idSupplier, string idDoiBong, JsonPatchDocument doiBongSupplierModel)
         {
-            var doiBongSupplier = await _context.Doibongsuppliers.FindAsync(idSupplier,idDoiBong);
+            //var doiBongSupplier = await _context.Doibongsuppliers.FindAsync(idSupplier,idDoiBong);
+            var doiBongSupplier = await _context.Doibongsuppliers.Where(sb => sb.IdSupplier == idSupplier && sb.IdDoiBong == idDoiBong).FirstOrDefaultAsync();
             if (doiBongSupplier == null)
             {
                 return false;

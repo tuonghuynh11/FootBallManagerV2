@@ -127,7 +127,7 @@ namespace FootBallManagerAPI.Controllers
         //PATCH
         [HttpPatch("patch/{id}")]
         [Authorize]
-        public async Task<IActionResult> PatchThongtingiaidau(int id, JsonPatchDocument serviceModel)
+        public async Task<IActionResult> PatchService(int id, JsonPatchDocument serviceModel)
         {
             try
             {
@@ -177,7 +177,16 @@ namespace FootBallManagerAPI.Controllers
 
         private bool ServiceExists(int id)
         {
-            return _serviceRepo.GetById(id)!=null;
+            try
+            {
+                return _serviceRepo.GetById(id) != null;
+
+            }
+            catch 
+            {
+
+                return false;
+            }
         }
     }
 }

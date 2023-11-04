@@ -28,7 +28,7 @@ namespace FootBallProject.Model
         public string phoneNumber { get; set; }
         public string representativeName { get; set; }
         public Nullable<System.DateTime> establishDate { get; set; }
-        public string images { get; set; }
+        public byte[] images { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DOIBONGSUPPLIER> DOIBONGSUPPLIERs { get; set; }

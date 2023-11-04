@@ -135,6 +135,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddEditService.xaml.cs">
+      <DependentUpon>AddEditService.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Addnewusers.xaml.cs">
       <DependentUpon>Addnewusers.xaml</DependentUpon>
     </Compile>
@@ -191,6 +194,9 @@
     <Compile Include="Class\Teams.cs" />
     <Compile Include="DS_GiaiDau.xaml.cs">
       <DependentUpon>DS_GiaiDau.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="EditSupplierInformation.xaml.cs">
+      <DependentUpon>EditSupplierInformation.xaml</DependentUpon>
     </Compile>
     <Compile Include="FeedBack.xaml.cs">
       <DependentUpon>FeedBack.xaml</DependentUpon>
@@ -369,9 +375,13 @@
     <Compile Include="PlayerProfile.xaml.cs">
       <DependentUpon>PlayerProfile.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PopUp\DoiBongSupplierContractExtension.xaml.cs">
+      <DependentUpon>DoiBongSupplierContractExtension.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PopUp\Loading.xaml.cs">
       <DependentUpon>Loading.xaml</DependentUpon>
     </Compile>
+    <Compile Include="RequestModel\DoiBongSupplierRequest.cs" />
     <Compile Include="Service\APIService.cs" />
     <Compile Include="Service\LoginServices.cs" />
     <Compile Include="Service\MatchCardService.cs" />
@@ -385,6 +395,9 @@
     </Compile>
     <Compile Include="Success.xaml.cs">
       <DependentUpon>Success.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SupplierInformation.xaml.cs">
+      <DependentUpon>SupplierInformation.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserAccount.xaml.cs">
       <DependentUpon>UserAccount.xaml</DependentUpon>
@@ -431,6 +444,9 @@
     </Compile>
     <Compile Include="UserControlBar\ScreenNavigation\SupplierHomeScreen.xaml.cs">
       <DependentUpon>SupplierHomeScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControlBar\ScreenNavigation\SupplierOfFootballTeam.xaml.cs">
+      <DependentUpon>SupplierOfFootballTeam.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControlBar\ScreenNavigation\TeamBuilder.xaml.cs">
       <DependentUpon>TeamBuilder.xaml</DependentUpon>
@@ -491,6 +507,8 @@
     <Compile Include="ViewModel\MenuBarViewModel.cs" />
     <Compile Include="ViewModel\StatisticalChartViewModel.cs" />
     <Compile Include="ViewModel\SupplierHomeScreenViewModel.cs" />
+    <Compile Include="ViewModel\SupplierInformationVIewModel.cs" />
+    <Compile Include="ViewModel\SupplierOfFootBallTeamViewModel.cs" />
     <Compile Include="ViewModel\TeamBuilderViewModel.cs" />
     <Compile Include="ViewModel\TitleBarViewModel.cs" />
     <Compile Include="ViewModel\TournamentInformationViewModel.cs" />
@@ -517,6 +535,10 @@
     <Compile Include="View\MatchResult2.xaml.cs">
       <DependentUpon>MatchResult2.xaml</DependentUpon>
     </Compile>
+    <Page Include="AddEditService.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Addnewusers.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -645,6 +667,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="EditSupplierInformation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Error.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -670,6 +696,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="MatchInfomation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PopUp\DoiBongSupplierContractExtension.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -702,6 +732,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Styles\Page.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SupplierInformation.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -762,6 +796,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControlBar\ScreenNavigation\SupplierHomeScreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControlBar\ScreenNavigation\SupplierOfFootballTeam.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

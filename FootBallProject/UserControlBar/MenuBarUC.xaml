@@ -164,7 +164,16 @@
                     <TextBlock Text="Feedback" Margin="15 0 0 0" Foreground="White" VerticalAlignment="Center"></TextBlock>
                 </StackPanel>
             </menu:Btn>
-            <menu:Btn Width="130"  HorizontalAlignment="Left" Background="Transparent" VerticalAlignment="Center" Command="{Binding SupplierHomeScreenCommand}" BorderThickness="0" Height="45" Style="{StaticResource BtnStyle}">
+            <menu:Btn Width="130"  Visibility="{Binding SupplierHomeScreenVisibility}"  HorizontalAlignment="Left" Background="Transparent" VerticalAlignment="Center" Command="{Binding SupplierHomeScreenCommand}" BorderThickness="0" Height="45" Style="{StaticResource BtnStyle}">
+                <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
+                    <Border Background="White" Height="30" Width="30" CornerRadius="2" >
+                        <Image Source="/Icons/deal.png" Height="30" VerticalAlignment="Center"  ></Image>
+                    </Border>
+                    <TextBlock Text="Supplier" Margin="15 0 0 0" Foreground="White" VerticalAlignment="Center"></TextBlock>
+                </StackPanel>
+            </menu:Btn>
+
+            <menu:Btn Width="130" Visibility="{Binding SupplierOfFootBallTeamVisibility}"  HorizontalAlignment="Left" Background="Transparent" VerticalAlignment="Center" Command="{Binding SupplierOfFootBallTeamCommand}" BorderThickness="0" Height="45" Style="{StaticResource BtnStyle}">
                 <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
                     <Border Background="White" Height="30" Width="30" CornerRadius="2" >
                         <Image Source="/Icons/deal.png" Height="30" VerticalAlignment="Center"  ></Image>

@@ -17,7 +17,7 @@ public partial class Supplier
 
     public DateTime? EstablishDate { get; set; }
 
-    public string? Images { get; set; }
+    public byte[]? Images { get; set; }
 
     public virtual ICollection<Doibongsupplier> Doibongsuppliers { get; set; } = new List<Doibongsupplier>();
 

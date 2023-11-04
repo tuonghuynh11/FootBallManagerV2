@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using FootBallManagerAPI.Entities;
 using FootBallManagerAPI.Repository;
 using Microsoft.AspNetCore.Authorization;
+using FootBallManagerAPI.Models;
 
 namespace FootBallManagerAPI.Controllers
 {
@@ -108,11 +109,12 @@ namespace FootBallManagerAPI.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost("create/")]
         [Authorize]
-        public async Task<ActionResult<Supplierservice>> PostSupplierservice(Supplierservice supplierservice)
+        public async Task<ActionResult<SupplierServiceModel>> PostSupplierservice(SupplierServiceModel supplierservice)
         {
             try
             {
-                int newId = await _supplierServiceRepo.Create(supplierservice);
+                Supplierservice supplierservice1 = new Supplierservice() { IdService= supplierservice.IdService,IdSupplier= supplierservice.IdSupplier,Status=supplierservice.Status};
+                int newId = await _supplierServiceRepo.Create(supplierservice1);
 
                 return CreatedAtAction("GetSupplierservice", new {  idService=supplierservice.IdService,  idSupplier=supplierservice.IdSupplier }, supplierservice);
             }
@@ -146,7 +148,15 @@ namespace FootBallManagerAPI.Controllers
 
         private bool SupplierserviceExists(int idService, int idSupplier)
         {
-            return _supplierServiceRepo.GetById(idService,idSupplier)!=null;
+            try
+            {
+                return _supplierServiceRepo.GetById(idService, idSupplier) != null;
+
+            }
+            catch 
+            {
+                return false;
+            }
         }
     }
 }

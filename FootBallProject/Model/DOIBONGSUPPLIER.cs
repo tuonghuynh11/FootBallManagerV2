@@ -9,10 +9,9 @@
 
 namespace FootBallProject.Model
 {
-    using DevExpress.ClipboardSource.SpreadsheetML;
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
-    using System.Drawing;
     using System.Windows.Media;
 
     public partial class DOIBONGSUPPLIER
@@ -23,13 +22,17 @@ namespace FootBallProject.Model
         public Nullable<System.DateTime> endDate { get; set; }
         public Nullable<int> duration { get; set; }
         public Nullable<int> status { get; set; }
-        public string statusString { 
-            get{
-                return DateTime.Now > endDate ? "Hết hạn" : "Còn hạn";
-            } set
+        public string statusString
+        {
+            get
+            {
+                return  DateTime.Now > endDate ? "Hết hạn" : "Còn hạn";
+            }
+            set
             {
 
-            } }
+            }
+        }
         public string durationString
         {
             get
@@ -41,6 +44,7 @@ namespace FootBallProject.Model
 
             }
         }
+
         public System.Windows.Media.Brush statusColor
         {
             get
@@ -50,23 +54,25 @@ namespace FootBallProject.Model
                 SolidColorBrush brushExpired = (SolidColorBrush)new BrushConverter().ConvertFrom("#EE878A");
                 SolidColorBrush brushWanring = (SolidColorBrush)new BrushConverter().ConvertFrom("#F5F881");
                 SolidColorBrush brushRemain = (SolidColorBrush)new BrushConverter().ConvertFrom("#FFFFFF");
-                TimeSpan difference = (TimeSpan)( this.endDate - DateTime.Now);
-                if (difference.Days<0)
+                TimeSpan difference = (TimeSpan)(this.endDate - DateTime.Now);
+                if (difference.Days < 0)
                 {
                     return brushExpired;
                 }
-                if(difference.Days < 10)
+                if (difference.Days < 10)
                 {
                     return brushWanring;
                 }
-               return brushRemain;
-            }                                                                                        
+                return brushRemain;
+            }
 
             set
             {
             }
         }
+        [JsonProperty("idDoiBongNavigation")]
         public virtual DOIBONG DOIBONG { get; set; }
+        [JsonProperty("idSupplierNavigation")]
         public virtual SUPPLIER SUPPLIER { get; set; }
     }
 }

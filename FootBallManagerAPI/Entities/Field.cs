@@ -9,7 +9,7 @@ public partial class Field
 
     public int? IdDiaDiem { get; set; }
 
-    public string? Images { get; set; }
+    public byte[]? Images { get; set; }
 
     public string? FieldName { get; set; }
 

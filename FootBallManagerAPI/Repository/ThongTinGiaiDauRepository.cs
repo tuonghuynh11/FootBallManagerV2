@@ -19,9 +19,9 @@ namespace FootBallManagerAPI.Repository
             return thongTinGiaiDau.Idgiaidau;
         }
 
-        public async Task<bool> Delete(int id)
+        public async Task<bool> Delete(int idGiaiDau, string idDoiBong)
         {
-            var thongtingiaidau = await _context.Thongtingiaidaus.FindAsync(id);
+            var thongtingiaidau = await _context.Thongtingiaidaus.Where(t=>t.Idgiaidau==idGiaiDau&&t.Iddoibong==idDoiBong).FirstOrDefaultAsync();
             if (thongtingiaidau == null)
             {
                 return false;
@@ -41,17 +41,19 @@ namespace FootBallManagerAPI.Repository
             return await _context.Thongtingiaidaus.Include(g=>g.IddoibongNavigation).ToListAsync();
         }
 
-        public async Task<Thongtingiaidau> GetById(int id)
+        public async Task<IEnumerable<Thongtingiaidau>> GetById(int idGiaiDau)
         {
-            var thongtingiaidau = await _context.Thongtingiaidaus.Where(g=>g.Idgiaidau==id).Include(g => g.IddoibongNavigation).FirstOrDefaultAsync();
+            var thongtingiaidau = await _context.Thongtingiaidaus.Where(g=>g.Idgiaidau==idGiaiDau).Include(g => g.IddoibongNavigation).ToListAsync();
 
           
             return thongtingiaidau;
         }
 
-        public async Task<bool> Patch(int id, JsonPatchDocument thongTinGiaiDauModel)
+        public async Task<bool> Patch(int idGiaiDau, string idDoiBong, JsonPatchDocument thongTinGiaiDauModel)
         {
-            var thongtingiaidau = await _context.Thongtingiaidaus.FindAsync(id);
+            var thongtingiaidau = _context.Thongtingiaidaus.Where(t => t.Idgiaidau == idGiaiDau&&t.Iddoibong==idDoiBong).FirstOrDefaultAsync();
+
+            //var thongtingiaidau = await _context.Thongtingiaidaus.FindAsync(id);
             if (thongtingiaidau == null)
             {
                 return false;
