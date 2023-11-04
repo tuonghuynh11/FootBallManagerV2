@@ -62,7 +62,12 @@ namespace FootBallManagerV2Test.Controller
         public async Task SupplierServicesController_GetSupplierserviceById_ReturnOK()
         {
             //Arrange
-            var supplierService = A.Fake<Supplierservice>();
+            var supplierService = new Supplierservice() { 
+                IdService = 1,
+                IdSupplier= 1,
+                IdServiceNavigation=null,
+                IdSupplierNavigation=null
+            };
             int idService = 1;
             int idSupplier = 1;
             A.CallTo(() => _supplierServiceRepos.GetById(idService,idSupplier)).Returns(supplierService);

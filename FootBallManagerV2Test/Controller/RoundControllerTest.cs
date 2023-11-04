@@ -60,7 +60,16 @@ namespace FootBallManagerV2Test.Controller
         public async Task RoundController_GetRoundById_ReturnOK()
         {
             //Arrange
-            var round = A.Fake<Round>();
+            var round = new Round() { 
+                Id = 1,
+                Footballmatches=null,
+                Iddisplay="",
+                Idgiaidau=1,
+                IdgiaidauNavigation=null,
+                Ngaybatdau=DateTime.Now,
+                Soluongdoi=32,
+                Tenvongdau=""
+            };
 
             A.CallTo(() => _roundRepos.GetById(1)).Returns(round);
 

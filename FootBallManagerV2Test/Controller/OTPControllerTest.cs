@@ -62,7 +62,12 @@ namespace FootBallManagerV2Test.Controller
         public async Task OTPController_GetOtpById_ReturnOK()
         {
             //Arrange
-            var otp = A.Fake<Otp>();
+            var otp = new Otp() { 
+                Id = 1,
+                Code="",
+                Time = DateTime.Now,
+                Users=null
+            };
 
             A.CallTo(() => _otpRepos.GetById(1)).Returns(otp);
 

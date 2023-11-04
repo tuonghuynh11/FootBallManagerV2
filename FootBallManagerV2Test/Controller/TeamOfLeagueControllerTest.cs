@@ -62,9 +62,19 @@ namespace FootBallManagerV2Test.Controller
         public async Task TeamOfLeagueController_GetTeamOfLeagueById_ReturnOK()
         {
             //Arrange
-            var teamofleaguess = A.Fake<List<Teamofleague>>();
+            List<Teamofleague> list = new List<Teamofleague>()
+            {
+                new Teamofleague()
+                {
+                    Id = 1,
+                    Iddoibong="atm",
+                    IddoibongNavigation=null,
+                    Idgiaidau=1,
+                    IdgiaidauNavigation=null
+                }
+            };
 
-            A.CallTo(() => _teamOfLeagueRepos.GetById(1)).Returns(teamofleaguess);
+            A.CallTo(() => _teamOfLeagueRepos.GetById(1)).Returns(list);
 
             var _controller = new TeamOfLeaguesController(_teamOfLeagueRepos);
             //Act

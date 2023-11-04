@@ -113,7 +113,7 @@ namespace FootBallManagerAPI.Controllers
         //PATCH
         [HttpPatch("patch/{idSupplier}/{idDoiBong}")]
         [Authorize]
-        public async Task<IActionResult> PatchThongtingiaidau(int idSupplier, string idDoiBong, JsonPatchDocument doibongSupplierModel)
+        public async Task<IActionResult> PatchDoiBongSupplier(int idSupplier, string idDoiBong, JsonPatchDocument doibongSupplierModel)
         {
             try
             {
@@ -185,7 +185,16 @@ namespace FootBallManagerAPI.Controllers
 
         private bool DoibongsupplierExists(int idSupplier, string idDoiBong)
         {
-            return _doibongSupplierRepos.GetById(idSupplier,idDoiBong)!=null;
+            try
+            {
+                return _doibongSupplierRepos.GetById(idSupplier, idDoiBong) != null;
+
+            }
+            catch 
+            {
+
+                return false;
+            }
         }
     }
 }

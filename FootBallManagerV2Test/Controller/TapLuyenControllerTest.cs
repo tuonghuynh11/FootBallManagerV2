@@ -63,7 +63,18 @@ namespace FootBallManagerV2Test.Controller
         public async Task TapLuyenController_GetTapluyenById_ReturnOK()
         {
             //Arrange
-            var tapluyen = A.Fake<Tapluyen>();
+            var tapluyen = new Tapluyen() { 
+                Id=1,
+                Iddoibong="atm",
+                IddoibongNavigation=null,
+                Ghichu="",
+                Hoatdong="",
+                Idnguoiquanly=1,
+                IdnguoiquanlyNavigation=null,
+                Thoigianbatdau= DateTime.Now,
+                Thoigianketthuc=DateTime.Now.AddHours(1),
+                Trangthai= "finish"
+            };
 
             A.CallTo(() => _tapLuyenRepos.GetById(1)).Returns(tapluyen);
 

@@ -65,9 +65,19 @@ namespace FootBallManagerV2Test.Controller
         public async Task ThamgiaController_GetThamgiaById_ReturnOK()
         {
             //Arrange
-            var thamgias = A.Fake<List<Thamgium>>();
-
-            A.CallTo(() => _thamGiaRepos.GetById(1)).Returns(thamgias);
+            List<Thamgium> list = new List<Thamgium>()
+            {
+                new Thamgium()
+                {
+                    Idcauthu = 1,
+                    IdcauthuNavigation=null,
+                    Idtran=1,
+                    IdtranNavigation=null,
+                    Sobanthang=3
+                }
+            };
+            
+            A.CallTo(() => _thamGiaRepos.GetById(1)).Returns(list);
 
             var _controller = new ThamgiaController(_thamGiaRepos);
             //Act
