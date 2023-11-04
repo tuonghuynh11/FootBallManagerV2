@@ -11,12 +11,12 @@ namespace FootBallManagerAPI.Repositories
         {
             _context = context;
         }
-        public async Task<int> addHlvAsync(Huanluyenvien hlv)
+        public async Task<Huanluyenvien> addHlvAsync(Huanluyenvien hlv)
         {
             var newHlv = hlv;
             _context.Huanluyenviens.Add(newHlv);
             await _context.SaveChangesAsync();
-            return hlv.Id;
+            return hlv;
         }
 
         public async Task deleteHlvAsync(int id)

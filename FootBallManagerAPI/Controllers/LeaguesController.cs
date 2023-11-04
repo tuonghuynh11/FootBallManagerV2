@@ -39,8 +39,16 @@ namespace FootBallManagerAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<League>> GetLeague(int id)
         {
-            var league = await _leagueRepo.GetLeagueAsync(id);
-            return league == null ? NotFound() : Ok(league);
+            try
+            {
+
+                var league = await _leagueRepo.GetLeagueAsync(id);
+                return league == null ? NotFound() : Ok(league);
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         // PUT: api/Leagues/5
@@ -48,12 +56,20 @@ namespace FootBallManagerAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutLeague(int id, League league)
         {
-            if (id != league.Id)
+            try
             {
-                return NotFound();
+
+                if (id != league.Id)
+                {
+                    return NotFound();
+                }
+                await _leagueRepo.updateLeagueAsync(id, league);
+                return Ok();
             }
-            await _leagueRepo.updateLeagueAsync(id, league);
-            return Ok();
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         // POST: api/Leagues
@@ -63,9 +79,8 @@ namespace FootBallManagerAPI.Controllers
         {
             try
             {
-                var newLeagueId = await _leagueRepo.addLeagueAsync(league);
-                var leagueNew = await _leagueRepo.GetLeagueAsync(newLeagueId);
-                return leagueNew == null ? NotFound() : Ok(leagueNew);
+                var newLeague = await _leagueRepo.addLeagueAsync(league);
+                return newLeague == null ? NotFound() : Ok(newLeague);
             }
             catch
             {
@@ -77,8 +92,16 @@ namespace FootBallManagerAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteLeague(int id)
         {
-            await _leagueRepo.deleteLeagueAsync(id);
-            return Ok();
+            try
+            {
+
+                await _leagueRepo.deleteLeagueAsync(id);
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
     }

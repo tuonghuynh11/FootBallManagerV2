@@ -39,8 +39,15 @@ namespace FootBallManagerAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Cauthu>> GetCauthu(int id)
         {
-            var cauthu = await _cauthuRepo.getCauthuByIdAsync(id);
-            return cauthu == null? NotFound() : Ok(cauthu);
+            try
+            {
+                var cauthu = await _cauthuRepo.getCauthuByIdAsync(id);
+                return cauthu == null ? NotFound() : Ok(cauthu);
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         // PUT: api/Cauthus/5
@@ -48,12 +55,19 @@ namespace FootBallManagerAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCauthu(int id, Cauthu cauthu)
         {
-            if(id != cauthu.Id)
+            try
             {
-                return NotFound();
+                if (id != cauthu.Id)
+                {
+                    return NotFound();
+                }
+                await _cauthuRepo.updateCauthuAsync(id, cauthu);
+                return Ok();
             }
-            await _cauthuRepo.updateCauthuAsync(id, cauthu);
-            return Ok();
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         // POST: api/Cauthus
@@ -63,9 +77,8 @@ namespace FootBallManagerAPI.Controllers
         {
             try
             {
-                var newCauthuId = await _cauthuRepo.addCauthuAsync(cauthu);
-                var cauthuNew = await _cauthuRepo.getCauthuByIdAsync(newCauthuId);
-                return cauthuNew == null ? NotFound() : Ok(cauthuNew);
+                var newCauthu = await _cauthuRepo.addCauthuAsync(cauthu);
+                return newCauthu == null ? NotFound() : Ok(newCauthu);
             }
             catch
             {
@@ -78,9 +91,15 @@ namespace FootBallManagerAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCauthu(int id)
         {
-            await _cauthuRepo.deleteCauthuAsync(id);
-            return Ok();
+            try
+            {
+                await _cauthuRepo.deleteCauthuAsync(id);
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
-
     }
 }

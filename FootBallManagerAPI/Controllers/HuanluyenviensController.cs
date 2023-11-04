@@ -39,8 +39,16 @@ namespace FootBallManagerAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Huanluyenvien>> GetHuanluyenvien(int id)
         {
-            var hlv = await _hlvRepo.GetHuanluyenvienAsync(id);
-            return hlv == null ? NotFound() : Ok(hlv);
+            try
+            {
+
+                var hlv = await _hlvRepo.GetHuanluyenvienAsync(id);
+                return hlv == null ? NotFound() : Ok(hlv);
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         // PUT: api/Huanluyenviens/5
@@ -48,12 +56,20 @@ namespace FootBallManagerAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutHuanluyenvien(int id, Huanluyenvien huanluyenvien)
         {
-            if (id != huanluyenvien.Id)
+            try
             {
-                return NotFound();
+
+                if (id != huanluyenvien.Id)
+                {
+                    return NotFound();
+                }
+                await _hlvRepo.updateHlvAsync(id, huanluyenvien);
+                return Ok();
             }
-            await _hlvRepo.updateHlvAsync(id, huanluyenvien);
-            return Ok();
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         // POST: api/Huanluyenviens
@@ -63,9 +79,8 @@ namespace FootBallManagerAPI.Controllers
         {
             try
             {
-                var newHlvId = await _hlvRepo.addHlvAsync(huanluyenvien);
-                var hlvNew = await _hlvRepo.GetHuanluyenvienAsync(newHlvId);
-                return hlvNew == null ? NotFound() : Ok(hlvNew);
+                var newHlv = await _hlvRepo.addHlvAsync(huanluyenvien);
+                return newHlv == null ? NotFound() : Ok(newHlv);
             }
             catch
             {
@@ -77,8 +92,16 @@ namespace FootBallManagerAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteHuanluyenvien(int id)
         {
-            await _hlvRepo.deleteHlvAsync(id);
-            return Ok();
+            try
+            {
+
+                await _hlvRepo.deleteHlvAsync(id);
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
     }

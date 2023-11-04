@@ -39,8 +39,16 @@ namespace FootBallManagerAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Doibong>> GetDoibong(string id)
         {
-            var doibong = await _doibongRepo.GetDoibongAsync(id);
-            return doibong == null ? NotFound() : Ok(doibong);
+            try
+            {
+
+                var doibong = await _doibongRepo.GetDoibongAsync(id);
+                return doibong == null ? NotFound() : Ok(doibong);
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         // PUT: api/Doibongs/5
@@ -48,12 +56,20 @@ namespace FootBallManagerAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutDoibong(string id, Doibong doibong)
         {
-            if (id != doibong.Id)
+            try
             {
-                return NotFound();
+
+                if (id != doibong.Id)
+                {
+                    return NotFound();
+                }
+                await _doibongRepo.updateDoibongAsync(id, doibong);
+                return Ok();
             }
-            await _doibongRepo.updateDoibongAsync(id, doibong);
-            return Ok();
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         // POST: api/Doibongs
@@ -63,9 +79,8 @@ namespace FootBallManagerAPI.Controllers
         {
             try
             {
-                var newDoibongId = await _doibongRepo.addDoibongAsync(doibong);
-                var doibongNew = await _doibongRepo.GetDoibongAsync(newDoibongId);
-                return doibongNew == null ? NotFound() : Ok(doibongNew);
+                var newDoibong = await _doibongRepo.addDoibongAsync(doibong);
+                return newDoibong == null ? NotFound() : Ok(newDoibong);
             }
             catch
             {
@@ -77,8 +92,13 @@ namespace FootBallManagerAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDoibong(string id)
         {
-            await _doibongRepo.deleteDoibongAsync(id);
-            return Ok();
+            try
+            {
+
+                await _doibongRepo.deleteDoibongAsync(id);
+                return Ok();
+            }
+            catch { return BadRequest(); }
         }
     }
 }

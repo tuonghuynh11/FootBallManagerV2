@@ -10,12 +10,12 @@ namespace FootBallManagerAPI.Repositories
         public FootballmatchRepository(FootBallManagerV2Context context) { 
             _context = context;
         }
-        public async Task<int> addFootballmatchAsync(Footballmatch footballmatch)
+        public async Task<Footballmatch> addFootballmatchAsync(Footballmatch footballmatch)
         {
             var newFootballmatch = footballmatch;
             _context.Footballmatches.Add(newFootballmatch);
             await _context.SaveChangesAsync();
-            return newFootballmatch.Id;
+            return newFootballmatch;
         }
 
         public async Task deleteFootballmatchAsync(int id)

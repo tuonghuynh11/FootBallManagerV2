@@ -39,8 +39,13 @@ namespace FootBallManagerAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Fieldservice>> GetFieldservice(int idField, int idService)
         {
-            var fieldservice = await _fieldserviceRepo.GetFieldserviceAsync(idField, idService);
-            return fieldservice == null ? NotFound() : Ok(fieldservice);
+            try
+            {
+
+                var fieldservice = await _fieldserviceRepo.GetFieldserviceAsync(idField, idService);
+                return fieldservice == null ? NotFound() : Ok(fieldservice);
+            }
+            catch {  return BadRequest(); }
         }
 
         // PUT: api/Fieldservices/5
@@ -48,12 +53,16 @@ namespace FootBallManagerAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutFieldservice(int idField, int idService, Fieldservice fieldservice)
         {
-            if (idField != fieldservice.IdField || idService != fieldservice.IdService)
+            try
             {
-                return NotFound();
-            }
-            await _fieldserviceRepo.updateFieldServiceAsync(idField, idService, fieldservice);
-            return Ok();
+
+                if (idField != fieldservice.IdField || idService != fieldservice.IdService)
+                {
+                    return NotFound();
+                }
+                await _fieldserviceRepo.updateFieldServiceAsync(idField, idService, fieldservice);
+                return Ok();
+            }catch { return BadRequest(); }
         }
 
         // POST: api/Fieldservices
@@ -76,8 +85,13 @@ namespace FootBallManagerAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFieldservice(int idField, int idService)
         {
-            await _fieldserviceRepo.deleteFieldserviceAsync(idField, idService);
-            return Ok();
+            try
+            {
+
+                await _fieldserviceRepo.deleteFieldserviceAsync(idField, idService);
+                return Ok();
+            }
+            catch { return BadRequest(); }
         }
 
     }

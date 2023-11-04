@@ -39,8 +39,16 @@ namespace FootBallManagerAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Doihinhchinh>> GetDoihinhchinh(string idDoibong, int idCauthu)
         {
-            var doihinh = await _doihinhRepo.GetDoihinhAsync(idDoibong, idCauthu);
-            return doihinh == null ? NotFound() : Ok(doihinh);
+            try
+            {
+
+                var doihinh = await _doihinhRepo.GetDoihinhAsync(idDoibong, idCauthu);
+                return doihinh == null ? NotFound() : Ok(doihinh);
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         // PUT: api/Doihinhchinhs/5
@@ -48,12 +56,20 @@ namespace FootBallManagerAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutDoihinhchinh(string idDoibong, int idCauthu, Doihinhchinh doihinhchinh)
         {
-            if (idDoibong != doihinhchinh.Iddoibong || idCauthu != doihinhchinh.Idcauthu)
+            try
             {
-                return NotFound();
+
+                if (idDoibong != doihinhchinh.Iddoibong || idCauthu != doihinhchinh.Idcauthu)
+                {
+                    return NotFound();
+                }
+                await _doihinhRepo.updateDoihinhAsync(idDoibong, idCauthu, doihinhchinh);
+                return Ok();
             }
-            await _doihinhRepo.updateDoihinhAsync(idDoibong, idCauthu, doihinhchinh);
-            return Ok();
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         // POST: api/Doihinhchinhs
@@ -76,8 +92,13 @@ namespace FootBallManagerAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDoihinhchinh(string idDoibong, int idCauthu)
         {
-            await _doihinhRepo.deleteDoihinhAsync(idDoibong, idCauthu);
-            return Ok();
+            try
+            {
+
+                await _doihinhRepo.deleteDoihinhAsync(idDoibong, idCauthu);
+                return Ok();
+            }
+            catch { return BadRequest(); }
         }
 
     }
