@@ -39,8 +39,13 @@ namespace FootBallManagerAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Field>> GetField(int id)
         {
+            try
+            {
+
             var field = await _fieldRepo.GetFieldAsync(id);
             return field == null ? NotFound() : Ok(field);
+            }
+            catch { return BadRequest(); }
         }
 
         // PUT: api/Fields/5
@@ -48,12 +53,16 @@ namespace FootBallManagerAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutField(int id, Field @field)
         {
-            if(id != field.IdField)
+            try
             {
-                return NotFound();
-            }
-            await _fieldRepo.updateFieldAsync(id, @field);
-            return Ok();
+
+                if(id != field.IdField)
+                {
+                    return NotFound();
+                }
+                await _fieldRepo.updateFieldAsync(id, @field);
+                return Ok();
+            }catch { return BadRequest(); }
         }
 
         // POST: api/Fields
@@ -63,9 +72,8 @@ namespace FootBallManagerAPI.Controllers
         {
             try
             {
-                var newFieldId = await _fieldRepo.addFieldAsync(@field);
-                var fieldNew = await _fieldRepo.GetFieldAsync(newFieldId);
-                return fieldNew == null ? NotFound() : Ok(fieldNew);
+                var newField = await _fieldRepo.addFieldAsync(@field);
+                return newField == null ? NotFound() : Ok(newField);
             }
             catch {
                 return BadRequest();
@@ -76,8 +84,13 @@ namespace FootBallManagerAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteField(int id)
         {
+            try
+            {
+
             await _fieldRepo.deleteFieldAsync(id);
             return Ok();
+            }
+            catch { return BadRequest(); }
         }
 
     }

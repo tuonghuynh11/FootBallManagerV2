@@ -11,12 +11,12 @@ namespace FootBallManagerAPI.Repositories
         public CauthuRepository(FootBallManagerV2Context context) {
             _context = context;
         }   
-        public async Task<int> addCauthuAsync(Cauthu cauthu)
+        public async Task<Cauthu> addCauthuAsync(Cauthu cauthu)
         {
             var newCauthu = cauthu;
             _context.Cauthus.Add(newCauthu);
             await _context.SaveChangesAsync();
-            return newCauthu.Id;
+            return newCauthu;
         }
 
         public async Task deleteCauthuAsync(int id)

@@ -39,8 +39,16 @@ namespace FootBallManagerAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Diem>> GetDiem(int idGiaidau, string idDoibong)
         {
-            var diem = await _diemRepo.GetDiemAsync(idGiaidau, idDoibong);
-            return diem == null ? NotFound() : Ok(diem);
+            try
+            {
+
+                var diem = await _diemRepo.GetDiemAsync(idGiaidau, idDoibong);
+                return diem == null ? NotFound() : Ok(diem);
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         // PUT: api/Diems/5
@@ -48,13 +56,20 @@ namespace FootBallManagerAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutDiem(int idGiaidau,string idDoibong, Diem diem)
         {
-            if (idGiaidau != diem.Idgiaidau || idDoibong != diem.Iddoibong)
+            try
             {
-                return NotFound();
-            }
-            await _diemRepo.updateDiemAsync(idGiaidau, idDoibong, diem);
-            return Ok();
 
+                if (idGiaidau != diem.Idgiaidau || idDoibong != diem.Iddoibong)
+                {
+                    return NotFound();
+                }
+                await _diemRepo.updateDiemAsync(idGiaidau, idDoibong, diem);
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         // POST: api/Diems
@@ -77,8 +92,16 @@ namespace FootBallManagerAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDiem(int idGiaidau, string idDoibong)
         {
-            await _diemRepo.deleteDiemAsync(idGiaidau, idDoibong);
-            return Ok();
+            try
+            {
+
+                await _diemRepo.deleteDiemAsync(idGiaidau, idDoibong);
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
     }

@@ -10,12 +10,12 @@ namespace FootBallManagerAPI.Repositories
         public NotificationRepository(FootBallManagerV2Context context) {
             _context = context;
         }
-        public async Task<int> addNotificationAsync(Notification notification)
+        public async Task<Notification> addNotificationAsync(Notification notification)
         {
             var newNoti = notification;
             _context.Notifications.Add(notification);
             await _context.SaveChangesAsync();
-            return newNoti.Id;
+            return newNoti;
         }
 
         public async Task deleteNotificationAsync(int id)

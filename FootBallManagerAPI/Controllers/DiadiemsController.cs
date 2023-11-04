@@ -39,8 +39,16 @@ namespace FootBallManagerAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Diadiem>> GetDiadiem(int id)
         {
-            var diadiem = await _diadiemRepo.GetDiadiemAsync(id);
-            return diadiem == null ? NotFound() : Ok(diadiem);
+            try
+            {
+
+                var diadiem = await _diadiemRepo.GetDiadiemAsync(id);
+                return diadiem == null ? NotFound() : Ok(diadiem);
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         // PUT: api/Diadiems/5
@@ -48,12 +56,20 @@ namespace FootBallManagerAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutDiadiem(int id, Diadiem diadiem)
         {
-            if (id != diadiem.Id)
+            try
             {
-                return NotFound();
+
+                if (id != diadiem.Id)
+                {
+                    return NotFound();
+                }
+                await _diadiemRepo.updateDiadiemAsync(id, diadiem);
+                return Ok();
             }
-            await _diadiemRepo.updateDiadiemAsync(id, diadiem);
-            return Ok();
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         // POST: api/Diadiems
@@ -63,9 +79,8 @@ namespace FootBallManagerAPI.Controllers
         {
             try
             {
-                var newDiadiemId = await _diadiemRepo.addDiadiemAsync(diadiem);
-                var diadiemNew = await _diadiemRepo.GetDiadiemAsync(newDiadiemId);
-                return diadiemNew == null ? NotFound() : Ok(diadiemNew);
+                var newDiadiem = await _diadiemRepo.addDiadiemAsync(diadiem);
+                return newDiadiem == null ? NotFound() : Ok(newDiadiem);
             }
             catch
             {
@@ -77,8 +92,16 @@ namespace FootBallManagerAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDiadiem(int id)
         {
-            await _diadiemRepo.DeleteDiadiemAsync(id);
-            return Ok();
+            try
+            {
+
+                await _diadiemRepo.DeleteDiadiemAsync(id);
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
     }

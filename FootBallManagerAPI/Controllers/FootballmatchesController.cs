@@ -39,8 +39,16 @@ namespace FootBallManagerAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Footballmatch>> GetFootballmatch(int id)
         {
-            var footballmatch = await _footballmatchRepo.GetFootballmatch(id);
-            return footballmatch == null ? NotFound() : Ok(footballmatch);
+            try
+            {
+
+                var footballmatch = await _footballmatchRepo.GetFootballmatch(id);
+                return footballmatch == null ? NotFound() : Ok(footballmatch);
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         // PUT: api/Footballmatches/5
@@ -48,12 +56,20 @@ namespace FootBallManagerAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutFootballmatch(int id, Footballmatch footballmatch)
         {
-            if (id != footballmatch.Id)
+            try
             {
-                return NotFound();
+
+                if (id != footballmatch.Id)
+                {
+                    return NotFound();
+                }
+                await _footballmatchRepo.updateFootballmatchAsync(id, footballmatch);
+                return Ok();
             }
-            await _footballmatchRepo.updateFootballmatchAsync(id, footballmatch);
-            return Ok();
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         // POST: api/Footballmatches
@@ -63,9 +79,8 @@ namespace FootBallManagerAPI.Controllers
         {
             try
             {
-                var newFootballmatchId = await _footballmatchRepo.addFootballmatchAsync(footballmatch);
-                var footballmatchNew = await _footballmatchRepo.GetFootballmatch(newFootballmatchId);
-                return footballmatchNew == null ? NotFound() : Ok(footballmatchNew);
+                var newFootballmatch = await _footballmatchRepo.addFootballmatchAsync(footballmatch);
+                return newFootballmatch == null ? NotFound() : Ok(newFootballmatch);
             }
             catch
             {
@@ -77,8 +92,13 @@ namespace FootBallManagerAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFootballmatch(int id)
         {
-            await _footballmatchRepo.deleteFootballmatchAsync(id);
-            return Ok();
+            try
+            {
+
+                await _footballmatchRepo.deleteFootballmatchAsync(id);
+                return Ok();
+            }
+            catch { return BadRequest(); }
         }
 
     }

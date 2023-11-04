@@ -11,12 +11,12 @@ namespace FootBallManagerAPI.Repositories
         public ChuyennhuongRepository(FootBallManagerV2Context context) {
             _context = context;
         }
-        public async Task<int> addChuyennhuongAsync(Chuyennhuong chu)
+        public async Task<Chuyennhuong> addChuyennhuongAsync(Chuyennhuong chu)
         {
             var newCn = chu;
             _context.Chuyennhuongs.Add(newCn);
             await _context.SaveChangesAsync();
-            return newCn.Id;
+            return newCn;
         }
 
         public async Task deleteChuyennhuongAsync(int id)

@@ -39,8 +39,16 @@ namespace FootBallManagerAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Chuyennhuong>> GetChuyennhuong(int id)
         {
-            var chuyennhuong = await _chuyennhuongRepo.GetChuyennhuongAsync(id);
-            return chuyennhuong == null ? NotFound() : Ok(chuyennhuong);
+            try
+            {
+
+                var chuyennhuong = await _chuyennhuongRepo.GetChuyennhuongAsync(id);
+                return chuyennhuong == null ? NotFound() : Ok(chuyennhuong);
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         // PUT: api/Chuyennhuongs/5
@@ -48,12 +56,20 @@ namespace FootBallManagerAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutChuyennhuong(int id, Chuyennhuong chuyennhuong)
         {
-            if (id != chuyennhuong.Id)
+            try
             {
-                return NotFound();
+
+                if (id != chuyennhuong.Id)
+                {
+                    return NotFound();
+                }
+                await _chuyennhuongRepo.updateChuyennhuongAsync(id, chuyennhuong);
+                return Ok();
             }
-            await _chuyennhuongRepo.updateChuyennhuongAsync(id, chuyennhuong);
-            return Ok();
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         // POST: api/Chuyennhuongs
@@ -63,9 +79,8 @@ namespace FootBallManagerAPI.Controllers
         {
             try
             {
-                var newChuyennhuongId = await _chuyennhuongRepo.addChuyennhuongAsync(chuyennhuong);
-                var chuyennhuongNew = await _chuyennhuongRepo.GetChuyennhuongAsync(newChuyennhuongId);
-                return chuyennhuongNew == null ? NotFound() : Ok(chuyennhuongNew);
+                var newChuyennhuong = await _chuyennhuongRepo.addChuyennhuongAsync(chuyennhuong);
+                return newChuyennhuong == null ? NotFound() : Ok(newChuyennhuong);
             }
             catch
             {
@@ -77,8 +92,16 @@ namespace FootBallManagerAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteChuyennhuong(int id)
         {
-            await _chuyennhuongRepo.deleteChuyennhuongAsync(id);
-            return Ok();
+            try
+            {
+
+                await _chuyennhuongRepo.deleteChuyennhuongAsync(id);
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
        

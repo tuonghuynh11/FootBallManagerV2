@@ -39,8 +39,16 @@ namespace FootBallManagerAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Item>> GetItem(int id)
         {
-            var item = await _itemRepo.GetItemAsync(id);
-            return item == null ? NotFound() : Ok(item);
+            try
+            {
+
+                var item = await _itemRepo.GetItemAsync(id);
+                return item == null ? NotFound() : Ok(item);
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         // PUT: api/Items/5
@@ -48,12 +56,20 @@ namespace FootBallManagerAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutItem(int id, Item item)
         {
-            if (id != item.Id)
+            try
             {
-                return NotFound();
+
+                if (id != item.Id)
+                {
+                    return NotFound();
+                }
+                await _itemRepo.updateItemAsync(id, item);
+                return Ok();
             }
-            await _itemRepo.updateItemAsync(id, item);
-            return Ok();
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         // POST: api/Items
@@ -63,9 +79,8 @@ namespace FootBallManagerAPI.Controllers
         {
             try
             {
-                var newItemId = await _itemRepo.addItemAsync(item);
-                var itemNew = await _itemRepo.GetItemAsync(newItemId);
-                return itemNew == null ? NotFound() : Ok(itemNew);
+                var newItem = await _itemRepo.addItemAsync(item);
+                return newItem == null ? NotFound() : Ok(newItem);
             }
             catch
             {
@@ -77,8 +92,16 @@ namespace FootBallManagerAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteItem(int id)
         {
-            await _itemRepo.deleteItemAsync(id);
-            return Ok();
+            try
+            {
+
+                await _itemRepo.deleteItemAsync(id);
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
     }
