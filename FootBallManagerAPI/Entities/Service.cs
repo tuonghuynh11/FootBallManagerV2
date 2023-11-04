@@ -11,7 +11,7 @@ public partial class Service
 
     public string? Detail { get; set; }
 
-    public string? Images { get; set; }
+    public byte[]? Images { get; set; }
 
     public virtual ICollection<Fieldservice> Fieldservices { get; set; } = new List<Fieldservice>();
 

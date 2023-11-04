@@ -9,6 +9,7 @@
 
 namespace FootBallProject.Model
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     
@@ -17,8 +18,10 @@ namespace FootBallProject.Model
         public int idSupplier { get; set; }
         public int idService { get; set; }
         public Nullable<int> status { get; set; }
-    
+
+        [JsonProperty("idServiceNavigation")]
         public virtual SERVICE SERVICE { get; set; }
+        [JsonProperty("idSupplierNavigation")]
         public virtual SUPPLIER SUPPLIER { get; set; }
     }
 }

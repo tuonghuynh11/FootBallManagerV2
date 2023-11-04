@@ -6,10 +6,10 @@ namespace FootBallManagerAPI.Repository
     public interface IThongtinGiaiDauRepository
     {
         Task<IEnumerable<Thongtingiaidau>> GetAll();
-        Task<Thongtingiaidau> GetById(int id);
+        Task<IEnumerable<Thongtingiaidau>> GetById(int idGiaiDau);
         Task Update(Thongtingiaidau t);
-        Task<bool> Patch(int id, JsonPatchDocument thongTinGiaiDauModel);
+        Task<bool> Patch(int idGiaiDau,string idDoiBong, JsonPatchDocument thongTinGiaiDauModel);
         Task<int> Create(Thongtingiaidau thongTinGiaiDau);
-        Task<bool> Delete(int id);
+        Task<bool> Delete(int idGiaiDau, string idDoiBong);
     }
 }

@@ -40,7 +40,7 @@ namespace FootBallManagerAPI.Controllers
 
         // GET: api/Thongtingiaidaus/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Thongtingiaidau>> GetThongtingiaidau(int id)
+        public async Task<ActionResult<IEnumerable<Thongtingiaidau>>> GetThongtingiaidau(int id)
         {
             try
             {
@@ -67,13 +67,13 @@ namespace FootBallManagerAPI.Controllers
 
         // PUT: api/Thongtingiaidaus/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("update/{id}")]
+        [HttpPut("update/{idgiaidau}/{idDoiBong}")]
         [Authorize]
-        public async Task<IActionResult> UpdateThongtingiaidau(int id, Thongtingiaidau thongtingiaidau)
+        public async Task<IActionResult> UpdateThongtingiaidau(int idgiaidau,string idDoiBong, Thongtingiaidau thongtingiaidau)
         {
             try
             {
-                if (id != thongtingiaidau.Idgiaidau)
+                if (idgiaidau != thongtingiaidau.Idgiaidau || idDoiBong!=thongtingiaidau.Iddoibong)
                 {
                     return BadRequest();
                 }
@@ -85,13 +85,13 @@ namespace FootBallManagerAPI.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ThongtingiaidauExists(id))
+                    if (!ThongtingiaidauExists(idgiaidau,idDoiBong))
                     {
                         return NotFound();
                     }
                     else
                     {
-                        throw;
+                        return Problem();
                     }
                 }
 
@@ -105,13 +105,13 @@ namespace FootBallManagerAPI.Controllers
         }
 
         //PATCH
-        [HttpPatch("patch/{id}")]
+        [HttpPatch("patch/{idGiaiDau}/{idDoiBong}")]
         [Authorize]
-        public async Task<IActionResult> PatchThongtingiaidau(int id, JsonPatchDocument thongTinGiaiDauModel)
+        public async Task<IActionResult> PatchThongtingiaidau(int idGiaiDau, string idDoiBong, JsonPatchDocument thongTinGiaiDauModel)
         {
             try
             {
-                var isSuccess = await _thongTinGiaiDauRepos.Patch(id, thongTinGiaiDauModel);
+                var isSuccess = await _thongTinGiaiDauRepos.Patch(idGiaiDau,idDoiBong, thongTinGiaiDauModel);
 
                 if (isSuccess)
                 {
@@ -154,13 +154,13 @@ namespace FootBallManagerAPI.Controllers
         }
 
         // DELETE: api/Thongtingiaidaus/5
-        [HttpDelete("delete/{id}")]
+        [HttpDelete("delete/{idGiaiDau}/{idDoiBong}")]
         [Authorize]
-        public async Task<IActionResult> DeleteThongtingiaidau(int id)
+        public async Task<IActionResult> DeleteThongtingiaidau(int idGiaiDau,string idDoiBong)
         {
             try
             {
-                var isSuccess = await _thongTinGiaiDauRepos.Delete(id);
+                var isSuccess = await _thongTinGiaiDauRepos.Delete(idGiaiDau, idDoiBong);
                 if (!isSuccess)
                 {
                     return NotFound();
@@ -175,9 +175,27 @@ namespace FootBallManagerAPI.Controllers
             }
         }
 
-        private bool ThongtingiaidauExists(int id)
+        private bool ThongtingiaidauExists(int idGiaiDau,string idDoiBong)
         {
-            return _thongTinGiaiDauRepos.GetById(id) != null;
+            try
+            {
+                var giaiDau = _thongTinGiaiDauRepos.GetById(idGiaiDau);
+                if (giaiDau != null)
+                {
+                    var doibong = giaiDau.Result.Where(g=>g.Iddoibong==idDoiBong).FirstOrDefault();
+                    return doibong != null;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+            catch 
+            {
+
+                return false;
+            }
         }
     }
 }

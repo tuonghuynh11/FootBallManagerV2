@@ -1,4 +1,5 @@
 ﻿using DevExpress.Data.Browsing;
+using FootBallProject.Class;
 using FootBallProject.Model;
 using FootBallProject.PopUp;
 using FootBallProject.Service;
@@ -18,6 +19,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static DevExpress.Data.Helpers.FindSearchRichParser;
 
 namespace FootBallProject.UserControlBar.ScreenNavigation
 {
@@ -51,10 +53,10 @@ namespace FootBallProject.UserControlBar.ScreenNavigation
 
         }
 
-        
 
-     
-        private void Send_Offer(object sender, RoutedEventArgs e)
+
+
+        private async void Send_Offer(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
             ListViewItem listViewItem = FindAncestor<ListViewItem>(button);
@@ -68,8 +70,11 @@ namespace FootBallProject.UserControlBar.ScreenNavigation
             }
 
             DOIBONG dOIBONG = lvUnCooperateFootBallTeams.SelectedItem as DOIBONG;
-
-            MessageBox.Show(dOIBONG.TEN);
+            //Chỉnh idSupplier thành idSupplier đăng nhập
+           DoiBongSupplierContractExtension db= new DoiBongSupplierContractExtension(idDoiBong:dOIBONG.ID,idSupplier:AccessUser.userLogin.IDSUPPLIER);
+            db.ShowDialog();
+            await (this.DataContext as SupplierHomeScreenViewModel).LoadingData();
+            DTG_SupplierContracted.Items.Refresh();
         }
 
         private T FindAncestor<T>(DependencyObject current)
@@ -132,6 +137,75 @@ namespace FootBallProject.UserControlBar.ScreenNavigation
                 }
 
                 lvUnCooperateFootBallTeams.ItemsSource = filter;
+            }
+        }
+
+        private async void DTG_SupplierContracted_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            DataGrid list = (DataGrid)sender;
+            DOIBONGSUPPLIER dOIBONGSUPPLIER = list.SelectedItem as DOIBONGSUPPLIER;
+
+            if(dOIBONGSUPPLIER != null)
+            {
+                if (list.CurrentCell.Column.DisplayIndex == 0)
+                {
+                    DOIBONG db = await APIService.ins.getDoiBongById(dOIBONGSUPPLIER.idDoiBong);
+                    ThongTinCLB thongTinCLB = new ThongTinCLB(db.TEN);
+                    ClubInfomationViewModel club = new ClubInfomationViewModel(db);
+
+                    thongTinCLB.DataContext = club;
+                    thongTinCLB.Show();
+                }
+
+             
+                if (list.CurrentCell.Column.DisplayIndex == 4)
+                {
+                    TimeSpan difference = (TimeSpan)(dOIBONGSUPPLIER.endDate - DateTime.Now);
+
+                    if (difference.Days < 0 || difference.Days < 10)
+                    {
+                        DoiBongSupplierContractExtension db = new DoiBongSupplierContractExtension(idDoiBong: dOIBONGSUPPLIER.idDoiBong, idSupplier: dOIBONGSUPPLIER.idSupplier, type: "Extend", doiBongSupplier: dOIBONGSUPPLIER);
+                        db.ShowDialog();
+                        await (this.DataContext as SupplierHomeScreenViewModel).LoadingData();
+                        DTG_SupplierContracted.Items.Refresh();
+                    }
+                    //Gửi yêu cầu gia hạn hợp đồng
+                }
+            }
+
+
+           
+        }
+
+        private async void DTG_wait_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            DataGrid list = (DataGrid)sender;
+            DOIBONGSUPPLIER dOIBONGSUPPLIER = list.SelectedItem as DOIBONGSUPPLIER;
+            if (list.CurrentCell.Column.DisplayIndex == 0)
+            {
+                DOIBONG db = await APIService.ins.getDoiBongById(dOIBONGSUPPLIER.idDoiBong);
+                ThongTinCLB thongTinCLB = new ThongTinCLB(db.TEN);
+                ClubInfomationViewModel club = new ClubInfomationViewModel(db);
+
+                thongTinCLB.DataContext = club;
+                thongTinCLB.Show();
+            }
+        }
+
+        private async void Focus_GotFocus(object sender, RoutedEventArgs e)
+        {
+            await(this.DataContext as SupplierHomeScreenViewModel).LoadFootBallTeamsWaitConfirm();
+            DTG_wait.Items.Refresh();
+        }
+
+        private async void EditSupplierBtn_Click(object sender, RoutedEventArgs e)
+        {
+            EditSupplierInformation ed = new EditSupplierInformation(AccessUser.userLogin.IDSUPPLIER);
+            ed.ShowDialog();
+            if (ed.isChange == 1)
+            {
+                await (this.DataContext as SupplierHomeScreenViewModel).LoadingData();
+
             }
         }
     }

@@ -91,7 +91,7 @@ namespace FootBallManagerAPI.Controllers
                     }
                     else
                     {
-                        throw;
+                        return Problem();
                     }
                 }
 
@@ -177,6 +177,7 @@ namespace FootBallManagerAPI.Controllers
         {
             try
             {
+                var a = _userRoleRepos.GetById(id);
                 return _userRoleRepos.GetById(id)!=null;
 
             }

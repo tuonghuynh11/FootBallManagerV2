@@ -23,7 +23,7 @@ namespace FootBallProject.Model
     
         public int idField { get; set; }
         public Nullable<int> idDiaDiem { get; set; }
-        public string images { get; set; }
+        public byte[] images { get; set; }
         public string fieldName { get; set; }
         public string technicalInformation { get; set; }
         public Nullable<int> numOfSeats { get; set; }

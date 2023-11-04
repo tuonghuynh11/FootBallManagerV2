@@ -51,7 +51,9 @@ namespace FootBallManagerAPI.Repository
 
         public async Task<bool> Patch(int id, JsonPatchDocument quoctichModel)
         {
-            var quoctich = await _context.Quoctiches.FindAsync(id);
+            var quoctich = await _context.Quoctiches.Where(sb => sb.Id == id).FirstOrDefaultAsync();
+
+            //var quoctich = await _context.Quoctiches.FindAsync(id);
             if (quoctich == null)
             {
                 return false;

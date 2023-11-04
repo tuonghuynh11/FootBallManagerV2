@@ -50,7 +50,9 @@ namespace FootBallManagerAPI.Repository
 
         public async Task<bool> Patch(int id, JsonPatchDocument roundModel)
         {
-            var round = await _context.Rounds.FindAsync(id);
+            var round = await _context.Rounds.Where(sb => sb.Id == id).FirstOrDefaultAsync();
+
+            //var round = await _context.Rounds.FindAsync(id);
             if (round == null)
             {
                 return false;

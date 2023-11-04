@@ -69,7 +69,7 @@ namespace FootBallManagerAPI.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("update/{id}")]
         [Authorize]
-        public async Task<IActionResult> PutRound(int id, Round round)
+        public async Task<IActionResult> UpdateRound(int id, Round round)
         {
             try
             {
@@ -106,7 +106,7 @@ namespace FootBallManagerAPI.Controllers
         //PATCH
         [HttpPatch("patch/{id}")]
         [Authorize]
-        public async Task<IActionResult> PatchThongtingiaidau(int id, JsonPatchDocument roundModel)
+        public async Task<IActionResult> PatchRound(int id, JsonPatchDocument roundModel)
         {
             try
             {
@@ -175,7 +175,15 @@ namespace FootBallManagerAPI.Controllers
 
         private bool RoundExists(int id)
         {
-            return _roundRepo.GetById(id)!=null;
+            try
+            {
+                return _roundRepo.GetById(id) != null;
+
+            }
+            catch 
+            {
+                return false;
+            }
         }
     }
 }

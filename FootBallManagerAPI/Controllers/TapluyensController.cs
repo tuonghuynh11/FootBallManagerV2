@@ -108,7 +108,7 @@ namespace FootBallManagerAPI.Controllers
         //PATCH
         [HttpPatch("patch/{id}")]
         [Authorize]
-        public async Task<IActionResult> PatchThongtingiaidau(int id, JsonPatchDocument tapLuyenModel)
+        public async Task<IActionResult> PatchTapLuyen(int id, JsonPatchDocument tapLuyenModel)
         {
             try
             {
@@ -176,7 +176,16 @@ namespace FootBallManagerAPI.Controllers
 
         private bool TapluyenExists(int id)
         {
-            return _tapLuyenRepos.GetById(id)!=null;
+            try
+            {
+                return _tapLuyenRepos.GetById(id) != null;
+
+            }
+            catch 
+            {
+
+                return false;
+            }
         }
     }
 }

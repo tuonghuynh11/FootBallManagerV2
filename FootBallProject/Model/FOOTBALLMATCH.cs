@@ -22,13 +22,6 @@ namespace FootBallProject.Model
             this.THAMGIAs = new HashSet<THAMGIA>();
             this.THONGTINTRANDAUs = new HashSet<THONGTINTRANDAU>();
         }
-    
-        public int ID { get; set; }
-        public string TENTRANDAU { get; set; }
-        public Nullable<int> VONGBANG { get; set; }
-        public Nullable<int> IDVONG { get; set; }
-        public Nullable<int> DIADIEM { get; set; }
-        public Nullable<System.DateTime> THOIGIAN { get; set; }
         public string IDDOI1
         {
             get
@@ -100,6 +93,12 @@ namespace FootBallProject.Model
             }
             set { }
         }
+        public int ID { get; set; }
+        public string TENTRANDAU { get; set; }
+        public Nullable<int> VONGBANG { get; set; }
+        public Nullable<int> IDVONG { get; set; }
+        public Nullable<int> DIADIEM { get; set; }
+        public Nullable<System.DateTime> THOIGIAN { get; set; }
         public virtual DIADIEM DIADIEM1 { get; set; }
         public virtual FIELD FIELD { get; set; }
         public virtual ROUND ROUND { get; set; }

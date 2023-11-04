@@ -93,7 +93,7 @@
           </Key>
           <Property Name="idField" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="idDiaDiem" Type="int" />
-          <Property Name="images" Type="varchar(max)" />
+          <Property Name="images" Type="image" />
           <Property Name="fieldName" Type="nvarchar" MaxLength="300" />
           <Property Name="technicalInformation" Type="text" />
           <Property Name="numOfSeats" Type="int" />
@@ -229,7 +229,7 @@
           <Property Name="idService" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="serviceName" Type="nvarchar" MaxLength="300" />
           <Property Name="detail" Type="text" />
-          <Property Name="images" Type="varchar(max)" />
+          <Property Name="images" Type="image" />
         </EntityType>
         <EntityType Name="SUPPLIER">
           <Key>
@@ -241,7 +241,7 @@
           <Property Name="phoneNumber" Type="varchar" MaxLength="100" />
           <Property Name="representativeName" Type="nvarchar" MaxLength="100" />
           <Property Name="establishDate" Type="date" />
-          <Property Name="images" Type="varchar(max)" />
+          <Property Name="images" Type="image" />
         </EntityType>
         <EntityType Name="SUPPLIERSERVICE">
           <Key>
@@ -1448,7 +1448,7 @@
           </Key>
           <Property Name="idField" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="idDiaDiem" Type="Int32" />
-          <Property Name="images" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="images" Type="Binary" MaxLength="Max" FixedLength="false" />
           <Property Name="fieldName" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
           <Property Name="technicalInformation" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="numOfSeats" Type="Int32" />
@@ -1610,7 +1610,7 @@
           <Property Name="idService" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="serviceName" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
           <Property Name="detail" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="images" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="images" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="FIELDSERVICEs" Relationship="officialleagueModel.fk_fieldservice_02" FromRole="SERVICE" ToRole="FIELDSERVICE" />
           <NavigationProperty Name="SUPPLIERSERVICEs" Relationship="officialleagueModel.fk_supplierservice_02" FromRole="SERVICE" ToRole="SUPPLIERSERVICE" />
         </EntityType>
@@ -1624,7 +1624,7 @@
           <Property Name="phoneNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="representativeName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="establishDate" Type="DateTime" Precision="0" />
-          <Property Name="images" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="images" Type="Binary" MaxLength="Max" FixedLength="false" />
           <NavigationProperty Name="DOIBONGSUPPLIERs" Relationship="officialleagueModel.fk_doibongsupplier_02" FromRole="SUPPLIER" ToRole="DOIBONGSUPPLIER" />
           <NavigationProperty Name="LEAGUESUPPLIERs" Relationship="officialleagueModel.fk_leaguesupplier_02" FromRole="SUPPLIER" ToRole="LEAGUESUPPLIER" />
           <NavigationProperty Name="SUPPLIERSERVICEs" Relationship="officialleagueModel.fk_supplierservice_01" FromRole="SUPPLIER" ToRole="SUPPLIERSERVICE" />

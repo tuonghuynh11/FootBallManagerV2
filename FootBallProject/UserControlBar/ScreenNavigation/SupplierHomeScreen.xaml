@@ -27,11 +27,115 @@
     <Grid Background="#D0D6DB">
         <Grid Margin="50 0 0 0"  Background="#D0D6DB">
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
+                <RowDefinition Height="250" />
                 <RowDefinition/>
             </Grid.RowDefinitions>
+            <Border Grid.Row="0"  Background="White" CornerRadius="10" Margin="10 10 10 0">
+                <Grid >
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition ></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" CornerRadius="200" Width="200" Height="200" BorderBrush="Black" BorderThickness="1" Margin="10">
+                            <Border.Background>
+                                <ImageBrush ImageSource="{Binding supplierInfo.images,Converter={StaticResource ResourceKey=imageconvert }}" ></ImageBrush>
 
-            <Grid Grid.Row="1" >
+                            </Border.Background>
+                        </Border>
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <Border  Grid.Row="0" BorderThickness="0 0 0 0" BorderBrush="AntiqueWhite">
+
+                                <Border  BorderBrush="AntiqueWhite" BorderThickness="0 0 0 0">
+                                    <StackPanel Orientation="Vertical"  Width="400" Margin="0 20 20 0" VerticalAlignment="Center">
+                                        <StackPanel Orientation="Horizontal" Margin="0 0 0 15"  >
+                                            <Label FontSize="20" FontWeight="Bold" Foreground="Black">Tên công ty:</Label>
+                                            <TextBlock  Margin="40 0 0 0" Foreground="Orange" x:Name="Nametbl" Text = "{Binding supplierInfo.supplierName, Mode=TwoWay,NotifyOnSourceUpdated=True}" FontSize="20" VerticalAlignment="Center"></TextBlock>
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0 0 0 15">
+                                            <Label FontSize="20" FontWeight="Bold" Foreground="Black">Địa chỉ:</Label>
+                                            <TextBlock x:Name="Addresstbl" Margin="30 0 0 0" Foreground="Orange" Text = "{Binding supplierInfo.addresss}" FontSize="20" VerticalAlignment="Center"></TextBlock>
+
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0 0 0 15">
+                                            <Label FontSize="20" FontWeight="Bold" Foreground="Black">Số điện thoại:</Label>
+                                            <TextBlock x:Name="PhoneNumbertbl" Margin="30 0 0 0" Foreground="Orange"  FontSize="20" Text = "{Binding supplierInfo.phoneNumber}" VerticalAlignment="Center"></TextBlock>
+
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0 0 0 15">
+                                            <Label FontSize="20" FontWeight="Bold" Foreground="Black">Ngày thành lập:</Label>
+                                            <TextBlock x:Name="Establishtbl" Margin="10 0 0 0" Foreground="Orange" FontSize="20" Text = "{Binding supplierInfo.establishDate,StringFormat=d}" VerticalAlignment="Center"></TextBlock>
+
+                                        </StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0 0 0 15">
+                                            <Label FontSize="20" FontWeight="Bold" Foreground="Black">Người đại diện:</Label>
+                                            <TextBlock x:Name="Representertbl" Margin="10 0 0 0" Foreground="Orange" Text = "{Binding supplierInfo.representativeName}" FontSize="20" VerticalAlignment="Center"></TextBlock>
+
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Border>
+
+
+
+                            </Border>
+
+                        </Grid>
+                        <StackPanel Grid.Column="2" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 0 0">
+                            <Label  HorizontalAlignment="Center" FontSize="25" FontWeight="Bold" Foreground="Black">Các dịch vụ:</Label>
+                            <Button 
+                                x:Name="EditSupplierBtn"
+                                Margin="0 -40 10 0"
+                                HorizontalAlignment="Right"
+                                Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}" Click="EditSupplierBtn_Click">
+                                <materialDesign:PackIcon
+                                    Kind="Edit" 
+                                    Height="24"
+                                    Width="24" />
+                            </Button>
+                            <ListView  x:Name="lsService" Grid.Row="1" Width="380" Height="170"  d:ItemsSource="{d:SampleData ItemCount=10}" ItemsSource="{Binding supplierService}" IsHitTestVisible="True" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Visible" Background="Transparent" BorderBrush="Transparent" Margin="10" Padding="5">
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="Focusable" Value="False"/>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                                <ListView.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"></StackPanel>
+                                    </ItemsPanelTemplate>
+                                </ListView.ItemsPanel>
+                                <ListView.ItemTemplate >
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                            <Border CornerRadius="100" Width="100" Height="100" BorderBrush="Black" BorderThickness="1" Margin="10">
+                                                <Border.Background>
+                                                    <ImageBrush ImageSource="{Binding images,Converter={StaticResource ResourceKey=imageconvert}}" ></ImageBrush>
+
+                                                </Border.Background>
+                                            </Border>
+                                            <Label HorizontalAlignment="Center" FontSize="15" FontWeight="Bold" Foreground="Black" Content="{Binding serviceName}"></Label>
+
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+
+                        </StackPanel>
+
+                    </Grid>
+
+
+
+
+
+                </Grid>
+            </Border>
+          
+            <Grid Grid.Row="1" Margin="0 10 0 0" >
                 <TabControl Padding="0 0 0 0" Margin="0 0 0 0"  >
                     <TabControl.Resources>
                         <Style TargetType="TabItem">
@@ -69,11 +173,10 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="880"/>
                                 <ColumnDefinition Width="171*"/>
-                                <ColumnDefinition Width="14*"/>
                             </Grid.ColumnDefinitions>
 
                             <Grid Grid.Column="0">
-                                <Border Background="White" CornerRadius="10" Margin="10" Padding="0 20 0 0">
+                                <Border Background="White"  CornerRadius="10" Margin="10" Padding="0 20 0 0" Height="400">
                                     <StackPanel Orientation="Vertical">
                                         <TextBlock Text="Đã ký hợp đồng" FontSize="30" Foreground="red" FontWeight="Bold" HorizontalAlignment="Center"/>
                                         <DockPanel Margin="10 0 0 0">
@@ -112,7 +215,7 @@
                                         </DockPanel>
                                         <Border  BorderBrush="Black" Background="#31AC4C" BorderThickness="3" CornerRadius="10" Margin="10" Padding="4 1.5 4 0">
                                             <DataGrid x:Name="DTG_SupplierContracted"  IsReadOnly="True"
-                                                      Height="500"
+                                                      Height="245"
                                                       d:ItemsSource="{d:SampleData ItemCount=10}"
                                                     ItemsSource="{Binding FootBallTeamsCooperated, UpdateSourceTrigger=PropertyChanged,NotifyOnSourceUpdated=True}"
                                                   Background="White" RenderTransformOrigin="0.494,0.52"
@@ -120,7 +223,7 @@
                                                   AutoGenerateColumns="False" VerticalAlignment="Top"
                                                       CanUserSortColumns="True"
                                                     SelectionUnit="FullRow"
-                                                  ScrollViewer.VerticalScrollBarVisibility="Hidden" >
+                                                  ScrollViewer.VerticalScrollBarVisibility="Hidden" MouseDoubleClick="DTG_SupplierContracted_MouseDoubleClick" >
                                                
                                                 <DataGrid.Resources>
                                                     <Style TargetType="{x:Type DataGridColumnHeader}">
@@ -201,7 +304,7 @@
                             </Grid>
 
                             <Grid Grid.Column="1" Grid.ColumnSpan="2">
-                                <Border Background="White" CornerRadius="10" Margin="10" Padding="0 20 0 0">
+                                <Border Background="White" CornerRadius="10" Margin="10" Padding="0 20 0 0" Height="400">
                                     <StackPanel Orientation="Vertical">
                                         <TextBlock Text="Chưa ký hợp đồng" FontSize="30" Foreground="red" FontWeight="Bold" HorizontalAlignment="Center"/>
                                         <Border     VerticalAlignment="Center"  Background="White" BorderBrush="Black" BorderThickness="1" CornerRadius="10" Margin="10" Padding="5 10 5 5">
@@ -227,7 +330,7 @@
                                             </TextBox>
 
                                         </Border>
-                                        <ListView  x:Name="lvUnCooperateFootBallTeams"  ItemsSource="{Binding FootBallTeamsUnCooperate}" IsHitTestVisible="True" ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Background="Transparent" BorderBrush="Transparent" Margin="5,10,5,10"   d:ItemsSource="{d:SampleData ItemCount=10}" Height="530" >
+                                        <ListView  x:Name="lvUnCooperateFootBallTeams"  ItemsSource="{Binding FootBallTeamsUnCooperate}" IsHitTestVisible="True" ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Background="Transparent" BorderBrush="Transparent" Margin="5,10,5,10"   d:ItemsSource="{d:SampleData ItemCount=10}" Height="260" >
                                             <ListView.ItemContainerStyle>
                                                 <Style TargetType="ListViewItem">
                                                     <Setter Property="Focusable" Value="True"/>
@@ -273,21 +376,23 @@
                         </Grid>
 
                     </TabItem>
-                    <TabItem Header="Đang chờ"  FontWeight="Bold" Height="24" HorizontalAlignment="Right">
+                    <TabItem x:Name="Focus" Header="Đang chờ"  FontWeight="Bold" Height="24" HorizontalAlignment="Right" GotFocus="Focus_GotFocus">
                         <Grid Background="#D0D6DB">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <Border Background="White" Width="1000" CornerRadius="10" Margin="10 10 10 20" Padding="0 20 0 0">
+                            <Border Background="White" Width="1050" CornerRadius="10" Margin="10 10 10 20" Padding="0 20 0 0">
                                 <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
                                     <TextBlock Text="Danh sách chờ" FontSize="30" Foreground="red" FontWeight="Bold" HorizontalAlignment="Center"/>
-                                    <Border  BorderBrush="Black" BorderThickness="1" CornerRadius="10" Margin="10" Padding="2">
+                                    <Border  BorderBrush="Black" Background="#31AC4C" BorderThickness="3" CornerRadius="10" Margin="10" Padding="4 1.5 4 0">
                                         <DataGrid x:Name="DTG_wait" IsReadOnly="True"
+                                                  Height="320"
                                           d:ItemsSource="{d:SampleData ItemCount=10}"
+                                                  ItemsSource="{Binding FootBallTeamsWaitConfirm,UpdateSourceTrigger=PropertyChanged,NotifyOnSourceUpdated=True }"
                                          Background="White" RenderTransformOrigin="0.494,0.52"
                                          CanUserAddRows="False" ScrollViewer.CanContentScroll="True"
                                          AutoGenerateColumns="False" VerticalAlignment="Top"
-                                         ScrollViewer.VerticalScrollBarVisibility="Hidden" >
+                                         ScrollViewer.VerticalScrollBarVisibility="Hidden" MouseDoubleClick="DTG_wait_MouseDoubleClick" >
                                             <DataGrid.Resources>
                                                 <Style TargetType="{x:Type DataGridColumnHeader}">
                                                     <Setter Property="Background" Value="#31AC4C"/>
@@ -296,22 +401,23 @@
                                                 </Style>
                                             </DataGrid.Resources>
                                             <DataGrid.Columns>
-                                                <DataGridTemplateColumn Header="Tên đội bóng" Width="200"  IsReadOnly="True">
+                                                <DataGridTemplateColumn Header="Tên đội bóng" Width="250"  IsReadOnly="True">
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate >
-                                                            <StackPanel Orientation="Horizontal">
-                                                                <Image Source="{Binding HINHANHDOIMUA, Converter={StaticResource ResourceKey=imageconvert } }" DockPanel.Dock="Left" Width="30" Height="30"></Image>
+                                                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                                                <Image Source="{Binding DOIBONG.HINHANH, Converter={StaticResource ResourceKey=imageconvert } }" DockPanel.Dock="Left" Width="30" Height="30"></Image>
                                                                 <Separator Background="Transparent" Width="20" Foreground="Transparent" BorderBrush="Transparent" BorderThickness="0"></Separator>
-                                                                <TextBlock  Text="{Binding TENDOIMUA}" VerticalAlignment="Center"></TextBlock>
+                                                                <TextBlock  Text="{Binding DOIBONG.TEN}" VerticalAlignment="Center"></TextBlock>
                                                             </StackPanel>
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellTemplate>
                                                 </DataGridTemplateColumn>
 
-                                                <DataGridTextColumn Header="Ngày bắt đầu" Width="155" Binding="{Binding Name}">
+                                                <DataGridTextColumn Header="Ngày bắt đầu" Width="155" Binding="{Binding startDate, StringFormat=d}">
                                                     <DataGridTextColumn.ElementStyle>
                                                         <Style TargetType="TextBlock">
                                                             <Setter Property="HorizontalAlignment" Value="Center" />
+                                                            <Setter Property="VerticalAlignment" Value="Center" />
                                                         </Style>
                                                     </DataGridTextColumn.ElementStyle>
                                                 </DataGridTextColumn>
@@ -319,26 +425,27 @@
                                                 <DataGridTemplateColumn Header="Ngày kết thúc" Width="155">
                                                     <DataGridTemplateColumn.CellTemplate>
                                                         <DataTemplate>
-                                                            <TextBlock Text="{Binding Dateofbirth, StringFormat=d}" HorizontalAlignment="Center"/>
+                                                            <TextBlock Text="{Binding endDate, StringFormat=d}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                         </DataTemplate>
                                                     </DataGridTemplateColumn.CellTemplate>
-                                                    <DataGridTemplateColumn.CellEditingTemplate>
-                                                        <DataTemplate>
-                                                            <DatePicker SelectedDate="{Binding Dateofbirth}"/>
-                                                        </DataTemplate>
-                                                    </DataGridTemplateColumn.CellEditingTemplate>
+                                                  
                                                 </DataGridTemplateColumn>
-                                                <DataGridTextColumn Header="Thời hạn" Width="155" Binding="{Binding Position}">
+                                                <DataGridTextColumn Header="Thời hạn" Width="155" Binding="{Binding durationString}">
                                                     <DataGridTextColumn.ElementStyle>
                                                         <Style TargetType="TextBlock">
                                                             <Setter Property="HorizontalAlignment" Value="Center" />
+                                                            <Setter Property="VerticalAlignment" Value="Center" />
                                                         </Style>
                                                     </DataGridTextColumn.ElementStyle>
                                                 </DataGridTextColumn>
-                                                <DataGridTextColumn Header="Trạng thái" Width="190" Binding="{Binding Mailcontact}">
+                                                <DataGridTextColumn Header="Trạng thái" Width="190">
                                                     <DataGridTextColumn.ElementStyle>
                                                         <Style TargetType="TextBlock">
                                                             <Setter Property="HorizontalAlignment" Value="Center" />
+                                                            <Setter Property="VerticalAlignment" Value="Center" />
+                                                            <Setter Property="Text" Value="Đang chờ" />
+                                                            <Setter Property="Background" Value="#FF7DF14C" />
+                                                            <Setter Property="Padding" Value="5" />
                                                         </Style>
                                                     </DataGridTextColumn.ElementStyle>
                                                 </DataGridTextColumn>

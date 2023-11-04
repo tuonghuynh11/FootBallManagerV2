@@ -24,7 +24,11 @@ namespace FootBallProject.PopUp
         {
             InitializeComponent();
         }
-
+        public OKCancelPopUp(string contents)
+        {
+            InitializeComponent();
+            content.Text = contents;
+        }
         private void Okbtt_Click(object sender, RoutedEventArgs e)
         {
             Ok = 1;

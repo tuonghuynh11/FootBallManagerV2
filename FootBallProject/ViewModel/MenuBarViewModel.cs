@@ -40,6 +40,7 @@ namespace FootBallProject.ViewModel
         public ICommand MatchCommand { get; set; }
         public ICommand FeedBackCommand { get; set; }
         public ICommand SupplierHomeScreenCommand { get; set; }
+        public ICommand SupplierOfFootBallTeamCommand { get; set; }
 
         private void Home() => CurrentView = new AdminScreenViewModel();
         private void Tactic() => CurrentView = new TeamBuilderViewModel(USER.IDDB);
@@ -54,6 +55,7 @@ namespace FootBallProject.ViewModel
         private void Match() => CurrentView = new MainMatchViewModel();
         private void League() => CurrentView = new MainLeagueViewModel();
         private void SupplierHomeScreen() => CurrentView = new SupplierHomeScreenViewModel();
+        private void SupplierOfFootballTeam() => CurrentView = new SupplierOfFootBallTeamViewModel();
 
 
 
@@ -61,6 +63,8 @@ namespace FootBallProject.ViewModel
         public Visibility ALLTEAMVisibility { get; set; }
         public Visibility TaticOfTEAMVisibility { get; set; }
         public Visibility TransferConfirmisibility { get; set; }
+        public Visibility SupplierHomeScreenVisibility { get; set; }
+        public Visibility SupplierOfFootBallTeamVisibility { get; set; }
         
         public MenuBarViewModel()
         {
@@ -85,8 +89,9 @@ namespace FootBallProject.ViewModel
                 feedBack.Show();
             });
             SupplierHomeScreenCommand = new RelayCommand<object>((p) => { return true; }, (p) => { SupplierHomeScreen(); });
+            SupplierOfFootBallTeamCommand = new RelayCommand<object>((p) => { return true; }, (p) => { SupplierOfFootballTeam(); });
 
-
+            
             // Startup Page
             CurrentView = new AdminScreenViewModel();
 
@@ -101,6 +106,26 @@ namespace FootBallProject.ViewModel
             {
                 TaticOfTEAMVisibility = Visibility.Collapsed;
                 
+            }
+
+            if(USER.ROLE == "Supplier")
+            {
+                SupplierHomeScreenVisibility = Visibility.Visible;
+            }
+            else
+            {
+                SupplierHomeScreenVisibility = Visibility.Collapsed;
+
+            }
+
+            if (USER.ROLE== "President")
+            {
+                SupplierOfFootBallTeamVisibility = Visibility.Visible;
+            }
+            else
+            {
+                SupplierOfFootBallTeamVisibility = Visibility.Collapsed;
+
             }
         }
       

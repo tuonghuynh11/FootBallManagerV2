@@ -52,7 +52,9 @@ namespace FootBallManagerAPI.Repository
 
         public async Task<bool> Patch(int id, JsonPatchDocument UserRoleModel)
         {
-            var userRole = await _context.Userroles.FindAsync(id);
+            var userRole = _context.Userroles.Where(t => t.Id == id).FirstOrDefaultAsync();
+
+            //var userRole = await _context.Userroles.FindAsync(id);
             if (userRole == null)
             {
                 return false;

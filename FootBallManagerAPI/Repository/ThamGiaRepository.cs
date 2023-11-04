@@ -56,6 +56,7 @@ namespace FootBallManagerAPI.Repository
 
         public async Task<bool> Patch(int idTran, int idCauthu, JsonPatchDocument thamGiaModel)
         {
+
             var thamgia =  _context.Thamgia.Where(t=>t.Idtran==idTran&&t.Idcauthu==idCauthu).FirstOrDefaultAsync();
             if (thamgia == null)
             {

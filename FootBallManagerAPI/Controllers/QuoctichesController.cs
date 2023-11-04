@@ -111,7 +111,7 @@ namespace FootBallManagerAPI.Controllers
         //PATCH
         [HttpPatch("patch/{id}")]
         [Authorize]
-        public async Task<IActionResult> PatchThongtingiaidau(int id, JsonPatchDocument quoctichModel)
+        public async Task<IActionResult> PatchQuocTich(int id, JsonPatchDocument quoctichModel)
         {
             try
             {
@@ -181,7 +181,15 @@ namespace FootBallManagerAPI.Controllers
 
         private bool QuoctichExists(int id)
         {
-            return _quoctichRepo.GetById(id) != null;
+            try
+            {
+                return _quoctichRepo.GetById(id) != null;
+
+            }
+            catch 
+            {
+                return false;
+            }
         }
     }
 }

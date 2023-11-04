@@ -108,7 +108,7 @@ namespace FootBallManagerAPI.Controllers
         //PATCH
         [HttpPatch("patch/{id}")]
         [Authorize]
-        public async Task<IActionResult> PatchThongtingiaidau(int id, JsonPatchDocument teamOfLeagueModel)
+        public async Task<IActionResult> PatchTeamofleague(int id, JsonPatchDocument teamOfLeagueModel)
         {
             try
             {

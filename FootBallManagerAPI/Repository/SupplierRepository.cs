@@ -39,12 +39,12 @@ namespace FootBallManagerAPI.Repository
             {
                 return new List<Supplier>();
             }
-            return await _context.Suppliers.Include(g => g.Supplierservices).Include(g=>g.Doibongsuppliers).ThenInclude(t => t.DoiBong).Include(g => g.Leaguesuppliers).ToListAsync();
+            return await _context.Suppliers.Include(g => g.Supplierservices).Include(g=>g.Doibongsuppliers).ThenInclude(t => t.IdDoiBongNavigation).Include(g => g.Leaguesuppliers).ToListAsync();
         }
 
         public async Task<Supplier> GetById(int id)
         {
-            var supplier = await _context.Suppliers.Where(g => g.IdSupplier == id).Include(g => g.Supplierservices).Include(g => g.Doibongsuppliers).ThenInclude(t => t.DoiBong).Include(g => g.Leaguesuppliers).FirstOrDefaultAsync();
+            var supplier = await _context.Suppliers.Where(g => g.IdSupplier == id).Include(g => g.Supplierservices).Include(g => g.Doibongsuppliers).ThenInclude(t => t.IdDoiBongNavigation).Include(g => g.Leaguesuppliers).FirstOrDefaultAsync();
 
 
             return supplier;
@@ -72,14 +72,14 @@ namespace FootBallManagerAPI.Repository
                         };
 
             List<FootBallTeamJoin> result = query.AsEnumerable().ToList();
-            //var footBallTeam =await _context.Database.SqlQueryRaw<FootBallTeamJoin>("SELECT [ID],[IDQUOCTICH],[THANHPHO],[HINHANH],[TEN],[SOLUONGTHANHVIEN],[NGAYTHANHLAP],[SANNHA],[SODOCHIENTHUAT],[GIATRI] FROM [dbo].[DOIBONG] WHERE ID NOT IN (Select idDoiBong FROM DOIBONGSUPPLIER WHERE idSupplier = 1)", new SqlParameter("IdSupplier", idSupplier)).ToListAsync();
-            //var footBallTeam =  _context.Database.SqlQuery<Doibong>($"SELECT [ID],[IDQUOCTICH],[THANHPHO],[HINHANH],[TEN],[SOLUONGTHANHVIEN],[NGAYTHANHLAP],[SANNHA],[SODOCHIENTHUAT],[GIATRI]FROM [dbo].[DOIBONG] WHERE ID NOT IN (Select idDoiBong FROM DOIBONGSUPPLIER WHERE idSupplier = 1)").ToList();
-            return result;
+              return result;
         }
 
         public async Task<bool> Patch(int id, JsonPatchDocument supplierModel)
         {
-            var supplier = await _context.Suppliers.FindAsync(id);
+            var supplier = await _context.Suppliers.Where(sb => sb.IdSupplier == id).FirstOrDefaultAsync();
+
+            //var supplier = await _context.Suppliers.FindAsync(id);
             if (supplier == null)
             {
                 return false;

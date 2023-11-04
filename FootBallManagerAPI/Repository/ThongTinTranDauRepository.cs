@@ -53,7 +53,9 @@ namespace FootBallManagerAPI.Repository
 
         public async Task<bool> Patch(int id, JsonPatchDocument thongTinTranDauModel)
         {
-            var thongtintrandau = await _context.Thongtintrandaus.FindAsync(id);
+            var thongtintrandau = _context.Thongtintrandaus.Where(t => t.Idtrandau == id).FirstOrDefaultAsync();
+
+            //var thongtintrandau = await _context.Thongtintrandaus.FindAsync(id);
             if (thongtintrandau == null)
             {
                 return false;
