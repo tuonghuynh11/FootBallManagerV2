@@ -92,6 +92,15 @@ namespace FootBallManagerV2Test.Controller
         {
             var Field = new Field();
             Field.IdField = 1;
+            Field.IdDiaDiem = 1;
+            Field.Images = new byte[10];
+            Field.FieldName = "Stanford Bridge";
+            Field.TechnicalInformation = "abc";
+            Field.NumOfSeats = 20000;
+            Field.Status = 1;
+            Field.Fieldservices = new List<Fieldservice>();
+            Field.Footballmatches = new List<Footballmatch>();
+            Field.IdDiaDiemNavigation = new Diadiem();
             A.CallTo(() => _fieldRepo.updateFieldAsync(1, Field)).Invokes(() => {
                 Assert.AreEqual(Field.IdField, 1);
             });

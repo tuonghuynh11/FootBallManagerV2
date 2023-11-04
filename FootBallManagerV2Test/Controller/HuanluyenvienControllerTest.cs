@@ -92,6 +92,18 @@ namespace FootBallManagerV2Test.Controller
         {
             var Huanluyenvien = new Huanluyenvien();
             Huanluyenvien.Id = 1;
+            Huanluyenvien.Iddoibong = "abc";
+            Huanluyenvien.Idquoctich = 1;
+            Huanluyenvien.Hoten = "Pep";
+            Huanluyenvien.Tuoi = 50;
+            Huanluyenvien.Gmail = "a@gmail.com";
+            Huanluyenvien.Ngaysinh = new DateTime(1980, 1, 1);
+            Huanluyenvien.Chucvu = "HLV";
+            Huanluyenvien.Hinhanh = new byte[10];
+            Huanluyenvien.IddoibongNavigation = new Doibong();
+            Huanluyenvien.IdquoctichNavigation = new Quoctich();
+            Huanluyenvien.Notifications = new List<Notification>();
+            Huanluyenvien.Tapluyens = new List<Tapluyen>();
             A.CallTo(() => _hlvRepo.updateHlvAsync(1, Huanluyenvien)).Invokes(() => {
                 Assert.AreEqual(Huanluyenvien.Id, 1);
             });

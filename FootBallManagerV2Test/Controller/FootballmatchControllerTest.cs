@@ -92,6 +92,15 @@ namespace FootBallManagerV2Test.Controller
         {
             var Footballmatch = new Footballmatch();
             Footballmatch.Id = 1;
+            Footballmatch.Tentrandau = "Semi-final";
+            Footballmatch.Vongbang = 1;
+            Footballmatch.Idvong = 1;
+            Footballmatch.Diadiem = 1;
+            Footballmatch.Thoigian = new DateTime(2023, 11, 11);
+            Footballmatch.DiadiemNavigation = new Field();
+            Footballmatch.IdvongNavigation = new Round();
+            Footballmatch.Thamgia = new List<Thamgium>();
+            Footballmatch.Thongtintrandaus = new List<Thongtintrandau>();
             A.CallTo(() => _fmRepo.updateFootballmatchAsync(1, Footballmatch)).Invokes(() => {
                 Assert.AreEqual(Footballmatch.Id, 1);
             });

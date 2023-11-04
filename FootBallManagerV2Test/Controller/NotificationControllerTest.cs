@@ -92,6 +92,10 @@ namespace FootBallManagerV2Test.Controller
         {
             var Notification = new Notification();
             Notification.Id = 1;
+            Notification.Idhlv = 1;
+            Notification.Notify = "New";
+            Notification.Checked = "true";
+            Notification.IdhlvNavigation = new Huanluyenvien();
             A.CallTo(() => _notiRepo.updateNotificationAsync(1, Notification)).Invokes(() => {
                 Assert.AreEqual(Notification.Id, 1);
             });

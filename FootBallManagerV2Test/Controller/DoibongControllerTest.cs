@@ -92,6 +92,28 @@ namespace FootBallManagerV2Test.Controller
         {
             var Doibong = new Doibong();
             Doibong.Id = "abc";
+            Doibong.Idquoctich = 2;
+            Doibong.Thanhpho = 2;
+            Doibong.Hinhanh = new byte[10];
+            Doibong.Ten = "Man City";
+            Doibong.Soluongthanhvien = 30;
+            Doibong.Ngaythanhlap = new DateTime(1999, 1, 1);
+            Doibong.Sannha = "Emirates";
+            Doibong.Sodochienthuat = "4-3-3";
+            Doibong.Giatri = 234300030003;
+            Doibong.Cauthus = new List<Cauthu>();
+            Doibong.Chuyennhuongs = new List<Chuyennhuong>();
+            Doibong.Diems = new List<Diem>();
+            Doibong.Doibongsuppliers = new List<Doibongsupplier>();
+            Doibong.Doihinhchinhs = new List<Doihinhchinh>();
+            Doibong.Huanluyenviens = new List<Huanluyenvien>();
+            Doibong.IdquoctichNavigation = new Quoctich();
+            Doibong.Items = new List<Item>();
+            Doibong.Tapluyens = new List<Tapluyen>();
+            Doibong.Teamofleagues = new List<Teamofleague>();
+            Doibong.ThanhphoNavigation = new Diadiem();
+            Doibong.Thongtingiaidaus = new List<Thongtingiaidau>();
+            Doibong.Thongtintrandaus = new List<Thongtintrandau>();
             A.CallTo(() => _doibongRepo.updateDoibongAsync("abc", Doibong)).Invokes(() => {
                 Assert.AreEqual(Doibong.Id, "abc");
             });

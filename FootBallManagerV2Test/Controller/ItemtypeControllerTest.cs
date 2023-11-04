@@ -92,6 +92,8 @@ namespace FootBallManagerV2Test.Controller
         {
             var Itemtype = new Itemtype();
             Itemtype.Id = 1;
+            Itemtype.Tenitem = "shoes";
+            Itemtype.Items = new List<Item>();
             A.CallTo(() => _itemtypeRepo.updateItemtypeAsync(1, Itemtype)).Invokes(() => {
                 Assert.AreEqual(Itemtype.Id, 1);
             });

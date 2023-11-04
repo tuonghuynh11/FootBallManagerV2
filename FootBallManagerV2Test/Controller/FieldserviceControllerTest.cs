@@ -93,6 +93,9 @@ namespace FootBallManagerV2Test.Controller
             var Fieldservice = new Fieldservice();
             Fieldservice.IdField = 1;
             Fieldservice.IdService = 1;
+            Fieldservice.Status = 1;
+            Fieldservice.IdFieldNavigation = new Field();
+            Fieldservice.IdServiceNavigation = new Service();
             A.CallTo(() => _fieldserviceRepo.updateFieldServiceAsync(1, 1, Fieldservice)).Invokes(() => {
                 Assert.AreEqual(Fieldservice.IdField, 1);
                 Assert.AreEqual(Fieldservice.IdService, 1);

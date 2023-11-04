@@ -92,6 +92,26 @@ namespace FootBallManagerV2Test.Controller
         {
             var cauthu = new Cauthu();
             cauthu.Id = 1;
+            cauthu.Iddoibong = "abc";
+            cauthu.Idquoctich = 1;
+            cauthu.Hoten = "Kevin";
+            cauthu.Tuoi = 30;
+            cauthu.Sogiai = 1;
+            cauthu.Sobanthang = 20;
+            cauthu.Hinhanh = new byte[10];
+            cauthu.Chanthuan = "left";
+            cauthu.Thetrang = "strong";
+            cauthu.Vitri = "CM";
+            cauthu.Soao = 11;
+            cauthu.Chieucao = "183";
+            cauthu.Cannang = "70";
+            cauthu.Giatricauthu = 2300000000;
+            cauthu.Chuyennhuongs = new List<Chuyennhuong>();
+            cauthu.Doihinhchinhs = new List<Doihinhchinh>();
+            cauthu.IddoibongNavigation = new Doibong();
+            cauthu.IdquoctichNavigation = new Quoctich();
+            cauthu.Items = new List<Item>();
+            cauthu.Thamgia = new List<Thamgium>();
             A.CallTo(() => _cauthuRepo.updateCauthuAsync(1, cauthu)).Invokes(() => {
                 Assert.AreEqual(cauthu.Id, 1);
             });

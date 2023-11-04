@@ -92,6 +92,10 @@ namespace FootBallManagerV2Test.Controller
         {
             var chuyennhuong = new Chuyennhuong();
             chuyennhuong.Id = 1;
+            chuyennhuong.Idcauthu = 1;
+            chuyennhuong.Iddoimua = "qwe";
+            chuyennhuong.IdcauthuNavigation = new Cauthu();
+            chuyennhuong.IddoimuaNavigation = new Doibong();
             A.CallTo(() => _chuyennhuongRepo.updateChuyennhuongAsync(1, chuyennhuong)).Invokes(() => {
                 Assert.AreEqual(chuyennhuong.Id, 1);
             });
