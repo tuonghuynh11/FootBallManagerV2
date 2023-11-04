@@ -92,6 +92,16 @@ namespace FootBallManagerV2Test.Controller
         {
             var League = new League();
             League.Id = 1;
+            League.Ngaybatdau = new DateTime(2024, 1, 1);
+            League.Ngayketthuc = new DateTime(2024, 1, 2);
+            League.Tengiaidau = "Champions League";
+            League.Idquocgia = 1;
+            League.Hinhanh = new byte[10];
+            League.IdquocgiaNavigation = new Quoctich();
+            League.Leaguesuppliers = new List<Leaguesupplier>();
+            League.Rounds = new List<Round>();
+            League.Teamofleagues = new List<Teamofleague>();
+            League.Thongtingiaidaus = new List<Thongtingiaidau>();
             A.CallTo(() => _leagueRepo.updateLeagueAsync(1, League)).Invokes(() => {
                 Assert.AreEqual(League.Id, 1);
             });

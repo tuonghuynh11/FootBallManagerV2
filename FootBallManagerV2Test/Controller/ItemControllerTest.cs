@@ -92,6 +92,15 @@ namespace FootBallManagerV2Test.Controller
         {
             var Item = new Item();
             Item.Id = 1;
+            Item.Idthongtintrandau = 1;
+            Item.Iddoibong = "abc";
+            Item.Iditemtype = 1;
+            Item.Thoigian = "1-1-2024";
+            Item.Idcauthu = 3;
+            Item.IdcauthuNavigation = new Cauthu();
+            Item.IddoibongNavigation = new Doibong();
+            Item.IditemtypeNavigation = new Itemtype();
+            Item.IdthongtintrandauNavigation = new Thongtintrandau();
             A.CallTo(() => _itemRepo.updateItemAsync(1, Item)).Invokes(() => {
                 Assert.AreEqual(Item.Id, 1);
             });

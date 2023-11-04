@@ -92,6 +92,11 @@ namespace FootBallManagerV2Test.Controller
         {
             var diadiem = new Diadiem();
             diadiem.Id = 1;
+            diadiem.Tendiadiem = "London";
+            diadiem.Idquocgia = 2;
+            diadiem.Doibongs = new List<Doibong>();
+            diadiem.Fields = new List<Field>();
+            diadiem.IdquocgiaNavigation = new Quoctich();
             A.CallTo(() => _diadiemRepo.updateDiadiemAsync(1, diadiem)).Invokes(() => {
                 Assert.AreEqual(diadiem.Id, 1);
             });

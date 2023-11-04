@@ -93,6 +93,10 @@ namespace FootBallManagerV2Test.Controller
             var Doihinhchinh = new Doihinhchinh();
             Doihinhchinh.Iddoibong = "abc";
             Doihinhchinh.Idcauthu = 1;
+            Doihinhchinh.Vitri = "CM";
+            Doihinhchinh.Vaitro = "Midfielder";
+            Doihinhchinh.IdcauthuNavigation = new Cauthu();
+            Doihinhchinh.IddoibongNavigation = new Doibong();
             A.CallTo(() => _doihinhRepo.updateDoihinhAsync("abc",1, Doihinhchinh)).Invokes(() => {
                 Assert.AreEqual(Doihinhchinh.Iddoibong, "abc");
                 Assert.AreEqual(Doihinhchinh.Idcauthu, 1);

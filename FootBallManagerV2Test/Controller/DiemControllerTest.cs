@@ -93,6 +93,8 @@ namespace FootBallManagerV2Test.Controller
             var diem = new Diem();
             diem.Idgiaidau = 1;
             diem.Iddoibong = "abc";
+            diem.Sodiem = 30;
+            diem.IddoibongNavigation = new Doibong();
             A.CallTo(() => _diemRepo.updateDiemAsync(1, "abc", diem)).Invokes(() => {
                 Assert.AreEqual(diem.Idgiaidau, 1);
                 Assert.AreEqual(diem.Iddoibong, "abc");
