@@ -61,9 +61,26 @@ namespace FootBallManagerV2Test.Controller
         public async Task ThongTinGiaiDausController_GetThongtingiaidauById_ReturnOK()
         {
             //Arrange
-            var thongtingiaidau = A.Fake<IEnumerable<Thongtingiaidau>>();
+            List<Thongtingiaidau> list = new List<Thongtingiaidau>()
+            {
+                new Thongtingiaidau()
+                {
+                   Ga=1,
+                   Gd=1,
+                   Draw=1,
+                   Iddoibong="atm",
+                   IddoibongNavigation=null,
+                   Idgiaidau=1,
+                   IdgiaidauNavigation=null,
+                   Lose=1,
+                   Points=1,
+                   Win=1
+                }
+            };
 
-            A.CallTo(() => _thongTinGiaiDauRepos.GetById(1)).Returns(thongtingiaidau);
+
+
+            A.CallTo(() => _thongTinGiaiDauRepos.GetById(1)).Returns(list);
 
             var _controller = new ThongtingiaidausController(_thongTinGiaiDauRepos);
             //Act

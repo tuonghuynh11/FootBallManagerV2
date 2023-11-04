@@ -62,7 +62,14 @@ namespace FootBallManagerV2Test.Controller
         public async Task ServiceController_GetService_ReturnOK()
         {
             //Arrange
-            var service = A.Fake<Service>();
+            var service = new Service() { 
+                IdService=1,
+                Detail="",
+                Fieldservices=null,
+                Images=null,
+                Supplierservices = null,
+                ServiceName=""
+            };
 
             A.CallTo(() => _serviceRepos.GetById(1)).Returns(service);
 

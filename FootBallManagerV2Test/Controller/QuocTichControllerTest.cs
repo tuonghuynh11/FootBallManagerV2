@@ -61,7 +61,15 @@ namespace FootBallManagerV2Test.Controller
         public async Task QuocTichController_GetQuoctichById_ReturnOK()
         {
             //Arrange
-            var quoctich = A.Fake<Quoctich>();
+            var quoctich = new Quoctich() { 
+                Cauthus=null,
+                Diadiems=null,
+                Doibongs=null,
+                Huanluyenviens= null,
+                Id=1,
+                Leagues=null,
+                Tenquocgia = ""
+            };
 
             A.CallTo(() => _quocTichRepos.GetById(1)).Returns(quoctich);
 

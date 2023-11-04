@@ -65,7 +65,7 @@ namespace FootBallManagerV2Test.Controller
         public async Task UserRoleController_GetUserRoleById_ReturnOK()
         {
             //Arrange
-            var userRole = A.Fake<Userrole>();
+            var userRole = new Userrole() { Id = 1 ,Role="admin",Users=null};
 
             A.CallTo(() => _userRoleRepos.GetById(1)).Returns(userRole);
 

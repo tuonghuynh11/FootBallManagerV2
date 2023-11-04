@@ -64,9 +64,24 @@ namespace FootBallManagerV2Test.Controller
         public async Task ThongTinTranDausController_GetThongtintrandauById_ReturnOK()
         {
             //Arrange
-            var thongtintrandau = A.Fake<List<Thongtintrandau>>();
+            List<Thongtintrandau> list = new List<Thongtintrandau>()
+            {
+                new Thongtintrandau()
+                {
+                    Id = 1,
+                    Diem=3,
+                    Iddoibong="atm",
+                    IddoibongNavigation=null,
+                    Idtrandau=1,
+                    IdtrandauNavigation=null,
+                    Items=null,
+                    Ketqua=1,
+                    Thedo=1,
+                    Thevang=1
+                }
+            };
 
-            A.CallTo(() => _thongTinTranDauRepos.GetById(1)).Returns(thongtintrandau);
+            A.CallTo(() => _thongTinTranDauRepos.GetById(1)).Returns(list);
 
             var _controller = new ThongtintrandausController(_thongTinTranDauRepos);
             //Act

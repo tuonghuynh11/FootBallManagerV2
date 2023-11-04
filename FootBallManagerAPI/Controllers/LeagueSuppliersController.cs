@@ -109,7 +109,7 @@ namespace FootBallManagerAPI.Controllers
         //PATCH
         [HttpPatch("patch/{idSupplier}/{idLeague}")]
         [Authorize]
-        public async Task<IActionResult> PatchThongtingiaidau(int idSupplier, int idLeague, JsonPatchDocument leagueSupplierModel)
+        public async Task<IActionResult> PatchLeagueSupplier(int idSupplier, int idLeague, JsonPatchDocument leagueSupplierModel)
         {
             try
             {
@@ -177,7 +177,16 @@ namespace FootBallManagerAPI.Controllers
 
         private bool LeaguesupplierExists(int idSupplier, int idLeague)
         {
-            return _leagueSupplierRepos.GetById(idSupplier, idLeague) != null;
+            try
+            {
+                return _leagueSupplierRepos.GetById(idSupplier, idLeague) != null;
+
+            }
+            catch 
+            {
+
+                return false;
+            }
         }
     }
 }

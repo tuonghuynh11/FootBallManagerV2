@@ -63,7 +63,18 @@ namespace FootBallManagerV2Test.Controller
         public async Task SupplierController_GetSupplierById_ReturnOK()
         {
             //Arrange
-            var supplier = A.Fake<Supplier>();
+            var supplier = new Supplier() { 
+                 IdSupplier=1,
+                 Addresss="",
+                 Doibongsuppliers=null,
+                 EstablishDate=DateTime.Now,
+                 Images=null,
+                 Leaguesuppliers=null,
+                 PhoneNumber="",
+                 RepresentativeName="",
+                 SupplierName="",
+                 Supplierservices = null
+            };
 
             A.CallTo(() => _supplierRepos.GetById(1)).Returns(supplier);
 
