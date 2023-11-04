@@ -39,8 +39,16 @@ namespace FootBallManagerAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Notification>> GetNotification(int id)
         {
-            var itemtype = await _notiRepo.GetNotificationAsync(id);
-            return itemtype == null ? NotFound() : Ok(itemtype);
+            try
+            {
+
+                var itemtype = await _notiRepo.GetNotificationAsync(id);
+                return itemtype == null ? NotFound() : Ok(itemtype);
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         // PUT: api/Notifications/5
@@ -48,12 +56,20 @@ namespace FootBallManagerAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutNotification(int id, Notification notification)
         {
-            if (id != notification.Id)
+            try
             {
-                return NotFound();
+
+                if (id != notification.Id)
+                {
+                    return NotFound();
+                }
+                await _notiRepo.updateNotificationAsync(id, notification);
+                return Ok();
             }
-            await _notiRepo.updateNotificationAsync(id, notification);
-            return Ok();
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         // POST: api/Notifications
@@ -63,9 +79,8 @@ namespace FootBallManagerAPI.Controllers
         {
             try
             {
-                var newNotiId = await _notiRepo.addNotificationAsync(notification);
-                var notiNew = await _notiRepo.GetNotificationAsync(newNotiId);
-                return notiNew == null ? NotFound() : Ok(notiNew);
+                var newNoti = await _notiRepo.addNotificationAsync(notification);
+                return newNoti == null ? NotFound() : Ok(newNoti);
             }
             catch
             {
@@ -77,8 +92,16 @@ namespace FootBallManagerAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteNotification(int id)
         {
-            await _notiRepo.deleteNotificationAsync(id);
-            return Ok();
+            try
+            {
+
+                await _notiRepo.deleteNotificationAsync(id);
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
     }

@@ -6,7 +6,7 @@ namespace FootBallManagerAPI.Repositories
     {
         public Task<List<Doibong>> GetAllDoibongAsync();
         public Task<Doibong> GetDoibongAsync(string id);
-        public Task<string> addDoibongAsync(Doibong doibong);
+        public Task<Doibong> addDoibongAsync(Doibong doibong);
         public Task updateDoibongAsync(string id,  Doibong doibong);
         public Task deleteDoibongAsync(string id);
     }

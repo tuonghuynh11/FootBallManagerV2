@@ -6,7 +6,7 @@ namespace FootBallManagerAPI.Repositories
     {
         public Task<List<Chuyennhuong>> GetAllChuyennhuongAsync();
         public Task<Chuyennhuong> GetChuyennhuongAsync(int id);
-        public Task<int> addChuyennhuongAsync(Chuyennhuong chu);
+        public Task<Chuyennhuong> addChuyennhuongAsync(Chuyennhuong chu);
         public Task updateChuyennhuongAsync(int id,  Chuyennhuong chu);
         public Task deleteChuyennhuongAsync(int id);
     }

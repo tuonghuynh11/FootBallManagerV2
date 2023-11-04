@@ -10,12 +10,12 @@ namespace FootBallManagerAPI.Repositories
         public ItemtypeRepository(FootBallManagerV2Context context) {
             _context = context;
         }
-        public async Task<int> addItemtypeAsync(Itemtype itemtype)
+        public async Task<Itemtype> addItemtypeAsync(Itemtype itemtype)
         {
             var newItemtype = itemtype;
             _context.Itemtypes.Add(newItemtype);
             await _context.SaveChangesAsync();
-            return newItemtype.Id;
+            return newItemtype;
         }
 
         public async Task deleteItemtypeAsync(int id)

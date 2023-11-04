@@ -3,6 +3,7 @@ using FootBallManagerAPI.Entities;
 using FootBallManagerAPI.Models;
 using FootBallManagerAPI.Repositories;
 using FootBallManagerAPI.Repository;
+using FootBallManagerAPI.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 using Microsoft.EntityFrameworkCore;

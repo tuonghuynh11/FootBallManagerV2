@@ -10,12 +10,12 @@ namespace FootBallManagerAPI.Repositories
         public FieldRepository(FootBallManagerV2Context context) {
             _context = context;
         }
-        public async Task<int> addFieldAsync(Field field)
+        public async Task<Field> addFieldAsync(Field field)
         {
             var newField = field;
             _context.Fields.Add(newField);
             await _context.SaveChangesAsync();
-            return newField.IdField;
+            return newField;
         }
 
         public async Task deleteFieldAsync(int id)

@@ -10,12 +10,12 @@ namespace FootBallManagerAPI.Repositories
         public DoibongRepository(FootBallManagerV2Context context) {
             _context = context;
         }
-        public async Task<string> addDoibongAsync(Doibong doibong)
+        public async Task<Doibong> addDoibongAsync(Doibong doibong)
         {
             var newDoibong = doibong;
             _context.Doibongs.Add(newDoibong);
             await _context.SaveChangesAsync();
-            return newDoibong.Id;
+            return newDoibong;
         }
 
         public async Task deleteDoibongAsync(string id)

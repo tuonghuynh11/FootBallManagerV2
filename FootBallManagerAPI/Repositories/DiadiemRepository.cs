@@ -10,12 +10,12 @@ namespace FootBallManagerAPI.Repositories
         public DiadiemRepository(FootBallManagerV2Context context) { 
             _context = context;
         }
-        public async Task<int> addDiadiemAsync(Diadiem diadiem)
+        public async Task<Diadiem> addDiadiemAsync(Diadiem diadiem)
         {
             var newĐiaiem = diadiem;
             _context.Diadiems.Add(newĐiaiem);
             await _context.SaveChangesAsync();
-            return newĐiaiem.Id;
+            return newĐiaiem;
         }
 
         public async Task DeleteDiadiemAsync(int id)

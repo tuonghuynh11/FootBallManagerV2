@@ -10,12 +10,12 @@ namespace FootBallManagerAPI.Repositories
         public LeagueRepository(FootBallManagerV2Context context) {
             _context = context;
         }
-        public async Task<int> addLeagueAsync(League league)
+        public async Task<League> addLeagueAsync(League league)
         {
             var newLeague = league;
             _context.Leagues.Add(newLeague);
             await _context.SaveChangesAsync();
-            return newLeague.Id;
+            return newLeague;
         }
 
         public async Task deleteLeagueAsync(int id)

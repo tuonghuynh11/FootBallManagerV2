@@ -39,8 +39,16 @@ namespace FootBallManagerAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Itemtype>> GetItemtype(int id)
         {
-            var itemtype = await _itemtypesRepo.GetItemtypeAsync(id);
-            return itemtype == null ? NotFound() : Ok(itemtype);
+            try
+            {
+
+                var itemtype = await _itemtypesRepo.GetItemtypeAsync(id);
+                return itemtype == null ? NotFound() : Ok(itemtype);
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         // PUT: api/Itemtypes/5
@@ -48,12 +56,20 @@ namespace FootBallManagerAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutItemtype(int id, Itemtype itemtype)
         {
-            if (id != itemtype.Id)
+            try
             {
-                return NotFound();
+
+                if (id != itemtype.Id)
+                {
+                    return NotFound();
+                }
+                await _itemtypesRepo.updateItemtypeAsync(id, itemtype);
+                return Ok();
             }
-            await _itemtypesRepo.updateItemtypeAsync(id, itemtype);
-            return Ok();
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         // POST: api/Itemtypes
@@ -63,9 +79,8 @@ namespace FootBallManagerAPI.Controllers
         {
             try
             {
-                var newItemtypeId = await _itemtypesRepo.addItemtypeAsync(itemtype);
-                var itemtypeNew = await _itemtypesRepo.GetItemtypeAsync(newItemtypeId);
-                return itemtypeNew == null ? NotFound() : Ok(itemtypeNew);
+                var newItemtype = await _itemtypesRepo.addItemtypeAsync(itemtype);
+                return newItemtype == null ? NotFound() : Ok(newItemtype);
             }
             catch
             {
@@ -77,8 +92,16 @@ namespace FootBallManagerAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteItemtype(int id)
         {
-            await _itemtypesRepo.deleteItemtypeAsync(id);
-            return Ok();
+            try
+            {
+
+                await _itemtypesRepo.deleteItemtypeAsync(id);
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
     }
