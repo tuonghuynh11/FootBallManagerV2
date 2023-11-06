@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace FootBallManagerV2Test.Controller
 {
@@ -29,14 +30,15 @@ namespace FootBallManagerV2Test.Controller
             //ThongTinTranDauRepository thongTinTranDauRepository = new ThongTinTranDauRepository();
 
             this._thongTinTranDauRepos = A.Fake<IThongTinTranDauRepository>();
-            var mock = GetFakeThongTinTranDauList().BuildMock().BuildMockDbSet();
+            var mock = GetFakeThongTinTranDauList(false).BuildMock().BuildMockDbSet();
             this._dbContextMock = new Mock<FootBallManagerV2Context>();
             this._dbContextMock.Setup(x => x.Thongtintrandaus).Returns(mock.Object);
             this._repo = new ThongTinTranDauRepository(this._dbContextMock.Object);
         }
 
-        private static List<Thongtintrandau> GetFakeThongTinTranDauList()
+        private static List<Thongtintrandau> GetFakeThongTinTranDauList(bool isNull)
         {
+            if(isNull) return new List<Thongtintrandau>();
             return new List<Thongtintrandau>() {
                 new Thongtintrandau() {
                    Id = 1,
@@ -91,6 +93,14 @@ namespace FootBallManagerV2Test.Controller
         [TestMethod]
         public async Task ThongTinTranDausController_GetThongtintrandaus_ReturnsProblemResultOnException()
         {
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            ThongTinTranDauRepository _repo;
+            var mock = GetFakeThongTinTranDauList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Thongtintrandaus).Returns(mock.Object);
+            _repo = new ThongTinTranDauRepository(_dbContextMock.Object);
+            await _repo.GetAll();
             // Arrange
             var _thongTinTranDauRepos = A.Fake<IThongTinTranDauRepository>(options => options.Wrapping(new ThongTinTranDauRepository(A.Fake<FootBallManagerV2Context>())));
 
@@ -278,6 +288,8 @@ namespace FootBallManagerV2Test.Controller
             var _thongTinTranDauRepos = A.Fake<IThongTinTranDauRepository>(options => options.Wrapping(new ThongTinTranDauRepository(A.Fake<FootBallManagerV2Context>())));
 
             Microsoft.AspNetCore.JsonPatch.JsonPatchDocument update = new Microsoft.AspNetCore.JsonPatch.JsonPatchDocument();
+            await _repo.Patch(5, update); 
+            
             update.Replace("THEDO", 3);
             A.CallTo(() => _thongTinTranDauRepos.Patch(5, update)).Returns(true);
             var _controller = new ThongtintrandausController(_thongTinTranDauRepos);
@@ -295,7 +307,17 @@ namespace FootBallManagerV2Test.Controller
             var _thongTinTranDauRepos = A.Fake<IThongTinTranDauRepository>(options => options.Wrapping(new ThongTinTranDauRepository(A.Fake<FootBallManagerV2Context>())));
 
             Microsoft.AspNetCore.JsonPatch.JsonPatchDocument update = new Microsoft.AspNetCore.JsonPatch.JsonPatchDocument();
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            ThongTinTranDauRepository _repo;
+            var mock = GetFakeThongTinTranDauList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Thongtintrandaus).Returns(mock.Object);
+            _repo = new ThongTinTranDauRepository(_dbContextMock.Object);
+            await _repo.Patch(5, update);
             update.Replace("THEDO", 3);
+
+            
             A.CallTo(() => _thongTinTranDauRepos.Patch(5, update)).Returns(false);
             var _controller = new ThongtintrandausController(_thongTinTranDauRepos);
             //Act
@@ -400,6 +422,15 @@ namespace FootBallManagerV2Test.Controller
             var _thongTinTranDauRepos = A.Fake<IThongTinTranDauRepository>(options => options.Wrapping(new ThongTinTranDauRepository(A.Fake<FootBallManagerV2Context>())));
 
             int idThongTinTranDau = 1;
+
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            ThongTinTranDauRepository _repo;
+            var mock = GetFakeThongTinTranDauList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Thongtintrandaus).Returns(mock.Object);
+            _repo = new ThongTinTranDauRepository(_dbContextMock.Object);
+            await _repo.Delete(idThongTinTranDau);
             A.CallTo(() => _thongTinTranDauRepos.Delete(idThongTinTranDau)).Returns(false);
 
             var _controller = new ThongtintrandausController(_thongTinTranDauRepos);

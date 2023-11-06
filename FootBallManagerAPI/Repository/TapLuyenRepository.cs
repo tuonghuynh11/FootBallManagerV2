@@ -1,6 +1,7 @@
 ﻿using FootBallManagerAPI.Entities;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace FootBallManagerAPI.Repository
 {
@@ -34,7 +35,7 @@ namespace FootBallManagerAPI.Repository
 
         public async Task<IEnumerable<Tapluyen>> GetAll()
         {   
-            if (_context.Tapluyens == null)
+            if (_context.Tapluyens.IsNullOrEmpty())
             {
                 return new List<Tapluyen>();
             }

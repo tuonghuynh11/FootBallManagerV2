@@ -1,6 +1,7 @@
 ﻿using FootBallManagerAPI.Entities;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace FootBallManagerAPI.Repository
 {
@@ -34,7 +35,7 @@ namespace FootBallManagerAPI.Repository
 
         public async Task<IEnumerable<Quoctich>> GetAll()
         {
-            if (_context.Quoctiches == null)
+            if (_context.Quoctiches.IsNullOrEmpty())
             {
                 return new List<Quoctich>();
             }

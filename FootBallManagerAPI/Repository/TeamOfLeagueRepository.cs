@@ -1,6 +1,7 @@
 ﻿using FootBallManagerAPI.Entities;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace FootBallManagerAPI.Repository
 {
@@ -33,7 +34,7 @@ namespace FootBallManagerAPI.Repository
 
         public async Task<IEnumerable<Teamofleague>> GetAll()
         {
-            if (_context.Teamofleagues == null)
+            if (_context.Teamofleagues.IsNullOrEmpty())
             {
                 return new List<Teamofleague>();
             }

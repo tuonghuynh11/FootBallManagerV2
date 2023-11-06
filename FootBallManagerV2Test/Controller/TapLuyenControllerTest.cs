@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace FootBallManagerV2Test.Controller
 {
@@ -25,14 +26,15 @@ namespace FootBallManagerV2Test.Controller
         public TapLuyenControllerTest()
         {
             this._tapLuyenRepos = A.Fake<ITapLuyenRepository>();
-            var mock = GetFakeTapLuyenList().BuildMock().BuildMockDbSet();
+            var mock = GetFakeTapLuyenList(false).BuildMock().BuildMockDbSet();
             this._dbContextMock = new Mock<FootBallManagerV2Context>();
             this._dbContextMock.Setup(x => x.Tapluyens).Returns(mock.Object);
             this._repo = new TapLuyenRepository(this._dbContextMock.Object);
         }
 
-        private static List<Tapluyen> GetFakeTapLuyenList()
+        private static List<Tapluyen> GetFakeTapLuyenList(bool isNull)
         {
+            if(isNull) return new List<Tapluyen>();
             return new List<Tapluyen>() {
                 new Tapluyen() {
                      Id=1,
@@ -87,6 +89,14 @@ namespace FootBallManagerV2Test.Controller
         [TestMethod]
         public async Task TapLuyenController_GetTapluyens_ReturnsProblemResultOnException()
         {
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            TapLuyenRepository _repo;
+            var mock = GetFakeTapLuyenList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Tapluyens).Returns(mock.Object);
+            _repo = new TapLuyenRepository(_dbContextMock.Object);
+            await _repo.GetAll();
             // Arrange
 
             A.CallTo(() => _tapLuyenRepos.GetAll()).Throws<Exception>(); // Simulate an exception
@@ -266,6 +276,14 @@ namespace FootBallManagerV2Test.Controller
             //Arrange
             Microsoft.AspNetCore.JsonPatch.JsonPatchDocument update = new Microsoft.AspNetCore.JsonPatch.JsonPatchDocument();
             update.Replace("HOATDONG", "Run 100 rounds");
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            TapLuyenRepository _repo;
+            var mock = GetFakeTapLuyenList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Tapluyens).Returns(mock.Object);
+            _repo = new TapLuyenRepository(_dbContextMock.Object);
+            await _repo.Patch(5,update);
             A.CallTo(() => _tapLuyenRepos.Patch(5, update)).Returns(false);
             var _controller = new TapluyensController(_tapLuyenRepos);
             //Act
@@ -358,7 +376,14 @@ namespace FootBallManagerV2Test.Controller
         {
             //Arrange
             int idTapLuyen = 1;
-
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            TapLuyenRepository _repo;
+            var mock = GetFakeTapLuyenList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Tapluyens).Returns(mock.Object);
+            _repo = new TapLuyenRepository(_dbContextMock.Object);
+            await _repo.Delete(idTapLuyen);
             A.CallTo(() => _tapLuyenRepos.Delete(idTapLuyen)).Returns(false);
 
             var _controller = new TapluyensController(_tapLuyenRepos);

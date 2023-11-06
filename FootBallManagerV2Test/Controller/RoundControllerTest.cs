@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace FootBallManagerV2Test.Controller
 {
@@ -25,14 +26,15 @@ namespace FootBallManagerV2Test.Controller
         public RoundControllerTest()
         {
             this._roundRepos = A.Fake<IRoundRepository>();
-            var mock = GetFakeRoundList().BuildMock().BuildMockDbSet();
+            var mock = GetFakeRoundList(false).BuildMock().BuildMockDbSet();
             this._dbContextMock = new Mock<FootBallManagerV2Context>();
             this._dbContextMock.Setup(x => x.Rounds).Returns(mock.Object);
             this._repo = new RoundRepository(this._dbContextMock.Object);
         }
 
-        private static List<Round> GetFakeRoundList()
+        private static List<Round> GetFakeRoundList(bool isNull)
         {
+            if (isNull) return new List<Round>();
             return new List<Round>() {
                 new Round() {
                     Id = 1,
@@ -84,6 +86,14 @@ namespace FootBallManagerV2Test.Controller
         [TestMethod]
         public async Task RoundController_GetRounds_ReturnsProblemResultOnException()
         {
+
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            RoundRepository _repo;
+            var mock = GetFakeRoundList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Rounds).Returns(mock.Object);
+            _repo = new RoundRepository(_dbContextMock.Object);
+            await _repo.GetAll();
             // Arrange
 
             A.CallTo(() => _roundRepos.GetAll()).Throws<Exception>(); // Simulate an exception
@@ -261,6 +271,16 @@ namespace FootBallManagerV2Test.Controller
             //Arrange
             Microsoft.AspNetCore.JsonPatch.JsonPatchDocument update = new Microsoft.AspNetCore.JsonPatch.JsonPatchDocument();
             update.Replace("TENVONGDAU", "Final");
+
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            RoundRepository _repo;
+            var mock = GetFakeRoundList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Rounds).Returns(mock.Object);
+            _repo = new RoundRepository(_dbContextMock.Object);
+            await _repo.Patch(5, update) ;
+
             A.CallTo(() => _roundRepos.Patch(5, update)).Returns(false);
             var _controller = new RoundsController(_roundRepos);
             //Act
@@ -366,6 +386,14 @@ namespace FootBallManagerV2Test.Controller
         {
             //Arrange
             int idRound = 1;
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            RoundRepository _repo;
+            var mock = GetFakeRoundList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Rounds).Returns(mock.Object);
+            _repo = new RoundRepository(_dbContextMock.Object);
+            await _repo.Delete(idRound);
             A.CallTo(() => _roundRepos.Delete(idRound)).Throws<Exception>();
             var _controller = new RoundsController(_roundRepos);
             //Act

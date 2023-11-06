@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using FootBallManagerAPI.Repositories;
 using Moq;
 using MockQueryable.Moq;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace FootBallManagerV2Test.Controller
 {
@@ -27,13 +28,14 @@ namespace FootBallManagerV2Test.Controller
         private readonly UserRolesRepository _repo;
         public UserRoleControllerTest() {
             this._userRoleRepos = A.Fake<IUserRolesRepository>();
-            var mock = GetFakeUserRoleList().BuildMock().BuildMockDbSet();
+            var mock = GetFakeUserRoleList(false).BuildMock().BuildMockDbSet();
             this._dbContextMock = new Mock<FootBallManagerV2Context>();
             this._dbContextMock.Setup(x => x.Userroles).Returns(mock.Object);
             this._repo = new UserRolesRepository(this._dbContextMock.Object);
         }
-        private static List<Userrole> GetFakeUserRoleList()
+        private static List<Userrole> GetFakeUserRoleList(bool isNull)
         {
+            if(isNull) return new List<Userrole>();
             return new List<Userrole>() {
                 new Userrole() {
                    Id = 1 ,Role="admin",Users=null
@@ -71,8 +73,16 @@ namespace FootBallManagerV2Test.Controller
         [TestMethod]
         public async Task UserRoleController_GetAllUserRole_ReturnsProblemResultOnException()
         {
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            UserRolesRepository _repo;
+            var mock = GetFakeUserRoleList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Userroles).Returns(mock.Object);
+            _repo = new UserRolesRepository(_dbContextMock.Object);
+            await _repo.GetAll();
             // Arrange
-          
+
             A.CallTo(() => _userRoleRepos.GetAll()).Throws<Exception>(); // Simulate an exception
             var controller = new UserrolesController(_userRoleRepos);
 
@@ -226,6 +236,15 @@ namespace FootBallManagerV2Test.Controller
         {
             //Arrange
             Microsoft.AspNetCore.JsonPatch.JsonPatchDocument update = new Microsoft.AspNetCore.JsonPatch.JsonPatchDocument();
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            UserRolesRepository _repo;
+            var mock = GetFakeUserRoleList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Userroles).Returns(mock.Object);
+            _repo = new UserRolesRepository(_dbContextMock.Object);
+            await _repo.Patch(5,update);
+
             update.Replace("ROLE", "player");
             A.CallTo(() => _userRoleRepos.Patch(5, update)).Returns(false);
             var _controller = new UserrolesController(_userRoleRepos);
@@ -308,6 +327,14 @@ namespace FootBallManagerV2Test.Controller
         {
             //Arrange
             int idUserRole = 1;
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            UserRolesRepository _repo;
+            var mock = GetFakeUserRoleList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Userroles).Returns(mock.Object);
+            _repo = new UserRolesRepository(_dbContextMock.Object);
+            await _repo.Delete(1);
             A.CallTo(() => _userRoleRepos.Delete(idUserRole)).Returns(false);
             var _controller = new UserrolesController(_userRoleRepos);
             //Act

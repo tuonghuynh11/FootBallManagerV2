@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using FootBallManagerAPI.Entities;
 using Moq;
 using MockQueryable.Moq;
+using FootBallManagerAPI.Repository;
 
 namespace FootBallManagerV2Test.Controller
 {
@@ -24,15 +25,16 @@ namespace FootBallManagerV2Test.Controller
         public DiemControllerTest()
         {
             this._diemRepo = A.Fake<IDiemRepository>();
-            var mock = GetFakeDiemList().BuildMock().BuildMockDbSet();
+            var mock = GetFakeDiemList(false).BuildMock().BuildMockDbSet();
             this._dbContextMock = new Mock<FootBallManagerV2Context>();
             this._dbContextMock.Setup(x => x.Diems).Returns(mock.Object);
             this._repo = new DiemRepository(this._dbContextMock.Object);
         }
 
 
-        private static List<Diem> GetFakeDiemList()
+        private static List<Diem> GetFakeDiemList(bool isNull)
         {
+            if(isNull) return new List<Diem>();
             return new List<Diem>() {
                 new Diem() {
                    Iddoibong="atm",
@@ -240,6 +242,7 @@ namespace FootBallManagerV2Test.Controller
         {
             int id = 1;
             string iddb = "abc";
+            await _repo.deleteDiemAsync(id, iddb);
             A.CallTo(() => _diemRepo.deleteDiemAsync(id, iddb)).Invokes(() => {
                 Assert.AreEqual(id, 1);
             }); ;
@@ -256,7 +259,18 @@ namespace FootBallManagerV2Test.Controller
         {
             int id = 1;
             string iddb = "abc";
+           
+
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            DiemRepository _repo;
+            var mock = GetFakeDiemList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Diems).Returns(mock.Object);
+            _repo = new DiemRepository(_dbContextMock.Object);
             await _repo.deleteDiemAsync(id, iddb);
+
+
             A.CallTo(() => _diemRepo.deleteDiemAsync(id, iddb)).Throws<Exception>();
             var controller = new DiemsController(_diemRepo);
             var result = await controller.DeleteDiem(id, iddb);

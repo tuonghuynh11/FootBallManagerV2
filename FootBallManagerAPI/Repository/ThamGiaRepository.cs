@@ -1,6 +1,7 @@
 ﻿using FootBallManagerAPI.Entities;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace FootBallManagerAPI.Repository
 {
@@ -33,7 +34,7 @@ namespace FootBallManagerAPI.Repository
 
         public async Task<IEnumerable<Thamgium>> GetAll()
         {
-            if (_context.Thamgia == null)
+            if (_context.Thamgia.IsNullOrEmpty())
             {
                 return new List<Thamgium>();
             }
