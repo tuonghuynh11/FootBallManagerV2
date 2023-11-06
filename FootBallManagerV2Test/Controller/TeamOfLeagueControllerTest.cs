@@ -25,14 +25,15 @@ namespace FootBallManagerV2Test.Controller
         public TeamOfLeagueControllerTest()
         {
             this._teamOfLeagueRepos = A.Fake<ITeamOfLeagueRepository>();
-            var mock = GetFakeTeamOfLeagueList().BuildMock().BuildMockDbSet();
+            var mock = GetFakeTeamOfLeagueList(false).BuildMock().BuildMockDbSet();
             this._dbContextMock = new Mock<FootBallManagerV2Context>();
             this._dbContextMock.Setup(x => x.Teamofleagues).Returns(mock.Object);
             this._repo = new TeamOfLeagueRepository(this._dbContextMock.Object);
         }
 
-        private static List<Teamofleague> GetFakeTeamOfLeagueList()
+        private static List<Teamofleague> GetFakeTeamOfLeagueList(bool isNull)
         {
+            if (isNull) return new List<Teamofleague>();
             return new List<Teamofleague>() {
                 new Teamofleague() {
                      Id = 1,
@@ -77,6 +78,14 @@ namespace FootBallManagerV2Test.Controller
         [TestMethod]
         public async Task TeamOfLeagueController_GetTeamofleagues_ReturnsProblemResultOnException()
         {
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            TeamOfLeagueRepository _repo;
+            var mock = GetFakeTeamOfLeagueList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Teamofleagues).Returns(mock.Object);
+            _repo = new TeamOfLeagueRepository(_dbContextMock.Object);
+            await _repo.GetAll();
             // Arrange
 
             A.CallTo(() => _teamOfLeagueRepos.GetAll()).Throws<Exception>(); // Simulate an exception
@@ -148,6 +157,9 @@ namespace FootBallManagerV2Test.Controller
         [TestMethod]
         public async Task TeamOfLeagueController_UpdateTeamofleague_ReturnNoContent()
         {
+            //context
+          
+            _repo.TeamofleagueExists(1);
             //Arrange
             Teamofleague teamofleague = A.Fake<Teamofleague>();
             teamofleague.Iddoibong = "mc";
@@ -184,6 +196,17 @@ namespace FootBallManagerV2Test.Controller
             Teamofleague teamofleague = A.Fake<Teamofleague>();
             teamofleague.Iddoibong = "mc";
             teamofleague.Id = 2;
+
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            TeamOfLeagueRepository _repo;
+            var mock = GetFakeTeamOfLeagueList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Teamofleagues).Returns(mock.Object);
+            _repo = new TeamOfLeagueRepository(_dbContextMock.Object);
+             _repo.TeamofleagueExists(2);
+
+
             A.CallTo(() => _teamOfLeagueRepos.TeamofleagueExists(2)).Returns(false);
             A.CallTo(() => _teamOfLeagueRepos.Update(teamofleague)).Throws<DbUpdateConcurrencyException>();
             var _controller = new TeamOfLeaguesController(_teamOfLeagueRepos);
@@ -255,6 +278,16 @@ namespace FootBallManagerV2Test.Controller
             //Arrange
             Microsoft.AspNetCore.JsonPatch.JsonPatchDocument update = new Microsoft.AspNetCore.JsonPatch.JsonPatchDocument();
             update.Replace("IDDOIBONG", "atm");
+
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            TeamOfLeagueRepository _repo;
+            var mock = GetFakeTeamOfLeagueList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Teamofleagues).Returns(mock.Object);
+            _repo = new TeamOfLeagueRepository(_dbContextMock.Object);
+            await _repo.Patch(5,update);
+
             A.CallTo(() => _teamOfLeagueRepos.Patch(5, update)).Returns(false);
             var _controller = new TeamOfLeaguesController(_teamOfLeagueRepos);
             //Act
@@ -345,6 +378,14 @@ namespace FootBallManagerV2Test.Controller
             //Arrange
             int idGiaiDau = 1;
             string idTeam = "atm";
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            TeamOfLeagueRepository _repo;
+            var mock = GetFakeTeamOfLeagueList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Teamofleagues).Returns(mock.Object);
+            _repo = new TeamOfLeagueRepository(_dbContextMock.Object);
+            await _repo.Delete(idGiaiDau,idTeam);
             A.CallTo(() => _teamOfLeagueRepos.Delete(idGiaiDau, idTeam)).Returns(false);
 
             var _controller = new TeamOfLeaguesController(_teamOfLeagueRepos);
@@ -381,6 +422,7 @@ namespace FootBallManagerV2Test.Controller
             //Arrange
             int idGiaiDau = 1;
             string idTeam = "atm";
+            await _repo.IsTeamJoinLeague(idGiaiDau, idTeam);
             A.CallTo(() => _teamOfLeagueRepos.IsTeamJoinLeague(idGiaiDau, idTeam)).Returns(await _repo.IsTeamJoinLeague(idGiaiDau,idTeam));
 
             var _controller = new TeamOfLeaguesController(_teamOfLeagueRepos);
@@ -397,6 +439,14 @@ namespace FootBallManagerV2Test.Controller
             //Arrange
             int idGiaiDau = 1;
             string idTeam = "atm";
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            TeamOfLeagueRepository _repo;
+            var mock = GetFakeTeamOfLeagueList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Teamofleagues).Returns(mock.Object);
+            _repo = new TeamOfLeagueRepository(_dbContextMock.Object);
+            await _repo.IsTeamJoinLeague(idGiaiDau,idTeam);
             A.CallTo(() => _teamOfLeagueRepos.IsTeamJoinLeague(idGiaiDau, idTeam)).Throws<Exception>();
             var _controller = new TeamOfLeaguesController(_teamOfLeagueRepos);
             //Act

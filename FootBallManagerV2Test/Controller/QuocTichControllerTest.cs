@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace FootBallManagerV2Test.Controller
 {
@@ -25,13 +26,14 @@ namespace FootBallManagerV2Test.Controller
         public QuocTichControllerTest()
         {
             this._quocTichRepos = A.Fake<IQuocTichRepository>();
-            var mock = GetFakeQuocTichList().BuildMock().BuildMockDbSet();
+            var mock = GetFakeQuocTichList(false).BuildMock().BuildMockDbSet();
             this._dbContextMock = new Mock<FootBallManagerV2Context>();
             this._dbContextMock.Setup(x => x.Quoctiches).Returns(mock.Object);
             this._repo = new QuocTichRepository(this._dbContextMock.Object);
         }
-        private static List<Quoctich> GetFakeQuocTichList()
+        private static List<Quoctich> GetFakeQuocTichList(bool isNull)
         {
+            if (isNull) return new List<Quoctich>(); 
             return new List<Quoctich>() {
                 new Quoctich() {
                 Cauthus=null,
@@ -79,6 +81,14 @@ namespace FootBallManagerV2Test.Controller
         [TestMethod]
         public async Task QuocTichController_GetQuoctiches_ReturnsProblemResultOnException()
         {
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            QuocTichRepository _repo;
+            var mock = GetFakeQuocTichList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Quoctiches).Returns(mock.Object);
+            _repo = new QuocTichRepository(_dbContextMock.Object);
+            await _repo.GetAll();
             // Arrange
 
             A.CallTo(() => _quocTichRepos.GetAll()).Throws<Exception>(); // Simulate an exception
@@ -256,6 +266,16 @@ namespace FootBallManagerV2Test.Controller
             //Arrange
             Microsoft.AspNetCore.JsonPatch.JsonPatchDocument update = new Microsoft.AspNetCore.JsonPatch.JsonPatchDocument();
             update.Replace("TENQUOCGIA", "Anh");
+
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            QuocTichRepository _repo;
+            var mock = GetFakeQuocTichList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Quoctiches).Returns(mock.Object);
+            _repo = new QuocTichRepository(_dbContextMock.Object);
+
+            await _repo.Patch(5, update);
             A.CallTo(() => _quocTichRepos.Patch(5, update)).Returns(false);
             var _controller = new QuoctichesController(_quocTichRepos);
             //Act
@@ -344,6 +364,14 @@ namespace FootBallManagerV2Test.Controller
         {
             //Arrange
             int idQuocTich = 1;
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            QuocTichRepository _repo;
+            var mock = GetFakeQuocTichList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Quoctiches).Returns(mock.Object);
+            _repo = new QuocTichRepository(_dbContextMock.Object);
+            await _repo.Delete(idQuocTich);
             A.CallTo(() => _quocTichRepos.Delete(idQuocTich)).Returns(false);
 
             var _controller = new QuoctichesController(_quocTichRepos);

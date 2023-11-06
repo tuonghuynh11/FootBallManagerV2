@@ -26,13 +26,17 @@ namespace FootBallManagerV2Test.Controller
         public SupplierServiceControllerTest()
         {
             this._supplierServiceRepos = A.Fake<ISupplierServiceRepository>();
-            var mock = GetFakeSupplierServiceList().BuildMock().BuildMockDbSet();
+            var mock = GetFakeSupplierServiceList(false).BuildMock().BuildMockDbSet();
             this._dbContextMock = new Mock<FootBallManagerV2Context>();
             this._dbContextMock.Setup(x => x.Supplierservices).Returns(mock.Object);
             this._repo = new SupplierServiceRepository(this._dbContextMock.Object);
         }
-        private static List<Supplierservice> GetFakeSupplierServiceList()
+        private static List<Supplierservice> GetFakeSupplierServiceList(bool isNull)
         {
+            if (isNull)
+            {
+                return new List<Supplierservice>();
+            }
             return new List<Supplierservice>() {
                 new Supplierservice() {
                       IdService = 1,
@@ -75,6 +79,14 @@ namespace FootBallManagerV2Test.Controller
         [TestMethod]
         public async Task SupplierServicesController_GetSupplierservices_ReturnsProblemResultOnException()
         {
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            SupplierServiceRepository _repo;
+            var mock = GetFakeSupplierServiceList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Supplierservices).Returns(mock.Object);
+            _repo = new SupplierServiceRepository(_dbContextMock.Object);
+            await _repo.GetAll();
             // Arrange
 
             A.CallTo(() => _supplierServiceRepos.GetAll()).Throws<Exception>(); // Simulate an exception
@@ -296,6 +308,14 @@ namespace FootBallManagerV2Test.Controller
             //Arrange
             int IdService = 1;
             int IdSupplier = 1;
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            SupplierServiceRepository _repo;
+            var mock = GetFakeSupplierServiceList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Supplierservices).Returns(mock.Object);
+            _repo = new SupplierServiceRepository(_dbContextMock.Object);
+            await _repo.Delete(IdService,IdSupplier);
             A.CallTo(() => _supplierServiceRepos.Delete(IdService, IdSupplier)).Returns(false);
 
             var _controller = new SupplierServicesController(_supplierServiceRepos);

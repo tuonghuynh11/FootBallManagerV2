@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace FootBallManagerV2Test.Controller
 {
@@ -26,14 +27,15 @@ namespace FootBallManagerV2Test.Controller
         public SupplierControllerTest()
         {
             this._supplierRepos = A.Fake<ISupplierRepository>();
-            var mock = GetFakeSupplierList().BuildMock().BuildMockDbSet();
+            var mock = GetFakeSupplierList(false).BuildMock().BuildMockDbSet();
             this._dbContextMock = new Mock<FootBallManagerV2Context>();
             this._dbContextMock.Setup(x => x.Suppliers).Returns(mock.Object);
             this._repo = new SupplierRepository(this._dbContextMock.Object);
 
         }
-        private static List<Supplier> GetFakeSupplierList()
+        private static List<Supplier> GetFakeSupplierList(bool isNull)
         {
+            if(isNull) return new List<Supplier>();
             return new List<Supplier>() {
                 new Supplier() {
                     IdSupplier = 1,
@@ -89,6 +91,15 @@ namespace FootBallManagerV2Test.Controller
         [TestMethod]
         public async Task SupplierController_GetSuppliers_ReturnsProblemResultOnException()
         {
+
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            SupplierRepository _repo;
+            var mock = GetFakeSupplierList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Suppliers).Returns(mock.Object);
+            _repo = new SupplierRepository(_dbContextMock.Object);
+            await _repo.GetAll();
             // Arrange
 
             A.CallTo(() => _supplierRepos.GetAll()).Throws<Exception>(); // Simulate an exception
@@ -266,6 +277,14 @@ namespace FootBallManagerV2Test.Controller
             //Arrange
             Microsoft.AspNetCore.JsonPatch.JsonPatchDocument update = new Microsoft.AspNetCore.JsonPatch.JsonPatchDocument();
             update.Replace("supplierName", "Adidas");
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            SupplierRepository _repo;
+            var mock = GetFakeSupplierList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Suppliers).Returns(mock.Object);
+            _repo = new SupplierRepository(_dbContextMock.Object);
+            await _repo.Patch(5,update);
             A.CallTo(() => _supplierRepos.Patch(5, update)).Returns(false);
             var _controller = new SuppliersController(_supplierRepos);
             //Act
@@ -358,6 +377,15 @@ namespace FootBallManagerV2Test.Controller
         {
             //Arrange
             int idSupplier = 1;
+
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            SupplierRepository _repo;
+            var mock = GetFakeSupplierList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Suppliers).Returns(mock.Object);
+            _repo = new SupplierRepository(_dbContextMock.Object);
+            await _repo.Delete(idSupplier);
             A.CallTo(() => _supplierRepos.Delete(idSupplier)).Returns(false);
 
             var _controller = new SuppliersController(_supplierRepos);

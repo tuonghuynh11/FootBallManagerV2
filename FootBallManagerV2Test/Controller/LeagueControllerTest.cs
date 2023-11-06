@@ -24,13 +24,14 @@ namespace FootBallManagerV2Test.Controller
         public LeagueControllerTest()
         {
             this._leagueRepo = A.Fake<ILeagueRepository>();
-            var mock = GetFakeLeagueList().BuildMock().BuildMockDbSet();
+            var mock = GetFakeLeagueList(false).BuildMock().BuildMockDbSet();
             this._dbContextMock = new Mock<FootBallManagerV2Context>();
             this._dbContextMock.Setup(x => x.Leagues).Returns(mock.Object);
             this._repo = new LeagueRepository(this._dbContextMock.Object);
         }
-        private static List<League> GetFakeLeagueList()
+        private static List<League> GetFakeLeagueList(bool isNull)
         {
+            if(isNull) return new List<League>();
             return new List<League>() {
                 new League() {
                      Id = 1,
@@ -258,6 +259,16 @@ namespace FootBallManagerV2Test.Controller
         public async Task DeleteFail()
         {
             int id = 1;
+
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            LeagueRepository _repo;
+            var mock = GetFakeLeagueList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Leagues).Returns(mock.Object);
+            _repo = new LeagueRepository(_dbContextMock.Object);
+            await _repo.deleteLeagueAsync(id);
+
             A.CallTo(() => _leagueRepo.deleteLeagueAsync(id)).Throws<Exception>();
             var controller = new LeaguesController(_leagueRepo);
             var result = await controller.DeleteLeague(id);

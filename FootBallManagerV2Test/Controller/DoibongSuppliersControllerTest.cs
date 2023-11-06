@@ -26,13 +26,15 @@ namespace FootBallManagerV2Test.Controller
         public DoibongSuppliersControllerTest()
         {
             this._doibongSupplierRepos = A.Fake<IDoiBongSupplierRepository>();
-            var mock = GetFakeDoiBongSupplierList().BuildMock().BuildMockDbSet();
+            var mock = GetFakeDoiBongSupplierList(false).BuildMock().BuildMockDbSet();
             this._dbContextMock = new Mock<FootBallManagerV2Context>();
             this._dbContextMock.Setup(x => x.Doibongsuppliers).Returns(mock.Object);
             this._repo = new DoiBongSupplierRepository(this._dbContextMock.Object);
         }
-        private static List<Doibongsupplier> GetFakeDoiBongSupplierList()
+        private static List<Doibongsupplier> GetFakeDoiBongSupplierList(bool isNull)
         {
+            if (isNull)
+                return new List<Doibongsupplier>();
             return new List<Doibongsupplier>() {
               new Doibongsupplier() { 
                   IdDoiBong = "atm",
@@ -75,7 +77,32 @@ namespace FootBallManagerV2Test.Controller
             //Assert
             Assert.IsInstanceOfType(result, typeof(OkObjectResult));
         }
+        [TestMethod]
+        public async Task DoibongSuppliersController_GetDoibongsuppliers_ReturnOK_EmptyList()
+        {
 
+            //context
+             Mock<FootBallManagerV2Context> _dbContextMock;
+             DoiBongSupplierRepository _repo;
+            var mock = GetFakeDoiBongSupplierList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Doibongsuppliers).Returns(mock.Object);
+            _repo = new DoiBongSupplierRepository(_dbContextMock.Object);
+
+            //Arrange
+            DoiBongSupplierRepository res = new DoiBongSupplierRepository(A.Fake<FootBallManagerV2Context>());
+
+            var doibongSupplier = await _repo.GetAll();
+
+            A.CallTo(() => _doibongSupplierRepos.GetAll()).Returns(doibongSupplier);
+
+            var _controller = new DoibongSuppliersController(_doibongSupplierRepos);
+            //Act
+            var result = await _controller.GetDoibongsuppliers();
+
+            //Assert
+            Assert.IsInstanceOfType(result, typeof(OkObjectResult));
+        }
         [TestMethod]
         public async Task DoibongSuppliersController_GetDoibongsuppliers_ReturnsProblemResultOnException()
         {
@@ -255,9 +282,20 @@ namespace FootBallManagerV2Test.Controller
         [TestMethod]
         public async Task DoibongSuppliersController_PatchDoiBongSupplier_ReturnBadRequest()
         {
+           
             //Arrange
             Microsoft.AspNetCore.JsonPatch.JsonPatchDocument update = new Microsoft.AspNetCore.JsonPatch.JsonPatchDocument();
             update.Replace("status", 2);
+
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            DoiBongSupplierRepository _repo;
+            var mock = GetFakeDoiBongSupplierList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Doibongsuppliers).Returns(mock.Object);
+            _repo = new DoiBongSupplierRepository(_dbContextMock.Object);
+            await _repo.Patch(5, "atm", update);
+
             A.CallTo(() => _doibongSupplierRepos.Patch(5, "atm", update)).Returns(false);
             var _controller = new DoibongSuppliersController(_doibongSupplierRepos);
 
@@ -327,6 +365,7 @@ namespace FootBallManagerV2Test.Controller
         [TestMethod]
         public async Task DoibongSuppliersController_DeleteDoibongsupplier_ReturnNoContent()
         {
+           
             //Arrange
             int IdSupplier = 1;
              string IdDoiBong = "atm";
@@ -346,6 +385,14 @@ namespace FootBallManagerV2Test.Controller
             //Arrange
             int IdSupplier = 1;
             string IdDoiBong = "atm";
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            DoiBongSupplierRepository _repo;
+            var mock = GetFakeDoiBongSupplierList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Doibongsuppliers).Returns(mock.Object);
+            _repo = new DoiBongSupplierRepository(_dbContextMock.Object);
+             await _repo.Delete(IdSupplier, IdDoiBong);
             A.CallTo(() => _doibongSupplierRepos.Delete(IdSupplier, IdDoiBong)).Returns(false);
 
             var _controller = new DoibongSuppliersController(_doibongSupplierRepos);

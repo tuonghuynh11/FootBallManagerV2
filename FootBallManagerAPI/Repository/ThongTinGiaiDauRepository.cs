@@ -1,6 +1,7 @@
 ﻿using FootBallManagerAPI.Entities;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace FootBallManagerAPI.Repository
 {
@@ -34,7 +35,7 @@ namespace FootBallManagerAPI.Repository
 
         public async Task<IEnumerable<Thongtingiaidau>> GetAll()
         {
-            if (_context.Thongtintrandaus == null)
+            if (_context.Thongtintrandaus.IsNullOrEmpty())
             {
                 return new List<Thongtingiaidau>();
             }

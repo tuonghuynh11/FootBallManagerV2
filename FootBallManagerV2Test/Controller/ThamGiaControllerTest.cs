@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace FootBallManagerV2Test.Controller
 {
@@ -26,13 +27,14 @@ namespace FootBallManagerV2Test.Controller
         public ThamGiaControllerTest()
         {
             this._thamGiaRepos = A.Fake<IThamGiaRepository>();
-            var mock = GetFakeThamGiaList().BuildMock().BuildMockDbSet();
+            var mock = GetFakeThamGiaList(false).BuildMock().BuildMockDbSet();
             this._dbContextMock = new Mock<FootBallManagerV2Context>();
             this._dbContextMock.Setup(x => x.Thamgia).Returns(mock.Object);
             this._repo = new ThamGiaRepository(this._dbContextMock.Object);
         }
-        private static List<Thamgium> GetFakeThamGiaList()
+        private static List<Thamgium> GetFakeThamGiaList(bool isNull)
         {
+            if(isNull) return new List<Thamgium>();
             return new List<Thamgium>() {
                 new Thamgium() {
                       Idcauthu = 1,
@@ -79,6 +81,14 @@ namespace FootBallManagerV2Test.Controller
         [TestMethod]
         public async Task ThamgiaController_GetThamgias_ReturnsProblemResultOnException()
         {
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            ThamGiaRepository _repo;
+            var mock = GetFakeThamGiaList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Thamgia).Returns(mock.Object);
+            _repo = new ThamGiaRepository(_dbContextMock.Object);
+            await _repo.GetAll();
             // Arrange
 
             A.CallTo(() => _thamGiaRepos.GetAll()).Throws<Exception>(); // Simulate an exception
@@ -230,10 +240,24 @@ namespace FootBallManagerV2Test.Controller
         public async Task ThamgiaController_PatchThamGia_ReturnBadRequest()
         {
             //Arrange
-            Microsoft.AspNetCore.JsonPatch.JsonPatchDocument update = new Microsoft.AspNetCore.JsonPatch.JsonPatchDocument();
-            update.Replace("SOBANTHANG", 3);
             int idTran = 1;
             int idCauThu = 1;
+            Microsoft.AspNetCore.JsonPatch.JsonPatchDocument update = new Microsoft.AspNetCore.JsonPatch.JsonPatchDocument();
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            ThamGiaRepository _repo;
+            var mock = GetFakeThamGiaList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Thamgia).Returns(mock.Object);
+            _repo = new ThamGiaRepository(_dbContextMock.Object);
+            await _repo.Patch(idTran, idCauThu, update);
+
+            update.Replace("SOBANTHANG", 3);
+          
+
+
+          
+
             A.CallTo(() => _thamGiaRepos.Patch(idTran, idCauThu, update)).Returns(false);
             var _controller = new ThamgiaController(_thamGiaRepos);
             //Act
@@ -325,6 +349,15 @@ namespace FootBallManagerV2Test.Controller
             //Arrange
             int idTran = 1;
             int idCauThu = 1;
+
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            ThamGiaRepository _repo;
+            var mock = GetFakeThamGiaList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Thamgia).Returns(mock.Object);
+            _repo = new ThamGiaRepository(_dbContextMock.Object);
+            await _repo.Delete(idTran, idCauThu);
             A.CallTo(() => _thamGiaRepos.Delete(idTran, idCauThu)).Returns(false);
 
             var _controller = new ThamgiaController(_thamGiaRepos);
@@ -377,6 +410,14 @@ namespace FootBallManagerV2Test.Controller
             //Arrange
             int idTran = 1;
             int idCauThu = 1;
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            ThamGiaRepository _repo;
+            var mock = GetFakeThamGiaList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Thamgia).Returns(mock.Object);
+            _repo = new ThamGiaRepository(_dbContextMock.Object);
+            await _repo.IsPlayerJoin(idTran, idCauThu);
             A.CallTo(() => _thamGiaRepos.IsPlayerJoin(idTran, idCauThu)).Throws<Exception>();
 
             var _controller = new ThamgiaController(_thamGiaRepos);

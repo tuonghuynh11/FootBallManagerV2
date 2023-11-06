@@ -26,13 +26,15 @@ namespace FootBallManagerV2Test.Controller
         public LeagueSuppliersControllerTest()
         {
             this._leagueSupplierRepos = A.Fake<ILeagueSupplierRepository>();
-            var mock = GetFakeLeagueSupplierList().BuildMock().BuildMockDbSet();
+            var mock = GetFakeLeagueSupplierList(false).BuildMock().BuildMockDbSet();
             this._dbContextMock = new Mock<FootBallManagerV2Context>();
             this._dbContextMock.Setup(x => x.Leaguesuppliers).Returns(mock.Object);
             this._repo = new LeagueSupplierRepository(this._dbContextMock.Object);
         }
-        private static List<Leaguesupplier> GetFakeLeagueSupplierList()
+        private static List<Leaguesupplier> GetFakeLeagueSupplierList(bool isNull)
         {
+            if (isNull)
+                return new List<Leaguesupplier>();
             return new List<Leaguesupplier>() {
                new Leaguesupplier() { 
                    IdLeague = 1,
@@ -82,6 +84,15 @@ namespace FootBallManagerV2Test.Controller
         [TestMethod]
         public async Task LeagueSuppliersController_GetLeaguesuppliers_ReturnsProblemResultOnException()
         {
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            LeagueSupplierRepository _repo;
+            var mock = GetFakeLeagueSupplierList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Leaguesuppliers).Returns(mock.Object);
+            _repo = new LeagueSupplierRepository(_dbContextMock.Object);
+
+            await _repo.GetAll();
             // Arrange
 
             A.CallTo(() => _leagueSupplierRepos.GetAll()).Throws<Exception>(); // Simulate an exception
@@ -267,6 +278,16 @@ namespace FootBallManagerV2Test.Controller
             //Arrange
             Microsoft.AspNetCore.JsonPatch.JsonPatchDocument update = new Microsoft.AspNetCore.JsonPatch.JsonPatchDocument();
             update.Replace("status", 2);
+
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            LeagueSupplierRepository _repo;
+            var mock = GetFakeLeagueSupplierList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Leaguesuppliers).Returns(mock.Object);
+            _repo = new LeagueSupplierRepository(_dbContextMock.Object);
+
+            await _repo.Patch(5,5,update);
             A.CallTo(() => _leagueSupplierRepos.Patch(5, 5, update)).Returns(false);
 
             var _controller = new LeagueSuppliersController(_leagueSupplierRepos);
@@ -357,6 +378,15 @@ namespace FootBallManagerV2Test.Controller
             //Arrange
             int IdSupplier = 1;
             int IdLeague = 1;
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            LeagueSupplierRepository _repo;
+            var mock = GetFakeLeagueSupplierList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Leaguesuppliers).Returns(mock.Object);
+            _repo = new LeagueSupplierRepository(_dbContextMock.Object);
+
+            await _repo.Delete(IdSupplier,IdLeague);
             A.CallTo(() => _leagueSupplierRepos.Delete(IdSupplier, IdLeague)).Returns(false);
 
             var _controller = new LeagueSuppliersController(_leagueSupplierRepos);

@@ -69,7 +69,7 @@ namespace FootBallManagerAPI.Controllers
                 {
                     return NotFound();
                 }
-                var user = await _context.Users.FindAsync(id);
+                var user = await _context.Users.Where(u => u.Id == id).FirstOrDefaultAsync();
 
                 if (user == null)
                 {
@@ -155,7 +155,7 @@ namespace FootBallManagerAPI.Controllers
                 {
                     return NotFound();
                 }
-                var user = await _context.Users.FindAsync(id);
+                var user = await _context.Users.Where(u=>u.Id==id).FirstOrDefaultAsync();
                 if (user == null)
                 {
                     return NotFound();
@@ -183,7 +183,7 @@ namespace FootBallManagerAPI.Controllers
                 {
                     return NotFound();
                 }
-                var user = await _context.Users.FindAsync(id);
+                var user = await _context.Users.Where(u=>u.Id==id).FirstOrDefaultAsync();
                 if (user == null)
                 {
                     return NotFound();
@@ -203,7 +203,16 @@ namespace FootBallManagerAPI.Controllers
 
         private bool UserExists(int id)
         {
-            return (_context.Users?.Any(e => e.Id == id)).GetValueOrDefault();
+            try
+            {
+                return (_context.Users?.Where(e => e.Id == id).FirstOrDefault())!=null;
+
+            }
+            catch 
+            {
+
+                return false;
+            }
         }
 
 
@@ -221,7 +230,7 @@ namespace FootBallManagerAPI.Controllers
                 {
                     return Problem();
                 }
-                User user = await _context.Users.FindAsync(resetObj.IdUser);
+                User user = await _context.Users.Where(u => u.Id == resetObj.IdUser).FirstOrDefaultAsync();
                 if (user == null)
                 {
                     return NotFound();
@@ -250,7 +259,7 @@ namespace FootBallManagerAPI.Controllers
             var user = _context.Users.SingleOrDefault(u => u.Username == login.UserName && u.Password == login.Password);
             if (user != null)
             {
-                Userrole userrole = await _context.Userroles.FindAsync(user.Iduserrole);
+                Userrole userrole = await _context.Userroles.Where(u=>u.Id==user.Iduserrole).FirstOrDefaultAsync();
                 user.IduserroleNavigation= userrole;
                 var token = await generateToken(user);
                 return Ok(new APIResponse()

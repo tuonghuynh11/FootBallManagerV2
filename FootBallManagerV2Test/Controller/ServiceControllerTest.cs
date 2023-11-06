@@ -25,13 +25,14 @@ namespace FootBallManagerV2Test.Controller
         public ServiceControllerTest()
         {
             this._serviceRepos = A.Fake<IServiceRepository>();
-            var mock = GetFakeCauThuList().BuildMock().BuildMockDbSet();
+            var mock = GetFakeCauThuList(false).BuildMock().BuildMockDbSet();
             this._dbContextMock = new Mock<FootBallManagerV2Context>();
             this._dbContextMock.Setup(x => x.Services).Returns(mock.Object);
             this._repo = new ServiceRepository(this._dbContextMock.Object);
         }
-        private static List<Service> GetFakeCauThuList()
+        private static List<Service> GetFakeCauThuList(bool isNull)
         {
+            if(isNull) return new List<Service>();
             return new List<Service>() {
                 new Service() {
                       IdService=1,
@@ -78,6 +79,14 @@ namespace FootBallManagerV2Test.Controller
         [TestMethod]
         public async Task ServiceController_GetServices_ReturnsProblemResultOnException()
         {
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            ServiceRepository _repo;
+            var mock = GetFakeCauThuList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Services).Returns(mock.Object);
+            _repo = new ServiceRepository(_dbContextMock.Object);
+            await _repo.GetAll();
             // Arrange
 
             A.CallTo(() => _serviceRepos.GetAll()).Throws<Exception>(); // Simulate an exception
@@ -257,6 +266,15 @@ namespace FootBallManagerV2Test.Controller
             //Arrange
             Microsoft.AspNetCore.JsonPatch.JsonPatchDocument update = new Microsoft.AspNetCore.JsonPatch.JsonPatchDocument();
             update.Replace("serviceName", "Shoes");
+
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            ServiceRepository _repo;
+            var mock = GetFakeCauThuList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Services).Returns(mock.Object);
+            _repo = new ServiceRepository(_dbContextMock.Object);
+            await _repo.Patch(5,update);
             A.CallTo(() => _serviceRepos.Patch(5, update)).Returns(false);
             var _controller = new ServicesController(_serviceRepos);
             //Act
@@ -345,6 +363,15 @@ namespace FootBallManagerV2Test.Controller
         {
             //Arrange
             int idService = 1;
+
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            ServiceRepository _repo;
+            var mock = GetFakeCauThuList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Services).Returns(mock.Object);
+            _repo = new ServiceRepository(_dbContextMock.Object);
+            await _repo.Delete(idService);
             A.CallTo(() => _serviceRepos.Delete(idService)).Returns(false);
 
             var _controller = new ServicesController(_serviceRepos);

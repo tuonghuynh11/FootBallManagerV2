@@ -25,13 +25,14 @@ namespace FootBallManagerV2Test.Controller
         public OTPControllerTest()
         {
             this._otpRepos = A.Fake<IOtpRepository>();
-            var mock = GetFakeOtpList().BuildMock().BuildMockDbSet();
+            var mock = GetFakeOtpList(false).BuildMock().BuildMockDbSet();
             this._dbContextMock = new Mock<FootBallManagerV2Context>();
             this._dbContextMock.Setup(x => x.Otps).Returns(mock.Object);
             this._repo = new OtpRepository(this._dbContextMock.Object);
         }
-        private static List<Otp> GetFakeOtpList()
+        private static List<Otp> GetFakeOtpList(bool isNull)
         {
+            if (isNull) return new List<Otp>();
             return new List<Otp>() {
                 new Otp() {
                   Code="123",
@@ -74,6 +75,14 @@ namespace FootBallManagerV2Test.Controller
         [TestMethod]
         public async Task OTPController_GetOtps_ReturnsProblemResultOnException()
         {
+            //context
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            OtpRepository _repo;
+            var mock = GetFakeOtpList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Otps).Returns(mock.Object);
+            _repo = new OtpRepository(_dbContextMock.Object);
+             await _repo.GetAll();
             // Arrange
 
             A.CallTo(() => _otpRepos.GetAll()).Throws<Exception>(); // Simulate an exception
@@ -252,6 +261,13 @@ namespace FootBallManagerV2Test.Controller
             //Arrange
             Microsoft.AspNetCore.JsonPatch.JsonPatchDocument update = new Microsoft.AspNetCore.JsonPatch.JsonPatchDocument();
             update.Replace("Code", "131223");
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            OtpRepository _repo;
+            var mock = GetFakeOtpList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Otps).Returns(mock.Object);
+            _repo = new OtpRepository(_dbContextMock.Object);
+            await _repo.Patch(5,update);
             A.CallTo(() => _otpRepos.Patch(5, update)).Returns(false);
             var _controller = new OtpsController(_otpRepos);
             //Act
@@ -340,6 +356,14 @@ namespace FootBallManagerV2Test.Controller
         {
             //Arrange
             int idOtp = 1;
+
+            Mock<FootBallManagerV2Context> _dbContextMock;
+            OtpRepository _repo;
+            var mock = GetFakeOtpList(true).BuildMock().BuildMockDbSet();
+            _dbContextMock = new Mock<FootBallManagerV2Context>();
+            _dbContextMock.Setup(x => x.Otps).Returns(mock.Object);
+            _repo = new OtpRepository(_dbContextMock.Object);
+            await _repo.Delete(idOtp);
             A.CallTo(() => _otpRepos.Delete(idOtp)).Returns(false);
 
             var _controller = new OtpsController(_otpRepos);
