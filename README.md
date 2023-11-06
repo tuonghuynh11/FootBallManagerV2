@@ -1,5 +1,14 @@
 # FootballManager
- 
+# Testing
+## 1. Unit tests: coverage 93.4% total codes
+![test](https://github.com/tuonghuynh11/FootBallManagerV2/assets/89913828/82b400f9-d1d9-43ad-aa7a-55826bb9cdbc)
+
+![image](https://github.com/tuonghuynh11/FootBallManagerV2/assets/89913828/cdb080ee-56fe-4910-b561-4573ce4a9119)
+## 2. Mutate testing: mutate score is 85.8%
+![image1](https://github.com/tuonghuynh11/FootBallManagerV2/assets/89913828/af436c87-e39f-4f42-bfb0-4fc89efe29ec)
+
+![image2](https://github.com/tuonghuynh11/FootBallManagerV2/assets/89913828/6898c9a7-e033-4967-ac54-04145132307a)
+
 # FBM
 
 Ứng dụng hỗ trợ các tổ chức bóng đá quản lý các câu lạc bộ.
