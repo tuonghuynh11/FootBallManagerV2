@@ -2,25 +2,91 @@
 using FootBallManagerAPI.Controllers;
 using FootBallManagerAPI.Entities;
 using FootBallManagerAPI.Repositories;
+using FootBallManagerAPI.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using MockQueryable.Moq;
+using Moq.EntityFrameworkCore;
 namespace FootBallManagerV2Test.Controller
 {
     [TestClass]
     public class CauthuControllerTest
     {
         private readonly ICauthuRepository _cauthuRepo;
+        private readonly Mock<FootBallManagerV2Context> _dbContextMock;
+        private readonly CauthuRepository _repo;
         public CauthuControllerTest()
         {
-            this._cauthuRepo = A.Fake<ICauthuRepository>();
+            //this._cauthuRepo = A.Fake<ICauthuRepository>();
+            this._cauthuRepo = A.Fake<ICauthuRepository>(options => options.Wrapping(new CauthuRepository(A.Fake<FootBallManagerV2Context>())));
+            var mock = GetFakeCauThuList().BuildMock().BuildMockDbSet();
+            this._dbContextMock = new Mock<FootBallManagerV2Context>();
+            this._dbContextMock.Setup(x => x.Cauthus).Returns(mock.Object);
+            this._repo = new CauthuRepository(this._dbContextMock.Object);
         }
+        private static List<Cauthu> GetFakeCauThuList()
+        {
+            return new List<Cauthu>() {
+                new Cauthu() {
+                    Id=1,
+                    Cannang="72",
+                    Chanthuan="Trai",
+                    Chieucao="180",
+                    Chuyennhuongs=null,
+                    Doihinhchinhs=null,
+                    Giatricauthu=200000000,
+                    Hinhanh=null,
+                    Hoten="Nguyen Van A",
+                    Iddoibong="atm",
+                    IddoibongNavigation=null,
+                    Idquoctich=1,
+                    IdquoctichNavigation=null,
+                    Items=null,
+                    Soao=12,
+                    Sobanthang=12,
+                    Sogiai=2,
+                    Thamgia=null,
+                     Thetrang="Tot",
+                     Tuoi=25,
+                     Vitri="ST"
+                    
+                },
+                new Cauthu() {
+                    Id=2,
+                    Cannang="72",
+                    Chanthuan="Trai",
+                    Chieucao="180",
+                    Chuyennhuongs=null,
+                    Doihinhchinhs=null,
+                    Giatricauthu=200000000,
+                    Hinhanh=null,
+                    Hoten="Nguyen Van B",
+                    Iddoibong="atm",
+                    IddoibongNavigation=null,
+                    Idquoctich=1,
+                    IdquoctichNavigation=null,
+                    Items=null,
+                    Soao=12,
+                    Sobanthang=12,
+                    Sogiai=2,
+                    Thamgia=null,
+                     Thetrang="Tot",
+                     Tuoi=25,
+                     Vitri="ST"
+
+                }
+
+
+            };
+        }
+
         private static int? GetStatusCode<T>(ActionResult<T?> actionResult)
         {
             IConvertToActionResult convertToActionResult = actionResult; // ActionResult implicit implements IConvertToActionResult
@@ -31,7 +97,9 @@ namespace FootBallManagerV2Test.Controller
         [TestMethod]
         public async Task GetAllMethodOk()
         {
-            var cauthus = A.Fake<List<Cauthu>>();
+            CauthuRepository res = new CauthuRepository(A.Fake<FootBallManagerV2Context>());
+
+            var cauthus = await _repo.GetAllCauthuAsync();
             A.CallTo(() => _cauthuRepo.GetAllCauthuAsync()).Returns(cauthus);
             var controller = new CauthusController(_cauthuRepo);
             var result = await controller.GetCauthus();
@@ -112,6 +180,7 @@ namespace FootBallManagerV2Test.Controller
             cauthu.IdquoctichNavigation = new Quoctich();
             cauthu.Items = new List<Item>();
             cauthu.Thamgia = new List<Thamgium>();
+            await _repo.updateCauthuAsync(1, cauthu);
             A.CallTo(() => _cauthuRepo.updateCauthuAsync(1, cauthu)).Invokes(() => {
                 Assert.AreEqual(cauthu.Id, 1);
             });
@@ -158,8 +227,10 @@ namespace FootBallManagerV2Test.Controller
         [TestMethod]
         public async Task Post()
         {
-            var cauthu = new Cauthu();
-            cauthu.Id = 1;
+            var newPlayer = new Cauthu();
+            newPlayer.Id = 1;
+            var cauthu = await _repo.addCauthuAsync(newPlayer);
+           
             A.CallTo(() => _cauthuRepo.addCauthuAsync(cauthu)).Returns(cauthu);
             var controller = new CauthusController (_cauthuRepo);
 
@@ -204,6 +275,7 @@ namespace FootBallManagerV2Test.Controller
         public async Task Delete()
         {
             int id = 1;
+            await _repo.deleteCauthuAsync(id);
             A.CallTo(() => _cauthuRepo.deleteCauthuAsync(id)).Invokes(() => {
                 Assert.AreEqual(id, 1);
             }); 

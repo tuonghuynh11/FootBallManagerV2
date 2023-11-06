@@ -10,6 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FootBallManagerAPI.Entities;
+using Moq;
+using MockQueryable.Moq;
 
 namespace FootBallManagerV2Test.Controller
 {
@@ -17,10 +19,77 @@ namespace FootBallManagerV2Test.Controller
     public class DoibongControllerTest
     {
         public readonly IDoibongRepository _doibongRepo;
+        private readonly Mock<FootBallManagerV2Context> _dbContextMock;
+        private readonly DoibongRepository _repo;
         public DoibongControllerTest()
         {
             this._doibongRepo = A.Fake<IDoibongRepository>();
+            var mock = GetFakeDoiBongList().BuildMock().BuildMockDbSet();
+            this._dbContextMock = new Mock<FootBallManagerV2Context>();
+            this._dbContextMock.Setup(x => x.Doibongs).Returns(mock.Object);
+            this._repo = new DoibongRepository(this._dbContextMock.Object);
         }
+        private static List<Doibong> GetFakeDoiBongList()
+        {
+            return new List<Doibong>() {
+                new Doibong() {
+                     Id = "abc",
+                    Idquoctich = 2,
+                    Thanhpho = 2,
+                    Hinhanh = new byte[10],
+                    Ten = "Man City",
+                    Soluongthanhvien = 30,
+                    Ngaythanhlap = new DateTime(1999, 1, 1),
+                    Sannha = "Emirates",
+                    Sodochienthuat = "4-3-3",
+                    Giatri = 234300030003,
+                    Cauthus = new List<Cauthu>(),
+                    Chuyennhuongs = new List<Chuyennhuong>(),
+                    Diems = new List<Diem>(),
+                    Doibongsuppliers = new List<Doibongsupplier>(),
+                    Doihinhchinhs = new List<Doihinhchinh>(),
+                    Huanluyenviens = new List<Huanluyenvien>(),
+                    IdquoctichNavigation = new Quoctich(),
+                    Items = new List<Item>(),
+                    Tapluyens = new List<Tapluyen>(),
+                    Teamofleagues = new List<Teamofleague>(),
+                    ThanhphoNavigation = new Diadiem(),
+                    Thongtingiaidaus = new List<Thongtingiaidau>(),
+                    Thongtintrandaus = new List<Thongtintrandau>()
+
+        },
+               new Doibong() {
+                     Id = "rea",
+                    Idquoctich = 2,
+                    Thanhpho = 2,
+                    Hinhanh = new byte[10],
+                    Ten = "Real Marid",
+                    Soluongthanhvien = 30,
+                    Ngaythanhlap = new DateTime(1999, 1, 1),
+                    Sannha = "Emirates",
+                    Sodochienthuat = "4-3-3",
+                    Giatri = 234300030003,
+                    Cauthus = new List<Cauthu>(),
+                    Chuyennhuongs = new List<Chuyennhuong>(),
+                    Diems = new List<Diem>(),
+                    Doibongsuppliers = new List<Doibongsupplier>(),
+                    Doihinhchinhs = new List<Doihinhchinh>(),
+                    Huanluyenviens = new List<Huanluyenvien>(),
+                    IdquoctichNavigation = new Quoctich(),
+                    Items = new List<Item>(),
+                    Tapluyens = new List<Tapluyen>(),
+                    Teamofleagues = new List<Teamofleague>(),
+                    ThanhphoNavigation = new Diadiem(),
+                    Thongtingiaidaus = new List<Thongtingiaidau>(),
+                    Thongtintrandaus = new List<Thongtintrandau>()
+
+        },
+
+
+            };
+        }
+
+
         private static int? GetStatusCode<T>(ActionResult<T?> actionResult)
         {
             IConvertToActionResult convertToActionResult = actionResult; // ActionResult implicit implements IConvertToActionResult
@@ -31,7 +100,9 @@ namespace FootBallManagerV2Test.Controller
         [TestMethod]
         public async Task GetAllMethodOk()
         {
-            var Doibongs = A.Fake<List<Doibong>>();
+            DoibongRepository res = new DoibongRepository(A.Fake<FootBallManagerV2Context>());
+
+            var Doibongs = await _repo.GetAllDoibongAsync();
             A.CallTo(() => _doibongRepo.GetAllDoibongAsync()).Returns(Doibongs);
             var controller = new DoibongsController(_doibongRepo);
             var result = await controller.GetDoibongs();
@@ -114,6 +185,7 @@ namespace FootBallManagerV2Test.Controller
             Doibong.ThanhphoNavigation = new Diadiem();
             Doibong.Thongtingiaidaus = new List<Thongtingiaidau>();
             Doibong.Thongtintrandaus = new List<Thongtintrandau>();
+            await _repo.updateDoibongAsync("abc", Doibong);
             A.CallTo(() => _doibongRepo.updateDoibongAsync("abc", Doibong)).Invokes(() => {
                 Assert.AreEqual(Doibong.Id, "abc");
             });
@@ -160,8 +232,9 @@ namespace FootBallManagerV2Test.Controller
         [TestMethod]
         public async Task Post()
         {
-            var Doibong = new Doibong();
-            Doibong.Id = "abc";
+            var newDoiBong = new Doibong();
+            newDoiBong.Id = "abc";
+            var Doibong = await _repo.addDoibongAsync(newDoiBong);
             A.CallTo(() => _doibongRepo.addDoibongAsync(Doibong)).Returns(Doibong);
             var controller = new DoibongsController(_doibongRepo);
 
@@ -206,6 +279,7 @@ namespace FootBallManagerV2Test.Controller
         public async Task Delete()
         {
             string id = "abc";
+            await _repo.deleteDoibongAsync(id);
             A.CallTo(() => _doibongRepo.deleteDoibongAsync(id)).Invokes(() => {
                 Assert.AreEqual(id, "abc");
             }); ;

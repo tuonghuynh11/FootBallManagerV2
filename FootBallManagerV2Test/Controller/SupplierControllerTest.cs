@@ -1,10 +1,13 @@
 ﻿using FakeItEasy;
 using FootBallManagerAPI.Controllers;
 using FootBallManagerAPI.Entities;
+using FootBallManagerAPI.Repositories;
 using FootBallManagerAPI.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MockQueryable.Moq;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +20,50 @@ namespace FootBallManagerV2Test.Controller
     public class SupplierControllerTest
     {
         private readonly ISupplierRepository _supplierRepos;
+        private readonly Mock<FootBallManagerV2Context> _dbContextMock;
+        private readonly SupplierRepository _repo;
+
         public SupplierControllerTest()
         {
             this._supplierRepos = A.Fake<ISupplierRepository>();
+            var mock = GetFakeSupplierList().BuildMock().BuildMockDbSet();
+            this._dbContextMock = new Mock<FootBallManagerV2Context>();
+            this._dbContextMock.Setup(x => x.Suppliers).Returns(mock.Object);
+            this._repo = new SupplierRepository(this._dbContextMock.Object);
+
+        }
+        private static List<Supplier> GetFakeSupplierList()
+        {
+            return new List<Supplier>() {
+                new Supplier() {
+                    IdSupplier = 1,
+                Addresss = "",
+                Doibongsuppliers = null,
+                EstablishDate = DateTime.Now,
+                Images = null,
+                Leaguesuppliers = null,
+                PhoneNumber = "",
+                RepresentativeName = "",
+                SupplierName = "ABC",
+                Supplierservices = null
+
+                },
+                new Supplier() {
+                   IdSupplier = 2,
+                Addresss = "",
+                Doibongsuppliers = null,
+                EstablishDate = DateTime.Now,
+                Images = null,
+                Leaguesuppliers = null,
+                PhoneNumber = "",
+                RepresentativeName = "",
+                SupplierName = "CDF",
+                Supplierservices = null
+
+                }
+
+
+            };
         }
 
 
@@ -27,8 +71,10 @@ namespace FootBallManagerV2Test.Controller
         [TestMethod]
         public async Task SupplierController_GetSuppliers_ReturnOK()
         {
+
             //Arrange
-            var suppliers = A.Fake<IEnumerable<Supplier>>();
+            //SupplierRepository res = new SupplierRepository(A.Fake<FootBallManagerV2Context>());
+            var suppliers =await _repo.GetAll();
 
             A.CallTo(() => _supplierRepos.GetAll()).Returns(suppliers);
 
@@ -63,19 +109,7 @@ namespace FootBallManagerV2Test.Controller
         public async Task SupplierController_GetSupplierById_ReturnOK()
         {
             //Arrange
-            var supplier = new Supplier() { 
-                 IdSupplier=1,
-                 Addresss="",
-                 Doibongsuppliers=null,
-                 EstablishDate=DateTime.Now,
-                 Images=null,
-                 Leaguesuppliers=null,
-                 PhoneNumber="",
-                 RepresentativeName="",
-                 SupplierName="",
-                 Supplierservices = null
-            };
-
+            var supplier = await _repo.GetById(1);
             A.CallTo(() => _supplierRepos.GetById(1)).Returns(supplier);
 
             var _controller = new SuppliersController(_supplierRepos);
@@ -130,6 +164,7 @@ namespace FootBallManagerV2Test.Controller
             var supplier = A.Fake<Supplier>();
             supplier.IdSupplier = 2;
             supplier.SupplierName = "Adidas";
+            await _repo.Update(supplier);
             var _controller = new SuppliersController(_supplierRepos);
             //Act
             var result = await _controller.UpdateSuppliers(supplier.IdSupplier, supplier);
@@ -215,6 +250,7 @@ namespace FootBallManagerV2Test.Controller
             //Arrange
             Microsoft.AspNetCore.JsonPatch.JsonPatchDocument update = new Microsoft.AspNetCore.JsonPatch.JsonPatchDocument();
             update.Replace("supplierName", "Adidas");
+            await _repo.Patch(5, update);
             A.CallTo(() => _supplierRepos.Patch(5, update)).Returns(true);
             var _controller = new SuppliersController(_supplierRepos);
             //Act
@@ -262,8 +298,20 @@ namespace FootBallManagerV2Test.Controller
         public async Task SupplierController_CreateNewSupplier_ReturnOK()
         {
             //Arrange
-            var supplier = A.Fake<Supplier>();
-            A.CallTo(() => _supplierRepos.Create(supplier)).Returns(supplier.IdSupplier);
+            var supplier = new Supplier()
+            {
+                IdSupplier = 1,
+                Addresss = "",
+                Doibongsuppliers = null,
+                EstablishDate = DateTime.Now,
+                Images = null,
+                Leaguesuppliers = null,
+                PhoneNumber = "",
+                RepresentativeName = "",
+                SupplierName = "",
+                Supplierservices = null
+            };
+            A.CallTo(() => _supplierRepos.Create(supplier)).Returns(await _repo.Create(supplier));
             var _controller = new SuppliersController(_supplierRepos);
             //Act
             var result = await _controller.PostSupplier(supplier);
@@ -295,6 +343,7 @@ namespace FootBallManagerV2Test.Controller
         {
             //Arrange
             int idSupplier = 1;
+            await _repo.Delete(idSupplier);
             A.CallTo(() => _supplierRepos.Delete(idSupplier)).Returns(true);
             var _controller = new SuppliersController(_supplierRepos);
             //Act

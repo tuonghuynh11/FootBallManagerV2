@@ -1,10 +1,13 @@
 ﻿using FakeItEasy;
 using FootBallManagerAPI.Controllers;
 using FootBallManagerAPI.Entities;
+using FootBallManagerAPI.Repositories;
 using FootBallManagerAPI.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MockQueryable.Moq;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +20,40 @@ namespace FootBallManagerV2Test.Controller
     public class ServiceControllerTest
     {
         private readonly IServiceRepository _serviceRepos;
+        private readonly Mock<FootBallManagerV2Context> _dbContextMock;
+        private readonly ServiceRepository _repo;
         public ServiceControllerTest()
         {
             this._serviceRepos = A.Fake<IServiceRepository>();
+            var mock = GetFakeCauThuList().BuildMock().BuildMockDbSet();
+            this._dbContextMock = new Mock<FootBallManagerV2Context>();
+            this._dbContextMock.Setup(x => x.Services).Returns(mock.Object);
+            this._repo = new ServiceRepository(this._dbContextMock.Object);
+        }
+        private static List<Service> GetFakeCauThuList()
+        {
+            return new List<Service>() {
+                new Service() {
+                      IdService=1,
+                     Detail="",
+                Fieldservices=null,
+                Images=null,
+                Supplierservices = null,
+                ServiceName="Shirt"
+
+                },
+                new Service() {
+                    IdService=2,
+                     Detail="",
+                Fieldservices=null,
+                Images=null,
+                Supplierservices = null,
+                ServiceName="Food"
+
+                }
+
+
+            };
         }
 
         #region GetServices()
@@ -27,7 +61,9 @@ namespace FootBallManagerV2Test.Controller
         public async Task ServiceController_GetServices_ReturnOK()
         {
             //Arrange
-            var services = A.Fake<IEnumerable<Service>>();
+            ServiceRepository res = new ServiceRepository(A.Fake<FootBallManagerV2Context>());
+
+            var services =await _repo.GetAll();
 
             A.CallTo(() => _serviceRepos.GetAll()).Returns(services);
 
@@ -62,14 +98,7 @@ namespace FootBallManagerV2Test.Controller
         public async Task ServiceController_GetService_ReturnOK()
         {
             //Arrange
-            var service = new Service() { 
-                IdService=1,
-                Detail="",
-                Fieldservices=null,
-                Images=null,
-                Supplierservices = null,
-                ServiceName=""
-            };
+            var service = await _repo.GetById(1);
 
             A.CallTo(() => _serviceRepos.GetById(1)).Returns(service);
 
@@ -126,6 +155,7 @@ namespace FootBallManagerV2Test.Controller
             var service = A.Fake<Service>();
             service.IdService = 1;
             service.ServiceName = "Shirt";
+            await _repo.Update(service);
             var _controller = new ServicesController(_serviceRepos);
             //Act
             var result = await _controller.UpdateService(service.IdService, service);
@@ -211,6 +241,7 @@ namespace FootBallManagerV2Test.Controller
             //Arrange
             Microsoft.AspNetCore.JsonPatch.JsonPatchDocument update = new Microsoft.AspNetCore.JsonPatch.JsonPatchDocument();
             update.Replace("serviceName", "Shoes");
+            await _repo.Patch(5, update);
             A.CallTo(() => _serviceRepos.Patch(5, update)).Returns(true);
             var _controller = new ServicesController(_serviceRepos);
             //Act
@@ -258,8 +289,16 @@ namespace FootBallManagerV2Test.Controller
         public async Task ServiceController_CreateNewService_ReturnOK()
         {
             //Arrange
-            var service = A.Fake<Service>();
-            A.CallTo(() => _serviceRepos.Create(service)).Returns(service.IdService);
+            var service = new Service()
+            {
+                IdService = 1,
+                Detail = "",
+                Fieldservices = null,
+                Images = null,
+                Supplierservices = null,
+                ServiceName = ""
+            };
+            A.CallTo(() => _serviceRepos.Create(service)).Returns(await _repo.Create(service));
             var _controller = new ServicesController(_serviceRepos);
             //Act
             var result = await _controller.PostService(service);
@@ -291,6 +330,7 @@ namespace FootBallManagerV2Test.Controller
         {
             //Arrange
             int idService = 1;
+            await _repo.Delete(idService);
             A.CallTo(() => _serviceRepos.Delete(idService)).Returns(true);
             var _controller = new ServicesController(_serviceRepos);
             //Act

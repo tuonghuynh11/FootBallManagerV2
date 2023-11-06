@@ -10,6 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FootBallManagerAPI.Entities;
+using Moq;
+using MockQueryable.Moq;
 
 namespace FootBallManagerV2Test.Controller
 {
@@ -17,10 +19,50 @@ namespace FootBallManagerV2Test.Controller
     public class FootballmatchControllerTest
     {
         public readonly IFootballmatchRepository _fmRepo;
+        private readonly Mock<FootBallManagerV2Context> _dbContextMock;
+        private readonly FootballmatchRepository _repo;
         public FootballmatchControllerTest()
         {
             this._fmRepo = A.Fake<IFootballmatchRepository>();
+            var mock = GetFakeFootballMatchList().BuildMock().BuildMockDbSet();
+            this._dbContextMock = new Mock<FootBallManagerV2Context>();
+            this._dbContextMock.Setup(x => x.Footballmatches).Returns(mock.Object);
+            this._repo = new FootballmatchRepository(this._dbContextMock.Object);
         }
+        private static List<Footballmatch> GetFakeFootballMatchList()
+        {
+            return new List<Footballmatch>() {
+                new Footballmatch() {
+                    Id = 1,
+                    Tentrandau = "Semi-final",
+                    Vongbang = 1,
+                    Idvong = 1,
+                    Diadiem = 1,
+                    Thoigian = new DateTime(2023, 11, 11),
+                    DiadiemNavigation = new Field(),
+                    IdvongNavigation = new Round(),
+                    Thamgia = new List<Thamgium>(),
+                    Thongtintrandaus = new List<Thongtintrandau>()
+
+                 },
+                new Footballmatch() {
+                    Id = 2,
+                    Tentrandau = "Semi-final",
+                    Vongbang = 1,
+                    Idvong = 2,
+                    Diadiem = 1,
+                    Thoigian = new DateTime(2023, 11, 11),
+                    DiadiemNavigation = new Field(),
+                    IdvongNavigation = new Round(),
+                    Thamgia = new List<Thamgium>(),
+                    Thongtintrandaus = new List<Thongtintrandau>()
+
+                }
+
+
+            };
+        }
+
         private static int? GetStatusCode<T>(ActionResult<T?> actionResult)
         {
             IConvertToActionResult convertToActionResult = actionResult; // ActionResult implicit implements IConvertToActionResult
@@ -31,7 +73,9 @@ namespace FootBallManagerV2Test.Controller
         [TestMethod]
         public async Task GetAllMethodOk()
         {
-            var Footballmatchs = A.Fake<List<Footballmatch>>();
+            FootballmatchRepository res = new FootballmatchRepository(A.Fake<FootBallManagerV2Context>());
+
+            var Footballmatchs =await _repo.GetAllFootballmatch();
             A.CallTo(() => _fmRepo.GetAllFootballmatch()).Returns(Footballmatchs);
             var controller = new FootballmatchesController(_fmRepo);
             var result = await controller.GetFootballmatches();
@@ -101,6 +145,7 @@ namespace FootBallManagerV2Test.Controller
             Footballmatch.IdvongNavigation = new Round();
             Footballmatch.Thamgia = new List<Thamgium>();
             Footballmatch.Thongtintrandaus = new List<Thongtintrandau>();
+            await _repo.updateFootballmatchAsync(1, Footballmatch);
             A.CallTo(() => _fmRepo.updateFootballmatchAsync(1, Footballmatch)).Invokes(() => {
                 Assert.AreEqual(Footballmatch.Id, 1);
             });
@@ -147,8 +192,10 @@ namespace FootBallManagerV2Test.Controller
         [TestMethod]
         public async Task Post()
         {
-            var Footballmatch = new Footballmatch();
-            Footballmatch.Id = 1;
+            var newFootballMatch = new Footballmatch();
+            newFootballMatch.Id = 1;
+            var Footballmatch = await _repo.addFootballmatchAsync(newFootballMatch);
+
             A.CallTo(() => _fmRepo.addFootballmatchAsync(Footballmatch)).Returns(Footballmatch);
             var controller = new FootballmatchesController(_fmRepo);
 
@@ -193,6 +240,7 @@ namespace FootBallManagerV2Test.Controller
         public async Task Delete()
         {
             int id = 1;
+            await _repo.deleteFootballmatchAsync(id);
             A.CallTo(() => _fmRepo.deleteFootballmatchAsync(id)).Invokes(() => {
                 Assert.AreEqual(id, 1);
             });

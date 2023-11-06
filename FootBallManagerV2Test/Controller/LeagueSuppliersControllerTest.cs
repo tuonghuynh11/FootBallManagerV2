@@ -2,10 +2,13 @@
 using FootBallManagerAPI.Controllers;
 using FootBallManagerAPI.Entities;
 using FootBallManagerAPI.Models;
+using FootBallManagerAPI.Repositories;
 using FootBallManagerAPI.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MockQueryable.Moq;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,9 +21,43 @@ namespace FootBallManagerV2Test.Controller
     public class LeagueSuppliersControllerTest
     {
         private readonly ILeagueSupplierRepository _leagueSupplierRepos;
+        private readonly Mock<FootBallManagerV2Context> _dbContextMock;
+        private readonly LeagueSupplierRepository _repo;
         public LeagueSuppliersControllerTest()
         {
             this._leagueSupplierRepos = A.Fake<ILeagueSupplierRepository>();
+            var mock = GetFakeLeagueSupplierList().BuildMock().BuildMockDbSet();
+            this._dbContextMock = new Mock<FootBallManagerV2Context>();
+            this._dbContextMock.Setup(x => x.Leaguesuppliers).Returns(mock.Object);
+            this._repo = new LeagueSupplierRepository(this._dbContextMock.Object);
+        }
+        private static List<Leaguesupplier> GetFakeLeagueSupplierList()
+        {
+            return new List<Leaguesupplier>() {
+               new Leaguesupplier() { 
+                   IdLeague = 1,
+                   IdSupplier = 1,
+                   Duration = 5,
+                   StartDate = DateTime.Now,
+                   EndDate = DateTime.Now.AddYears(10),
+                   Status = 1,
+                   IdLeagueNavigation = null,
+                   IdSupplierNavigation = null 
+               },
+                new Leaguesupplier() {
+                     IdLeague = 2,
+                   IdSupplier = 2,
+                   Duration = 5,
+                   StartDate = DateTime.Now,
+                   EndDate = DateTime.Now.AddYears(10),
+                   Status = 1,
+                   IdLeagueNavigation = null,
+                   IdSupplierNavigation = null
+
+                }
+
+
+            };
         }
 
         #region GetLeaguesuppliers()
@@ -28,7 +65,9 @@ namespace FootBallManagerV2Test.Controller
         public async Task LeagueSuppliersController_GetLeaguesuppliers_ReturnOK()
         {
             //Arrange
-            var leagueSupplier = A.Fake<IEnumerable<Leaguesupplier>>();
+            LeagueSupplierRepository res = new LeagueSupplierRepository(A.Fake<FootBallManagerV2Context>());
+
+            var leagueSupplier = await _repo.GetAll();
 
             A.CallTo(() => _leagueSupplierRepos.GetAll()).Returns(leagueSupplier);
 
@@ -63,7 +102,7 @@ namespace FootBallManagerV2Test.Controller
         public async Task LeagueSuppliersController_GetLeaguesupplierById_ReturnOK()
         {
             //Arrange
-            var leagueSupplier = new Leaguesupplier() { IdLeague = 1, IdSupplier = 1, Duration = 5, StartDate = DateTime.Now, EndDate = DateTime.Now.AddYears(10), Status = 1, IdLeagueNavigation = null, IdSupplierNavigation = null };
+            var leagueSupplier = await _repo.GetById(1, 1);
 
             A.CallTo(() => _leagueSupplierRepos.GetById(1, 1)).Returns(leagueSupplier);
 
@@ -123,6 +162,7 @@ namespace FootBallManagerV2Test.Controller
             var leagueSupplier = A.Fake<Leaguesupplier>();
             leagueSupplier.IdSupplier = 1;
             leagueSupplier.IdLeague = 1;
+            await _repo.Update(leagueSupplier);
             var _controller = new LeagueSuppliersController(_leagueSupplierRepos);
             //Act
             var result = await _controller.UpdateLeaguesupplier(leagueSupplier.IdSupplier, leagueSupplier.IdLeague, leagueSupplier);
@@ -211,6 +251,7 @@ namespace FootBallManagerV2Test.Controller
             //Arrange
             Microsoft.AspNetCore.JsonPatch.JsonPatchDocument update = new Microsoft.AspNetCore.JsonPatch.JsonPatchDocument();
             update.Replace("status", 2);
+            await _repo.Patch(5, 5, update);
             A.CallTo(() => _leagueSupplierRepos.Patch(5, 5, update)).Returns(true);
             var _controller = new LeagueSuppliersController(_leagueSupplierRepos);
             //Act
@@ -261,13 +302,13 @@ namespace FootBallManagerV2Test.Controller
         public async Task LeagueSuppliersController_CreateNewLeagueSupplier_ReturnOK()
         {
             //Arrange
-            var leagueSupplier = A.Fake<Leaguesupplier>();
-            leagueSupplier.IdSupplier = 1;
-            leagueSupplier.IdLeague = 1;
-            A.CallTo(() => _leagueSupplierRepos.Create(leagueSupplier)).Returns(leagueSupplier.IdSupplier);
+            var newLeagueSupplier = new Leaguesupplier() { IdLeague = 1, IdSupplier = 1, Duration = 5, StartDate = DateTime.Now, EndDate = DateTime.Now.AddYears(10), Status = 1, IdLeagueNavigation = null, IdSupplierNavigation = null };
+
+            var leagueSupplier = await _repo.Create(newLeagueSupplier);
+           A.CallTo(() => _leagueSupplierRepos.Create(newLeagueSupplier)).Returns(newLeagueSupplier.IdSupplier);
             var _controller = new LeagueSuppliersController(_leagueSupplierRepos);
             //Act
-            var result = await _controller.PostLeaguesupplier(leagueSupplier);
+            var result = await _controller.PostLeaguesupplier(newLeagueSupplier);
 
             //Assert
             Assert.IsInstanceOfType(result.Result, typeof(CreatedAtActionResult));
@@ -300,6 +341,7 @@ namespace FootBallManagerV2Test.Controller
             //Arrange
             int IdSupplier = 1;
             int IdLeague = 1;
+            await _repo.Delete(IdSupplier, IdLeague);
             A.CallTo(() => _leagueSupplierRepos.Delete(IdSupplier, IdLeague)).Returns(true);
             var _controller = new LeagueSuppliersController(_leagueSupplierRepos);
             //Act

@@ -10,6 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FootBallManagerAPI.Entities;
+using Moq;
+using MockQueryable.Moq;
 
 namespace FootBallManagerV2Test.Controller
 {
@@ -17,10 +19,56 @@ namespace FootBallManagerV2Test.Controller
     public class HuanluyenvienControllerTest
     {
         public readonly IHuanluyenvienRepository _hlvRepo;
+        private readonly Mock<FootBallManagerV2Context> _dbContextMock;
+        private readonly HuanluyenvienRepository _repo;
         public HuanluyenvienControllerTest()
         {
             this._hlvRepo = A.Fake<IHuanluyenvienRepository>();
+            var mock = GetFakeHLVList().BuildMock().BuildMockDbSet();
+            this._dbContextMock = new Mock<FootBallManagerV2Context>();
+            this._dbContextMock.Setup(x => x.Huanluyenviens).Returns(mock.Object);
+            this._repo = new HuanluyenvienRepository(this._dbContextMock.Object);
         }
+        private static List<Huanluyenvien> GetFakeHLVList()
+        {
+            return new List<Huanluyenvien>() {
+                new Huanluyenvien() {
+                    Id = 1,
+                    Iddoibong = "abc",
+                    Idquoctich = 1,
+                    Hoten = "Pep",
+                    Tuoi = 50,
+                    Gmail = "a@gmail.com",
+                    Ngaysinh = new DateTime(1980, 1, 1),
+                    Chucvu = "HLV",
+                    Hinhanh = new byte[10],
+                    IddoibongNavigation = new Doibong(),
+                    IdquoctichNavigation = new Quoctich(),
+                    Notifications = new List<Notification>(),
+                    Tapluyens = new List<Tapluyen>(),
+
+                 },
+              new Huanluyenvien() {
+                    Id = 2,
+                    Iddoibong = "abc",
+                    Idquoctich = 1,
+                    Hoten = "Zidane",
+                    Tuoi = 50,
+                    Gmail = "a@gmail.com",
+                    Ngaysinh = new DateTime(1980, 1, 1),
+                    Chucvu = "HLV",
+                    Hinhanh = new byte[10],
+                    IddoibongNavigation = new Doibong(),
+                    IdquoctichNavigation = new Quoctich(),
+                    Notifications = new List<Notification>(),
+                    Tapluyens = new List<Tapluyen>(),
+
+                 },
+
+
+            };
+        }
+
         private static int? GetStatusCode<T>(ActionResult<T?> actionResult)
         {
             IConvertToActionResult convertToActionResult = actionResult; // ActionResult implicit implements IConvertToActionResult
@@ -31,7 +79,9 @@ namespace FootBallManagerV2Test.Controller
         [TestMethod]
         public async Task GetAllMethodOk()
         {
-            var Huanluyenviens = A.Fake<List<Huanluyenvien>>();
+            HuanluyenvienRepository res = new HuanluyenvienRepository(A.Fake<FootBallManagerV2Context>());
+
+            var Huanluyenviens = await _repo.GetAllHlvAsync();
             A.CallTo(() => _hlvRepo.GetAllHlvAsync()).Returns(Huanluyenviens);
             var controller = new HuanluyenviensController(_hlvRepo);
             var result = await controller.GetHuanluyenviens();
@@ -104,6 +154,7 @@ namespace FootBallManagerV2Test.Controller
             Huanluyenvien.IdquoctichNavigation = new Quoctich();
             Huanluyenvien.Notifications = new List<Notification>();
             Huanluyenvien.Tapluyens = new List<Tapluyen>();
+            await _repo.updateHlvAsync(1, Huanluyenvien);
             A.CallTo(() => _hlvRepo.updateHlvAsync(1, Huanluyenvien)).Invokes(() => {
                 Assert.AreEqual(Huanluyenvien.Id, 1);
             });
@@ -150,8 +201,9 @@ namespace FootBallManagerV2Test.Controller
         [TestMethod]
         public async Task Post()
         {
-            var Huanluyenvien = new Huanluyenvien();
-            Huanluyenvien.Id = 1;
+            var newHLV = new Huanluyenvien();
+            newHLV.Id = 1;
+            var Huanluyenvien = await _repo.addHlvAsync(newHLV);
             A.CallTo(() => _hlvRepo.addHlvAsync(Huanluyenvien)).Returns(Huanluyenvien);
             var controller = new HuanluyenviensController(_hlvRepo);
 
@@ -196,6 +248,7 @@ namespace FootBallManagerV2Test.Controller
         public async Task Delete()
         {
             int id = 1;
+            await _repo.deleteHlvAsync(id);
             A.CallTo(() => _hlvRepo.deleteHlvAsync(id)).Invokes(() => {
                 Assert.AreEqual(id, 1);
             });

@@ -1,10 +1,14 @@
 ﻿using FakeItEasy;
 using FootBallManagerAPI.Controllers;
 using FootBallManagerAPI.Entities;
+using FootBallManagerAPI.Models;
+using FootBallManagerAPI.Repositories;
 using FootBallManagerAPI.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MockQueryable.Moq;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,20 +21,64 @@ namespace FootBallManagerV2Test.Controller
     public class ThongTinTranDausControllerTest
     {
         private readonly IThongTinTranDauRepository _thongTinTranDauRepos;
+        private readonly Mock<FootBallManagerV2Context> _dbContextMock;
+        private readonly ThongTinTranDauRepository _repo;
+
         public ThongTinTranDausControllerTest()
         {
+            //ThongTinTranDauRepository thongTinTranDauRepository = new ThongTinTranDauRepository();
+
             this._thongTinTranDauRepos = A.Fake<IThongTinTranDauRepository>();
+            var mock = GetFakeThongTinTranDauList().BuildMock().BuildMockDbSet();
+            this._dbContextMock = new Mock<FootBallManagerV2Context>();
+            this._dbContextMock.Setup(x => x.Thongtintrandaus).Returns(mock.Object);
+            this._repo = new ThongTinTranDauRepository(this._dbContextMock.Object);
         }
 
+        private static List<Thongtintrandau> GetFakeThongTinTranDauList()
+        {
+            return new List<Thongtintrandau>() {
+                new Thongtintrandau() {
+                   Id = 1,
+                    Diem=3,
+                    Iddoibong="atm",
+                    IddoibongNavigation=null,
+                    Idtrandau=1,
+                    IdtrandauNavigation=null,
+                    Items=null,
+                    Ketqua=1,
+                    Thedo=1,
+                    Thevang=1
+
+                },
+                new Thongtintrandau() {
+                   Id = 2,
+                    Diem=3,
+                    Iddoibong="mu",
+                    IddoibongNavigation=null,
+                    Idtrandau=1,
+                    IdtrandauNavigation=null,
+                    Items=null,
+                    Ketqua=1,
+                    Thedo=1,
+                    Thevang=1
+
+                }
+
+
+            };
+        }
 
         #region GetThongtintrandaus()
         [TestMethod]
         public async Task ThongTinTranDausController_GetThongtintrandaus_ReturnOK()
         {
             //Arrange
-            var thongtintrandaus = A.Fake<IEnumerable<Thongtintrandau>>();
+            var thongtintrandaus =await _repo.GetAll();
+          
 
             A.CallTo(() => _thongTinTranDauRepos.GetAll()).Returns(thongtintrandaus);
+
 
             var _controller = new ThongtintrandausController(_thongTinTranDauRepos);
             //Act
@@ -44,6 +92,7 @@ namespace FootBallManagerV2Test.Controller
         public async Task ThongTinTranDausController_GetThongtintrandaus_ReturnsProblemResultOnException()
         {
             // Arrange
+            var _thongTinTranDauRepos = A.Fake<IThongTinTranDauRepository>(options => options.Wrapping(new ThongTinTranDauRepository(A.Fake<FootBallManagerV2Context>())));
 
             A.CallTo(() => _thongTinTranDauRepos.GetAll()).Throws<Exception>(); // Simulate an exception
             var controller = new ThongtintrandausController(_thongTinTranDauRepos);
@@ -64,22 +113,22 @@ namespace FootBallManagerV2Test.Controller
         public async Task ThongTinTranDausController_GetThongtintrandauById_ReturnOK()
         {
             //Arrange
-            List<Thongtintrandau> list = new List<Thongtintrandau>()
-            {
-                new Thongtintrandau()
-                {
-                    Id = 1,
-                    Diem=3,
-                    Iddoibong="atm",
-                    IddoibongNavigation=null,
-                    Idtrandau=1,
-                    IdtrandauNavigation=null,
-                    Items=null,
-                    Ketqua=1,
-                    Thedo=1,
-                    Thevang=1
-                }
+            var _thongTinTranDauRepos = A.Fake<IThongTinTranDauRepository>(options => options.Wrapping(new ThongTinTranDauRepository(A.Fake<FootBallManagerV2Context>())));
+
+            ThongTinTranDauRepository res = new ThongTinTranDauRepository(A.Fake<FootBallManagerV2Context>());
+            FootBallTeamJoin fb= new FootBallTeamJoin() { 
+                GIATRI=0,
+                HINHANH=null,
+                ID="atm",
+                IDQUOCTICH=2,
+                NGAYTHANHLAP=DateTime.Now,
+                SANNHA="",
+                SODOCHIENTHUAT="",
+                SOLUONGTHANHVIEN=0,
+                TEN="",
+                THANHPHO = 1
             };
+            List<Thongtintrandau> list = await _repo.GetById(1);
 
             A.CallTo(() => _thongTinTranDauRepos.GetById(1)).Returns(list);
 
@@ -96,6 +145,7 @@ namespace FootBallManagerV2Test.Controller
         public async Task ThongTinTranDausController_GetThongtintrandauById_ReturnNotFound()
         {
             //Arrange
+            var _thongTinTranDauRepos = A.Fake<IThongTinTranDauRepository>(options => options.Wrapping(new ThongTinTranDauRepository(A.Fake<FootBallManagerV2Context>())));
 
             A.CallTo(() => _thongTinTranDauRepos.GetById(1)).Returns<List<Thongtintrandau>>(null);
 
@@ -112,6 +162,7 @@ namespace FootBallManagerV2Test.Controller
         public async Task ThongTinTranDausController_GetThongtintrandauById_ReturnsProblemResultOnException()
         {
             //Arrange
+            var _thongTinTranDauRepos = A.Fake<IThongTinTranDauRepository>(options => options.Wrapping(new ThongTinTranDauRepository(A.Fake<FootBallManagerV2Context>())));
 
             A.CallTo(() => _thongTinTranDauRepos.GetById(1)).Throws<Exception>();
 
@@ -133,10 +184,11 @@ namespace FootBallManagerV2Test.Controller
         public async Task ThongTinTranDausController_UpdateThongtintrandau_ReturnNoContent()
         {
             //Arrange
-            List<Thongtintrandau> thongtintrandaus = await _thongTinTranDauRepos.GetById(0);
+            //List<Thongtintrandau> thongtintrandaus = await _thongTinTranDauRepos.GetById(0);
             Thongtintrandau thongtintrandau = A.Fake<Thongtintrandau>();
             thongtintrandau.Id = 2;
             thongtintrandau.Thedo = 2;
+            await _repo.Update(thongtintrandau);
             var _controller = new ThongtintrandausController(_thongTinTranDauRepos);
             //Act
             var result = await _controller.UpdateThongtintrandau(thongtintrandau.Id, thongtintrandau);
@@ -223,6 +275,8 @@ namespace FootBallManagerV2Test.Controller
         public async Task ThongTinTranDausController_PatchThongTinTranDau_ReturnNoContent()
         {
             //Arrange
+            var _thongTinTranDauRepos = A.Fake<IThongTinTranDauRepository>(options => options.Wrapping(new ThongTinTranDauRepository(A.Fake<FootBallManagerV2Context>())));
+
             Microsoft.AspNetCore.JsonPatch.JsonPatchDocument update = new Microsoft.AspNetCore.JsonPatch.JsonPatchDocument();
             update.Replace("THEDO", 3);
             A.CallTo(() => _thongTinTranDauRepos.Patch(5, update)).Returns(true);
@@ -238,6 +292,8 @@ namespace FootBallManagerV2Test.Controller
         public async Task ThongTinTranDausController_PatchThongTinTranDau_ReturnBadRequest()
         {
             //Arrange
+            var _thongTinTranDauRepos = A.Fake<IThongTinTranDauRepository>(options => options.Wrapping(new ThongTinTranDauRepository(A.Fake<FootBallManagerV2Context>())));
+
             Microsoft.AspNetCore.JsonPatch.JsonPatchDocument update = new Microsoft.AspNetCore.JsonPatch.JsonPatchDocument();
             update.Replace("THEDO", 3);
             A.CallTo(() => _thongTinTranDauRepos.Patch(5, update)).Returns(false);
@@ -253,6 +309,8 @@ namespace FootBallManagerV2Test.Controller
         public async Task ThongTinTranDausController_PatchThongTinTranDau_ReturnsProblemResultOnException()
         {
             //Arrange
+            var _thongTinTranDauRepos = A.Fake<IThongTinTranDauRepository>(options => options.Wrapping(new ThongTinTranDauRepository(A.Fake<FootBallManagerV2Context>())));
+
             Microsoft.AspNetCore.JsonPatch.JsonPatchDocument update = new Microsoft.AspNetCore.JsonPatch.JsonPatchDocument();
             update.Replace("THEDO", 3);
             A.CallTo(() => _thongTinTranDauRepos.Patch(5, update)).Throws<Exception>();
@@ -272,8 +330,22 @@ namespace FootBallManagerV2Test.Controller
         public async Task ThongTinTranDausController_CreateNewThongTinTranDau_ReturnOK()
         {
             //Arrange
-            Thongtintrandau thongtintrandau = A.Fake<Thongtintrandau>();
-            A.CallTo(() => _thongTinTranDauRepos.Create(thongtintrandau)).Returns(thongtintrandau.Id);
+            var _thongTinTranDauRepos = A.Fake<IThongTinTranDauRepository>(options => options.Wrapping(new ThongTinTranDauRepository(A.Fake<FootBallManagerV2Context>())));
+
+            Thongtintrandau thongtintrandau = new Thongtintrandau()
+            {
+                Id = 1,
+                Diem = 3,
+                Iddoibong = "atm",
+                IddoibongNavigation = null,
+                Idtrandau = 1,
+                IdtrandauNavigation = null,
+                Items = null,
+                Ketqua = 1,
+                Thedo = 1,
+                Thevang = 1
+            };
+            A.CallTo(() => _thongTinTranDauRepos.Create(thongtintrandau)).Returns(await _repo.Create(thongtintrandau));
             var _controller = new ThongtintrandausController(_thongTinTranDauRepos);
             //Act
             var result = await _controller.CreateNewThongtintrandau(thongtintrandau);
@@ -286,6 +358,8 @@ namespace FootBallManagerV2Test.Controller
         public async Task ThongTinTranDausController_CreateNewThongTinTranDau_ReturnsProblemResultOnException()
         {
             //Arrange
+            var _thongTinTranDauRepos = A.Fake<IThongTinTranDauRepository>(options => options.Wrapping(new ThongTinTranDauRepository(A.Fake<FootBallManagerV2Context>())));
+
             Thongtintrandau thongtintrandau = A.Fake<Thongtintrandau>();
             A.CallTo(() => _thongTinTranDauRepos.Create(thongtintrandau)).Throws<Exception>();
             var _controller = new ThongtintrandausController(_thongTinTranDauRepos);
@@ -306,7 +380,10 @@ namespace FootBallManagerV2Test.Controller
         public async Task ThongTinTranDausController_DeleteThongtintrandau_ReturnNoContent()
         {
             //Arrange
+            var _thongTinTranDauRepos = A.Fake<IThongTinTranDauRepository>(options => options.Wrapping(new ThongTinTranDauRepository(A.Fake<FootBallManagerV2Context>())));
+
             int idThongTinTranDau = 1;
+            await _repo.Delete(idThongTinTranDau);
             A.CallTo(() => _thongTinTranDauRepos.Delete(idThongTinTranDau)).Returns(true);
             var _controller = new ThongtintrandausController(_thongTinTranDauRepos);
             //Act
@@ -320,6 +397,8 @@ namespace FootBallManagerV2Test.Controller
         public async Task ThongTinTranDausController_DeleteThongtintrandau_ReturnNotFound()
         {
             //Arrange
+            var _thongTinTranDauRepos = A.Fake<IThongTinTranDauRepository>(options => options.Wrapping(new ThongTinTranDauRepository(A.Fake<FootBallManagerV2Context>())));
+
             int idThongTinTranDau = 1;
             A.CallTo(() => _thongTinTranDauRepos.Delete(idThongTinTranDau)).Returns(false);
 
@@ -335,6 +414,8 @@ namespace FootBallManagerV2Test.Controller
         public async Task ThongTinTranDausController_DeleteThongtintrandau_ReturnsProblemResultOnException()
         {
             //Arrange
+            var _thongTinTranDauRepos = A.Fake<IThongTinTranDauRepository>(options => options.Wrapping(new ThongTinTranDauRepository(A.Fake<FootBallManagerV2Context>())));
+
             int idThongTinTranDau = 1;
             A.CallTo(() => _thongTinTranDauRepos.Delete(idThongTinTranDau)).Throws<Exception>();
             var _controller = new ThongtintrandausController(_thongTinTranDauRepos);

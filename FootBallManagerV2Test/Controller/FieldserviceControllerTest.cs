@@ -10,6 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FootBallManagerAPI.Entities;
+using Moq;
+using MockQueryable.Moq;
 
 namespace FootBallManagerV2Test.Controller
 {
@@ -17,10 +19,40 @@ namespace FootBallManagerV2Test.Controller
     public class FieldserviceControllerTest
     {
         public readonly IFieldServiceRepository _fieldserviceRepo;
+        private readonly Mock<FootBallManagerV2Context> _dbContextMock;
+        private readonly FieldserviceRepository _repo;
         public FieldserviceControllerTest()
         {
             this._fieldserviceRepo = A.Fake<IFieldServiceRepository>();
+            var mock = GetFakeFieldSerivceList().BuildMock().BuildMockDbSet();
+            this._dbContextMock = new Mock<FootBallManagerV2Context>();
+            this._dbContextMock.Setup(x => x.Fieldservices).Returns(mock.Object);
+            this._repo = new FieldserviceRepository(this._dbContextMock.Object);
         }
+        private static List<Fieldservice> GetFakeFieldSerivceList()
+        {
+            return new List<Fieldservice>() {
+                new Fieldservice() {
+                     IdField = 1,
+                     IdService = 1,
+                     Status = 1,
+                     IdFieldNavigation = new Field(),
+                     IdServiceNavigation = new Service(),
+
+                 },
+                new Fieldservice() {
+                     IdField = 2,
+                     IdService = 2,
+                     Status = 1,
+                     IdFieldNavigation = new Field(),
+                     IdServiceNavigation = new Service(),
+
+                 },
+
+
+            };
+        }
+
         private static int? GetStatusCode<T>(ActionResult<T?> actionResult)
         {
             IConvertToActionResult convertToActionResult = actionResult; // ActionResult implicit implements IConvertToActionResult
@@ -31,7 +63,9 @@ namespace FootBallManagerV2Test.Controller
         [TestMethod]
         public async Task GetAllMethodOk()
         {
-            var Fieldservices = A.Fake<List<Fieldservice>>();
+            FieldserviceRepository res = new FieldserviceRepository(A.Fake<FootBallManagerV2Context>());
+
+            var Fieldservices = await _repo.GetAllFieldservicesAsync();
             A.CallTo(() => _fieldserviceRepo.GetAllFieldservicesAsync()).Returns(Fieldservices);
             var controller = new FieldservicesController(_fieldserviceRepo);
             var result = await controller.GetFieldservices();
@@ -96,6 +130,7 @@ namespace FootBallManagerV2Test.Controller
             Fieldservice.Status = 1;
             Fieldservice.IdFieldNavigation = new Field();
             Fieldservice.IdServiceNavigation = new Service();
+            await _repo.updateFieldServiceAsync(1, 1, Fieldservice);
             A.CallTo(() => _fieldserviceRepo.updateFieldServiceAsync(1, 1, Fieldservice)).Invokes(() => {
                 Assert.AreEqual(Fieldservice.IdField, 1);
                 Assert.AreEqual(Fieldservice.IdService, 1);
@@ -146,9 +181,10 @@ namespace FootBallManagerV2Test.Controller
         [TestMethod]
         public async Task Post()
         {
-            var Fieldservice = new Fieldservice();
-            Fieldservice.IdField = 1;
-            Fieldservice.IdService = 1;
+            var newFieldSerivce = new Fieldservice();
+            newFieldSerivce.IdField = 1;
+            newFieldSerivce.IdService = 1;
+            var Fieldservice = await _repo.addFieldserviceAsync(newFieldSerivce);
             A.CallTo(() => _fieldserviceRepo.addFieldserviceAsync(Fieldservice)).Returns(Fieldservice);
             var controller = new FieldservicesController(_fieldserviceRepo);
 
@@ -195,6 +231,7 @@ namespace FootBallManagerV2Test.Controller
         {
             int idField = 1;
             int idService = 1;
+            await _repo.deleteFieldserviceAsync(idField, idService);
             A.CallTo(() => _fieldserviceRepo.deleteFieldserviceAsync(idField, idService)).Invokes(() => {
                 Assert.AreEqual(idField, 1);
                 Assert.AreEqual(idService, 1);

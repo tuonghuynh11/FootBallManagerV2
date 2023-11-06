@@ -1,10 +1,13 @@
 ﻿using FakeItEasy;
 using FootBallManagerAPI.Controllers;
 using FootBallManagerAPI.Entities;
+using FootBallManagerAPI.Repositories;
 using FootBallManagerAPI.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MockQueryable.Moq;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +20,41 @@ namespace FootBallManagerV2Test.Controller
     public class QuocTichControllerTest
     {
         private readonly IQuocTichRepository _quocTichRepos;
+        private readonly Mock<FootBallManagerV2Context> _dbContextMock;
+        private readonly QuocTichRepository _repo;
         public QuocTichControllerTest()
         {
             this._quocTichRepos = A.Fake<IQuocTichRepository>();
+            var mock = GetFakeQuocTichList().BuildMock().BuildMockDbSet();
+            this._dbContextMock = new Mock<FootBallManagerV2Context>();
+            this._dbContextMock.Setup(x => x.Quoctiches).Returns(mock.Object);
+            this._repo = new QuocTichRepository(this._dbContextMock.Object);
+        }
+        private static List<Quoctich> GetFakeQuocTichList()
+        {
+            return new List<Quoctich>() {
+                new Quoctich() {
+                Cauthus=null,
+                Diadiems=null,
+                Doibongs=null,
+                Huanluyenviens= null,
+                Id=1,
+                Leagues=null,
+                Tenquocgia = "Anh"
+            },
+            new Quoctich() {
+                  Cauthus=null,
+                Diadiems=null,
+                Doibongs=null,
+                Huanluyenviens= null,
+                Id=1,
+                Leagues=null,
+                Tenquocgia = "Viet Nam"
+
+                }
+
+
+            };
         }
 
         #region GetQuoctiches()
@@ -27,7 +62,9 @@ namespace FootBallManagerV2Test.Controller
         public async Task QuocTichController_GetQuoctiches_ReturnOK()
         {
             //Arrange
-            var quoctichs = A.Fake<IEnumerable<Quoctich>>();
+            QuocTichRepository res = new QuocTichRepository(A.Fake<FootBallManagerV2Context>());
+
+            var quoctichs = await _repo.GetAll();
 
             A.CallTo(() => _quocTichRepos.GetAll()).Returns(quoctichs);
 
@@ -61,15 +98,7 @@ namespace FootBallManagerV2Test.Controller
         public async Task QuocTichController_GetQuoctichById_ReturnOK()
         {
             //Arrange
-            var quoctich = new Quoctich() { 
-                Cauthus=null,
-                Diadiems=null,
-                Doibongs=null,
-                Huanluyenviens= null,
-                Id=1,
-                Leagues=null,
-                Tenquocgia = ""
-            };
+            var quoctich = await _repo.GetById(1);
 
             A.CallTo(() => _quocTichRepos.GetById(1)).Returns(quoctich);
 
@@ -125,6 +154,7 @@ namespace FootBallManagerV2Test.Controller
             var quoctich = A.Fake<Quoctich>();
             quoctich.Id = 1;
             quoctich.Tenquocgia = "VietNam";
+            await _repo.Update(quoctich);
             var _controller = new QuoctichesController(_quocTichRepos);
             //Act
             var result = await _controller.UpdateQuoctich(quoctich.Id, quoctich);
@@ -210,6 +240,7 @@ namespace FootBallManagerV2Test.Controller
             //Arrange
             Microsoft.AspNetCore.JsonPatch.JsonPatchDocument update = new Microsoft.AspNetCore.JsonPatch.JsonPatchDocument();
             update.Replace("TENQUOCGIA", "Anh");
+            await _repo.Patch(5,update);
             A.CallTo(() => _quocTichRepos.Patch(5, update)).Returns(true);
             var _controller = new QuoctichesController(_quocTichRepos);
             //Act
@@ -256,8 +287,17 @@ namespace FootBallManagerV2Test.Controller
         public async Task QuocTichController_CreateNewQuocTich_ReturnOK()
         {
             //Arrange
-            var quoctich = A.Fake<Quoctich>();
-            A.CallTo(() => _quocTichRepos.Create(quoctich)).Returns(quoctich.Id);
+            var quoctich = new Quoctich()
+            {
+                Cauthus = null,
+                Diadiems = null,
+                Doibongs = null,
+                Huanluyenviens = null,
+                Id = 1,
+                Leagues = null,
+                Tenquocgia = "Anh"
+            };
+            A.CallTo(() => _quocTichRepos.Create(quoctich)).Returns(await _repo.Create(quoctich));
             var _controller = new QuoctichesController(_quocTichRepos);
             //Act
             var result = await _controller.PostQuoctich(quoctich);
@@ -289,6 +329,7 @@ namespace FootBallManagerV2Test.Controller
         {
             //Arrange
             int idQuocTich = 1;
+            await _repo.Delete(idQuocTich);
             A.CallTo(() => _quocTichRepos.Delete(idQuocTich)).Returns(true);
             var _controller = new QuoctichesController(_quocTichRepos);
             //Act

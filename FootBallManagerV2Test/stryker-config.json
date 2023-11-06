@@ -1,0 +1,12 @@
+{
+  "stryker-config": {
+    "solution": "../FootBallProject.sln",
+    "project": "FootBallManagerAPI.csproj",
+    "mutate": [
+      "!Program.cs",
+      "!Repositories/*.cs",
+      "!Repository/*.cs",
+      "!Entities/*.cs"
+    ]
+  }
+}

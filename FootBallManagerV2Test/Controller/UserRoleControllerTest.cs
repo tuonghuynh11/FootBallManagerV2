@@ -13,6 +13,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.JsonPatch;
+using FootBallManagerAPI.Repositories;
+using Moq;
+using MockQueryable.Moq;
 
 namespace FootBallManagerV2Test.Controller
 {
@@ -20,10 +23,30 @@ namespace FootBallManagerV2Test.Controller
     public class UserRoleControllerTest
     {
         private readonly IUserRolesRepository _userRoleRepos;
+        private readonly Mock<FootBallManagerV2Context> _dbContextMock;
+        private readonly UserRolesRepository _repo;
         public UserRoleControllerTest() {
             this._userRoleRepos = A.Fake<IUserRolesRepository>();
+            var mock = GetFakeUserRoleList().BuildMock().BuildMockDbSet();
+            this._dbContextMock = new Mock<FootBallManagerV2Context>();
+            this._dbContextMock.Setup(x => x.Userroles).Returns(mock.Object);
+            this._repo = new UserRolesRepository(this._dbContextMock.Object);
         }
+        private static List<Userrole> GetFakeUserRoleList()
+        {
+            return new List<Userrole>() {
+                new Userrole() {
+                   Id = 1 ,Role="admin",Users=null
 
+                },
+                new Userrole() {
+                   Id = 2 ,Role="president",Users=null
+
+                }
+
+
+            };
+        }
 
         [TestMethod]
 
@@ -31,7 +54,9 @@ namespace FootBallManagerV2Test.Controller
         public async Task UserRoleController_GetAllUserRole_ReturnOK()
         {
             //Arrange
-            var userRoles = A.Fake<IEnumerable<Userrole>>();
+            UserRolesRepository res = new UserRolesRepository(A.Fake<FootBallManagerV2Context>());
+
+            var userRoles = await _repo.GetAll();
 
             A.CallTo(() => _userRoleRepos.GetAll()).Returns(userRoles);
 
@@ -119,7 +144,7 @@ namespace FootBallManagerV2Test.Controller
         {
             //Arrange
             Userrole userRole =await _userRoleRepos.GetById(0) ;
-
+            await _repo.Update(userRole);
             var _controller = new UserrolesController(_userRoleRepos);
             //Act
             var result = await _controller.UpdateUserrole(0, userRole);
@@ -234,8 +259,8 @@ namespace FootBallManagerV2Test.Controller
         public async Task UserRoleController_CreateNewUserrole_ReturnOK()
         {
             //Arrange
-            Userrole newUserRole = A.Fake<Userrole>();
-            A.CallTo(() => _userRoleRepos.Create(newUserRole)).Returns(newUserRole.Id);
+            Userrole newUserRole =  new Userrole() { Id = 1, Role = "admin", Users = null };
+            A.CallTo(() => _userRoleRepos.Create(newUserRole)).Returns(await _repo.Create(newUserRole));
             var _controller = new UserrolesController(_userRoleRepos);
             //Act
             var result = await _controller.CreateNewUserrole(newUserRole);
@@ -268,6 +293,7 @@ namespace FootBallManagerV2Test.Controller
         {
             //Arrange
             int idUserRole = 1;
+            await _repo.Delete(idUserRole);
             A.CallTo(() => _userRoleRepos.Delete(idUserRole)).Returns(true);
             var _controller = new UserrolesController(_userRoleRepos);
             //Act

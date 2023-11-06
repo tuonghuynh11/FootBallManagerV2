@@ -2,10 +2,13 @@
 using FootBallManagerAPI.Controllers;
 using FootBallManagerAPI.Entities;
 using FootBallManagerAPI.Models;
+using FootBallManagerAPI.Repositories;
 using FootBallManagerAPI.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MockQueryable.Moq;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,9 +21,40 @@ namespace FootBallManagerV2Test.Controller
     public class DoibongSuppliersControllerTest
     {
         private readonly IDoiBongSupplierRepository _doibongSupplierRepos;
+        private readonly Mock<FootBallManagerV2Context> _dbContextMock;
+        private readonly DoiBongSupplierRepository _repo;
         public DoibongSuppliersControllerTest()
         {
             this._doibongSupplierRepos = A.Fake<IDoiBongSupplierRepository>();
+            var mock = GetFakeDoiBongSupplierList().BuildMock().BuildMockDbSet();
+            this._dbContextMock = new Mock<FootBallManagerV2Context>();
+            this._dbContextMock.Setup(x => x.Doibongsuppliers).Returns(mock.Object);
+            this._repo = new DoiBongSupplierRepository(this._dbContextMock.Object);
+        }
+        private static List<Doibongsupplier> GetFakeDoiBongSupplierList()
+        {
+            return new List<Doibongsupplier>() {
+              new Doibongsupplier() { 
+                  IdDoiBong = "atm",
+                  IdSupplier = 1, Duration = 5,
+                  StartDate = DateTime.Now, 
+                  EndDate = DateTime.Now.AddYears(10), 
+                  Status = 1,
+                  IdDoiBongNavigation=null,
+                  IdSupplierNavigation=null
+              },
+             new Doibongsupplier() {
+                  IdDoiBong = "mc",
+                  IdSupplier = 1, Duration = 5,
+                  StartDate = DateTime.Now,
+                  EndDate = DateTime.Now.AddYears(10),
+                  Status = 1,
+                  IdDoiBongNavigation=null,
+                  IdSupplierNavigation=null
+              },
+
+
+            };
         }
 
         #region GetDoibongsuppliers()
@@ -28,7 +62,9 @@ namespace FootBallManagerV2Test.Controller
         public async Task DoibongSuppliersController_GetDoibongsuppliers_ReturnOK()
         {
             //Arrange
-            var doibongSupplier = A.Fake<IEnumerable<Doibongsupplier>>();
+            DoiBongSupplierRepository res = new DoiBongSupplierRepository(A.Fake<FootBallManagerV2Context>());
+
+            var doibongSupplier = await _repo.GetAll();
 
             A.CallTo(() => _doibongSupplierRepos.GetAll()).Returns(doibongSupplier);
 
@@ -62,8 +98,7 @@ namespace FootBallManagerV2Test.Controller
         public async Task DoibongSuppliersController_GetDoibongsupplierById_ReturnOK()
         {
             //Arrange
-            var doibongSupplier = new Doibongsupplier() { IdDoiBong = "atm", IdSupplier=1,Duration=5,StartDate= DateTime.Now,EndDate= DateTime.Now.AddYears(10),Status=1, IdDoiBongNavigation=null,IdSupplierNavigation=null};
-
+            var doibongSupplier = await _repo.GetById(1, "atm");
             A.CallTo(() => _doibongSupplierRepos.GetById(1,"atm")).Returns(doibongSupplier);
 
             var _controller = new DoibongSuppliersController(_doibongSupplierRepos);
@@ -120,6 +155,7 @@ namespace FootBallManagerV2Test.Controller
             var doibongSupplier = A.Fake<Doibongsupplier>();
             doibongSupplier.IdSupplier = 1;
             doibongSupplier.IdDoiBong = "atm";
+            await _repo.Update(doibongSupplier);
             var _controller = new DoibongSuppliersController(_doibongSupplierRepos);
             //Act
             var result = await _controller.UpdateDoibongsupplier(doibongSupplier.IdSupplier, doibongSupplier.IdDoiBong,doibongSupplier);
@@ -258,7 +294,7 @@ namespace FootBallManagerV2Test.Controller
             var doibongSupplier = A.Fake<Doibongsupplier>();
             doibongSupplier.IdSupplier = 1;
             doibongSupplier.IdDoiBong = "atm";
-            A.CallTo(() => _doibongSupplierRepos.Create(doibongSupplier)).Returns(doibongSupplier.IdSupplier);
+            A.CallTo(() => _doibongSupplierRepos.Create(doibongSupplier)).Returns(await _repo.Create(doibongSupplier));
             var _controller = new DoibongSuppliersController(_doibongSupplierRepos);
             //Act
             var result = await _controller.PostDoibongsupplier(doibongSupplierModel);
@@ -294,6 +330,7 @@ namespace FootBallManagerV2Test.Controller
             //Arrange
             int IdSupplier = 1;
              string IdDoiBong = "atm";
+            await _repo.Delete(IdSupplier, IdDoiBong);
             A.CallTo(() => _doibongSupplierRepos.Delete(IdSupplier,IdDoiBong)).Returns(true);
             var _controller = new DoibongSuppliersController(_doibongSupplierRepos);
             //Act
