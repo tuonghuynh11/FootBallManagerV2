@@ -2,10 +2,13 @@
 using FootBallManagerAPI.Controllers;
 using FootBallManagerAPI.Entities;
 using FootBallManagerAPI.Models;
+using FootBallManagerAPI.Repositories;
 using FootBallManagerAPI.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MockQueryable.Moq;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,9 +21,36 @@ namespace FootBallManagerV2Test.Controller
     public class SupplierServiceControllerTest
     {
         private readonly ISupplierServiceRepository _supplierServiceRepos;
+        private readonly Mock<FootBallManagerV2Context> _dbContextMock;
+        private readonly SupplierServiceRepository _repo;
         public SupplierServiceControllerTest()
         {
             this._supplierServiceRepos = A.Fake<ISupplierServiceRepository>();
+            var mock = GetFakeSupplierServiceList().BuildMock().BuildMockDbSet();
+            this._dbContextMock = new Mock<FootBallManagerV2Context>();
+            this._dbContextMock.Setup(x => x.Supplierservices).Returns(mock.Object);
+            this._repo = new SupplierServiceRepository(this._dbContextMock.Object);
+        }
+        private static List<Supplierservice> GetFakeSupplierServiceList()
+        {
+            return new List<Supplierservice>() {
+                new Supplierservice() {
+                      IdService = 1,
+                IdSupplier= 1,
+                IdServiceNavigation=null,
+                IdSupplierNavigation=null
+
+                },
+                new Supplierservice() {
+                 IdService = 12,
+                IdSupplier= 12,
+                IdServiceNavigation=null,
+                IdSupplierNavigation=null
+
+                }
+
+
+            };
         }
 
         #region GetSupplierservices()
@@ -28,7 +58,9 @@ namespace FootBallManagerV2Test.Controller
         public async Task SupplierServicesController_GetSupplierservices_ReturnOK()
         {
             //Arrange
-            var supplierServices = A.Fake<IEnumerable<Supplierservice>>();
+            SupplierServiceRepository res = new SupplierServiceRepository(A.Fake<FootBallManagerV2Context>());
+
+            var supplierServices = await _repo.GetAll();
 
             A.CallTo(() => _supplierServiceRepos.GetAll()).Returns(supplierServices);
 
@@ -62,14 +94,10 @@ namespace FootBallManagerV2Test.Controller
         public async Task SupplierServicesController_GetSupplierserviceById_ReturnOK()
         {
             //Arrange
-            var supplierService = new Supplierservice() { 
-                IdService = 1,
-                IdSupplier= 1,
-                IdServiceNavigation=null,
-                IdSupplierNavigation=null
-            };
             int idService = 1;
             int idSupplier = 1;
+            var supplierService = await _repo.GetById(idService, idSupplier);
+            
             A.CallTo(() => _supplierServiceRepos.GetById(idService,idSupplier)).Returns(supplierService);
 
             var _controller = new SupplierServicesController(_supplierServiceRepos);
@@ -127,6 +155,7 @@ namespace FootBallManagerV2Test.Controller
             var supplierService = A.Fake<Supplierservice>();
             supplierService.IdService = 1;
             supplierService.IdSupplier = 1;
+            await _repo.Update(supplierService);
             var _controller = new SupplierServicesController(_supplierServiceRepos);
             //Act
             var result = await _controller.UpdateSupplierservice(supplierService.IdService,supplierService.IdSupplier, supplierService);
@@ -213,8 +242,14 @@ namespace FootBallManagerV2Test.Controller
             var supplierServiceModel = A.Fake<SupplierServiceModel>();
             supplierServiceModel.IdService = 1;
             supplierServiceModel.IdSupplier = 1;
-            var supplierService = A.Fake<Supplierservice>();
-            A.CallTo(() => _supplierServiceRepos.Create(supplierService)).Returns(supplierService.IdService);
+            var supplierService = new Supplierservice()
+            {
+                IdService = 1,
+                IdSupplier = 1,
+                IdServiceNavigation = null,
+                IdSupplierNavigation = null
+            };
+            A.CallTo(() => _supplierServiceRepos.Create(supplierService)).Returns(await _repo.Create(supplierService));
             var _controller = new SupplierServicesController(_supplierServiceRepos);
             //Act
             var result = await _controller.PostSupplierservice(supplierServiceModel);
@@ -245,6 +280,7 @@ namespace FootBallManagerV2Test.Controller
             //Arrange
            int IdService = 1;
            int IdSupplier = 1;
+            await _repo.Delete(IdService, IdSupplier);
             A.CallTo(() => _supplierServiceRepos.Delete(IdService, IdSupplier)).Returns(true);
             var _controller = new SupplierServicesController(_supplierServiceRepos);
             //Act

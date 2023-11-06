@@ -10,6 +10,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FootBallManagerAPI.Entities;
+using FootBallManagerAPI.Repository;
+using Moq;
+using MockQueryable.Moq;
 
 namespace FootBallManagerV2Test.Controller
 {
@@ -17,10 +20,40 @@ namespace FootBallManagerV2Test.Controller
     public class NotificationControllerTest
     {
         public readonly INotificationRepository _notiRepo;
+        private readonly Mock<FootBallManagerV2Context> _dbContextMock;
+        private readonly NotificationRepository _repo;
         public NotificationControllerTest()
         {
             this._notiRepo = A.Fake<INotificationRepository>();
+            var mock = GetFakeNotificationList().BuildMock().BuildMockDbSet();
+            this._dbContextMock = new Mock<FootBallManagerV2Context>();
+            this._dbContextMock.Setup(x => x.Notifications).Returns(mock.Object);
+            this._repo = new NotificationRepository(this._dbContextMock.Object);
         }
+        private static List<Notification> GetFakeNotificationList()
+        {
+            return new List<Notification>() {
+                new Notification() {
+                      Id = 1,
+                      Idhlv = 1,
+                      Notify = "New",
+                      Checked = "true",
+                      IdhlvNavigation = new Huanluyenvien(),
+    
+            },
+                new Notification() {
+                     Id = 2,
+                      Idhlv = 1,
+                      Notify = "New",
+                      Checked = "true",
+                      IdhlvNavigation = new Huanluyenvien(),
+
+                }
+
+
+            };
+        }
+
         private static int? GetStatusCode<T>(ActionResult<T?> actionResult)
         {
             IConvertToActionResult convertToActionResult = actionResult; // ActionResult implicit implements IConvertToActionResult
@@ -31,7 +64,9 @@ namespace FootBallManagerV2Test.Controller
         [TestMethod]
         public async Task GetAllMethodOk()
         {
-            var Notifications = A.Fake<List<Notification>>();
+            NotificationRepository res = new NotificationRepository(A.Fake<FootBallManagerV2Context>());
+
+            var Notifications = await _repo.GetAllNotificationsAsync();
             A.CallTo(() => _notiRepo.GetAllNotificationsAsync()).Returns(Notifications);
             var controller = new NotificationsController(_notiRepo);
             var result = await controller.GetNotifications();
@@ -96,6 +131,7 @@ namespace FootBallManagerV2Test.Controller
             Notification.Notify = "New";
             Notification.Checked = "true";
             Notification.IdhlvNavigation = new Huanluyenvien();
+            await _repo.updateNotificationAsync(1, Notification);
             A.CallTo(() => _notiRepo.updateNotificationAsync(1, Notification)).Invokes(() => {
                 Assert.AreEqual(Notification.Id, 1);
             });
@@ -142,9 +178,10 @@ namespace FootBallManagerV2Test.Controller
         [TestMethod]
         public async Task Post()
         {
-            var Notification = new Notification();
-            Notification.Id = 1;
-            A.CallTo(() => _notiRepo.addNotificationAsync(Notification)).Returns(Notification);
+            var newNotification = new Notification();
+            newNotification.Id = 1;
+            var Notification = await _repo.addNotificationAsync(newNotification);
+           A.CallTo(() => _notiRepo.addNotificationAsync(Notification)).Returns(Notification);
             var controller = new NotificationsController(_notiRepo);
 
             var result = await controller.PostNotification(Notification);
@@ -188,6 +225,7 @@ namespace FootBallManagerV2Test.Controller
         public async Task Delete()
         {
             int id = 1;
+            await _repo.deleteNotificationAsync(id);
             A.CallTo(() => _notiRepo.deleteNotificationAsync(id)).Invokes(() => {
                 Assert.AreEqual(id, 1);
             });

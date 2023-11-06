@@ -1,10 +1,13 @@
 ﻿using FakeItEasy;
 using FootBallManagerAPI.Controllers;
 using FootBallManagerAPI.Entities;
+using FootBallManagerAPI.Repositories;
 using FootBallManagerAPI.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MockQueryable.Moq;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,18 +20,59 @@ namespace FootBallManagerV2Test.Controller
     public class TapLuyenControllerTest
     {
         private readonly ITapLuyenRepository _tapLuyenRepos;
+        private readonly Mock<FootBallManagerV2Context> _dbContextMock;
+        private readonly TapLuyenRepository _repo;
         public TapLuyenControllerTest()
         {
             this._tapLuyenRepos = A.Fake<ITapLuyenRepository>();
+            var mock = GetFakeTapLuyenList().BuildMock().BuildMockDbSet();
+            this._dbContextMock = new Mock<FootBallManagerV2Context>();
+            this._dbContextMock.Setup(x => x.Tapluyens).Returns(mock.Object);
+            this._repo = new TapLuyenRepository(this._dbContextMock.Object);
         }
 
+        private static List<Tapluyen> GetFakeTapLuyenList()
+        {
+            return new List<Tapluyen>() {
+                new Tapluyen() {
+                     Id=1,
+                Iddoibong="atm",
+                IddoibongNavigation=null,
+                Ghichu="",
+                Hoatdong="",
+                Idnguoiquanly=1,
+                IdnguoiquanlyNavigation=null,
+                Thoigianbatdau= DateTime.Now,
+                Thoigianketthuc=DateTime.Now.AddHours(1),
+                Trangthai= "finish"
+
+                },
+                new Tapluyen() {
+                   Id=2,
+                Iddoibong="atm",
+                IddoibongNavigation=null,
+                Ghichu="",
+                Hoatdong="",
+                Idnguoiquanly=1,
+                IdnguoiquanlyNavigation=null,
+                Thoigianbatdau= DateTime.Now,
+                Thoigianketthuc=DateTime.Now.AddHours(1),
+                Trangthai= "finish"
+
+                }
+
+
+            };
+        }
 
         #region GetTapluyens()
         [TestMethod]
         public async Task TapLuyenController_GetTapluyens_ReturnOK()
         {
             //Arrange
-            var tapluyens = A.Fake<IEnumerable<Tapluyen>>();
+            TapLuyenRepository res = new TapLuyenRepository(A.Fake<FootBallManagerV2Context>());
+
+            var tapluyens =await _repo.GetAll();
 
             A.CallTo(() => _tapLuyenRepos.GetAll()).Returns(tapluyens);
 
@@ -63,18 +107,7 @@ namespace FootBallManagerV2Test.Controller
         public async Task TapLuyenController_GetTapluyenById_ReturnOK()
         {
             //Arrange
-            var tapluyen = new Tapluyen() { 
-                Id=1,
-                Iddoibong="atm",
-                IddoibongNavigation=null,
-                Ghichu="",
-                Hoatdong="",
-                Idnguoiquanly=1,
-                IdnguoiquanlyNavigation=null,
-                Thoigianbatdau= DateTime.Now,
-                Thoigianketthuc=DateTime.Now.AddHours(1),
-                Trangthai= "finish"
-            };
+            var tapluyen = await _repo.GetById(1);
 
             A.CallTo(() => _tapLuyenRepos.GetById(1)).Returns(tapluyen);
 
@@ -131,6 +164,7 @@ namespace FootBallManagerV2Test.Controller
             var tapluyen = A.Fake<Tapluyen>();
             tapluyen.Id = 2;
             tapluyen.Ghichu = "Run 10 rounds";
+            await _repo.Update(tapluyen);
             var _controller = new TapluyensController(_tapLuyenRepos);
             //Act
             var result = await _controller.UpdateTapluyen(tapluyen.Id, tapluyen);
@@ -216,6 +250,7 @@ namespace FootBallManagerV2Test.Controller
             //Arrange
             Microsoft.AspNetCore.JsonPatch.JsonPatchDocument update = new Microsoft.AspNetCore.JsonPatch.JsonPatchDocument();
             update.Replace("HOATDONG", "Run 100 rounds");
+            await _repo.Patch(5, update);
             A.CallTo(() => _tapLuyenRepos.Patch(5, update)).Returns(true);
             var _controller = new TapluyensController(_tapLuyenRepos);
             //Act
@@ -263,8 +298,20 @@ namespace FootBallManagerV2Test.Controller
         public async Task TapLuyenController_CreateNewTapLuyen_ReturnOK()
         {
             //Arrange
-            Tapluyen tapluyen = A.Fake<Tapluyen>();
-            A.CallTo(() => _tapLuyenRepos.Create(tapluyen)).Returns(tapluyen.Id);
+            var tapluyen = new Tapluyen()
+            {
+                Id = 1,
+                Iddoibong = "atm",
+                IddoibongNavigation = null,
+                Ghichu = "",
+                Hoatdong = "",
+                Idnguoiquanly = 1,
+                IdnguoiquanlyNavigation = null,
+                Thoigianbatdau = DateTime.Now,
+                Thoigianketthuc = DateTime.Now.AddHours(1),
+                Trangthai = "finish"
+            };
+            A.CallTo(() => _tapLuyenRepos.Create(tapluyen)).Returns(await _repo.Create(tapluyen));
             var _controller = new TapluyensController(_tapLuyenRepos);
             //Act
             var result = await _controller.PostTapluyen(tapluyen);
@@ -296,6 +343,7 @@ namespace FootBallManagerV2Test.Controller
         {
             //Arrange
             int idTapLuyen = 1;
+            await _repo.Delete(idTapLuyen);
             A.CallTo(() => _tapLuyenRepos.Delete(idTapLuyen)).Returns(true);
             var _controller = new TapluyensController(_tapLuyenRepos);
             //Act

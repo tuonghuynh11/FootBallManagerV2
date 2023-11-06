@@ -1,10 +1,13 @@
 ﻿using FakeItEasy;
 using FootBallManagerAPI.Controllers;
 using FootBallManagerAPI.Entities;
+using FootBallManagerAPI.Repositories;
 using FootBallManagerAPI.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MockQueryable.Moq;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +20,36 @@ namespace FootBallManagerV2Test.Controller
     public class OTPControllerTest
     {
         private readonly IOtpRepository _otpRepos;
+        private readonly Mock<FootBallManagerV2Context> _dbContextMock;
+        private readonly OtpRepository _repo;
         public OTPControllerTest()
         {
             this._otpRepos = A.Fake<IOtpRepository>();
+            var mock = GetFakeOtpList().BuildMock().BuildMockDbSet();
+            this._dbContextMock = new Mock<FootBallManagerV2Context>();
+            this._dbContextMock.Setup(x => x.Otps).Returns(mock.Object);
+            this._repo = new OtpRepository(this._dbContextMock.Object);
+        }
+        private static List<Otp> GetFakeOtpList()
+        {
+            return new List<Otp>() {
+                new Otp() {
+                  Code="123",
+                  Id=1,
+                  Time=DateTime.Now,
+                  Users=new List<User>()
+                  
+                },
+                new Otp() {
+                    Code="0000",
+                  Id=2,
+                  Time=DateTime.Now,
+                  Users=new List<User>()
+
+                }
+
+
+            };
         }
 
         #region GetOtps()
@@ -27,7 +57,9 @@ namespace FootBallManagerV2Test.Controller
         public async Task OTPController_GetOtps_ReturnOK()
         {
             //Arrange
-            var otps = A.Fake<IEnumerable<Otp>>();
+            OtpRepository res = new OtpRepository(A.Fake<FootBallManagerV2Context>());
+
+            var otps = await _repo.GetAll();
 
             A.CallTo(() => _otpRepos.GetAll()).Returns(otps);
 
@@ -62,12 +94,7 @@ namespace FootBallManagerV2Test.Controller
         public async Task OTPController_GetOtpById_ReturnOK()
         {
             //Arrange
-            var otp = new Otp() { 
-                Id = 1,
-                Code="",
-                Time = DateTime.Now,
-                Users=null
-            };
+            var otp = await _repo.GetById(1);
 
             A.CallTo(() => _otpRepos.GetById(1)).Returns(otp);
 
@@ -123,6 +150,7 @@ namespace FootBallManagerV2Test.Controller
             var otp = A.Fake<Otp>();
             otp.Id = 1;
             otp.Code = "123344";
+            await _repo.Update(otp);
             var _controller = new OtpsController(_otpRepos);
             //Act
             var result = await _controller.UpdateOtp(otp.Id, otp);
@@ -208,6 +236,7 @@ namespace FootBallManagerV2Test.Controller
             //Arrange
             Microsoft.AspNetCore.JsonPatch.JsonPatchDocument update = new Microsoft.AspNetCore.JsonPatch.JsonPatchDocument();
             update.Replace("Code", "131223");
+            await _repo.Patch(5,update);
             A.CallTo(() => _otpRepos.Patch(5, update)).Returns(true);
             var _controller = new OtpsController(_otpRepos);
             //Act
@@ -255,8 +284,14 @@ namespace FootBallManagerV2Test.Controller
         public async Task OTPController_CreateNewOtp_ReturnOK()
         {
             //Arrange
-            var otp = A.Fake<Otp>();
-            A.CallTo(() => _otpRepos.Create(otp)).Returns(otp.Id);
+            var otp = new Otp()
+            {
+                Id = 1,
+                Code = "",
+                Time = DateTime.Now,
+                Users = null
+            };
+            A.CallTo(() => _otpRepos.Create(otp)).Returns(await _repo.Create(otp));
             var _controller = new OtpsController(_otpRepos);
             //Act
             var result = await _controller.PostOtp(otp);
@@ -290,6 +325,7 @@ namespace FootBallManagerV2Test.Controller
         {
             //Arrange
             int idOtp = 1;
+            await _repo.Delete(idOtp);
             A.CallTo(() => _otpRepos.Delete(idOtp)).Returns(true);
             var _controller = new OtpsController(_otpRepos);
             //Act

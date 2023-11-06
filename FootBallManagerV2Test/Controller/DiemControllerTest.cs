@@ -10,6 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FootBallManagerAPI.Entities;
+using Moq;
+using MockQueryable.Moq;
 
 namespace FootBallManagerV2Test.Controller
 {
@@ -17,10 +19,48 @@ namespace FootBallManagerV2Test.Controller
     public class DiemControllerTest
     {
         public readonly IDiemRepository _diemRepo;
+        private readonly Mock<FootBallManagerV2Context> _dbContextMock;
+        private readonly DiemRepository _repo;
         public DiemControllerTest()
         {
             this._diemRepo = A.Fake<IDiemRepository>();
+            var mock = GetFakeDiemList().BuildMock().BuildMockDbSet();
+            this._dbContextMock = new Mock<FootBallManagerV2Context>();
+            this._dbContextMock.Setup(x => x.Diems).Returns(mock.Object);
+            this._repo = new DiemRepository(this._dbContextMock.Object);
         }
+
+
+        private static List<Diem> GetFakeDiemList()
+        {
+            return new List<Diem>() {
+                new Diem() {
+                   Iddoibong="atm",
+                   IddoibongNavigation=null,
+                   Idgiaidau=1,
+                   Sodiem=12
+
+                },
+                new Diem() {
+                   Iddoibong="mc",
+                   IddoibongNavigation=null,
+                   Idgiaidau=2,
+                   Sodiem=12
+
+                },
+                 new Diem() {
+                   Iddoibong="abc",
+                   IddoibongNavigation=null,
+                   Idgiaidau=1,
+                   Sodiem=12
+
+                },
+
+            };
+        }
+
+
+
         private static int? GetStatusCode<T>(ActionResult<T?> actionResult)
         {
             IConvertToActionResult convertToActionResult = actionResult; // ActionResult implicit implements IConvertToActionResult
@@ -31,7 +71,9 @@ namespace FootBallManagerV2Test.Controller
         [TestMethod]
         public async Task GetAllMethodOk()
         {
-            var diems = A.Fake<List<Diem>>();
+            DiemRepository res = new DiemRepository(A.Fake<FootBallManagerV2Context>());
+
+            var diems = await _repo.GetAllDiemAsync();
             A.CallTo(() => _diemRepo.GetAllDiemAsync()).Returns(diems);
             var controller = new DiemsController(_diemRepo);
             var result = await controller.GetDiems();
@@ -95,6 +137,7 @@ namespace FootBallManagerV2Test.Controller
             diem.Iddoibong = "abc";
             diem.Sodiem = 30;
             diem.IddoibongNavigation = new Doibong();
+            await _repo.updateDiemAsync(1, "abc", diem);
             A.CallTo(() => _diemRepo.updateDiemAsync(1, "abc", diem)).Invokes(() => {
                 Assert.AreEqual(diem.Idgiaidau, 1);
                 Assert.AreEqual(diem.Iddoibong, "abc");
@@ -145,9 +188,10 @@ namespace FootBallManagerV2Test.Controller
         [TestMethod]
         public async Task Post()
         {
-            var diem = new Diem();
-            diem.Idgiaidau = 2;
-            diem.Iddoibong = "abc";
+            var newDiem = new Diem();
+            newDiem.Idgiaidau = 2;
+            newDiem.Iddoibong = "abc";
+            var diem = await _repo.addDiemAsync(newDiem);
             A.CallTo(() => _diemRepo.addDiemAsync(diem)).Returns(diem);
             var controller = new DiemsController(_diemRepo);
 
@@ -212,6 +256,7 @@ namespace FootBallManagerV2Test.Controller
         {
             int id = 1;
             string iddb = "abc";
+            await _repo.deleteDiemAsync(id, iddb);
             A.CallTo(() => _diemRepo.deleteDiemAsync(id, iddb)).Throws<Exception>();
             var controller = new DiemsController(_diemRepo);
             var result = await controller.DeleteDiem(id, iddb);

@@ -1,10 +1,13 @@
 ﻿using FakeItEasy;
 using FootBallManagerAPI.Controllers;
 using FootBallManagerAPI.Entities;
+using FootBallManagerAPI.Repositories;
 using FootBallManagerAPI.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MockQueryable.Moq;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,16 +20,56 @@ namespace FootBallManagerV2Test.Controller
     public class RoundControllerTest
     {
         private readonly IRoundRepository _roundRepos;
+        private readonly Mock<FootBallManagerV2Context> _dbContextMock;
+        private readonly RoundRepository _repo;
         public RoundControllerTest()
         {
             this._roundRepos = A.Fake<IRoundRepository>();
+            var mock = GetFakeRoundList().BuildMock().BuildMockDbSet();
+            this._dbContextMock = new Mock<FootBallManagerV2Context>();
+            this._dbContextMock.Setup(x => x.Rounds).Returns(mock.Object);
+            this._repo = new RoundRepository(this._dbContextMock.Object);
         }
+
+        private static List<Round> GetFakeRoundList()
+        {
+            return new List<Round>() {
+                new Round() {
+                    Id = 1,
+                Footballmatches=null,
+                Iddisplay="12",
+                Idgiaidau=1,
+                IdgiaidauNavigation=null,
+                Ngaybatdau=DateTime.Now,
+                Soluongdoi=32,
+                Tenvongdau="Vong 1"
+
+                },
+                new Round() {
+                     Id =21,
+                Footballmatches=null,
+                Iddisplay="13",
+                Idgiaidau=1,
+                IdgiaidauNavigation=null,
+                Ngaybatdau=DateTime.Now,
+                Soluongdoi=32,
+                Tenvongdau="Vong 2"
+
+                }
+
+
+            };
+        }
+
+
         #region GetRounds()
         [TestMethod]
         public async Task RoundController_GetRounds_ReturnOK()
         {
             //Arrange
-            var rounds = A.Fake<IEnumerable<Round>>();
+            RoundRepository res = new RoundRepository(A.Fake<FootBallManagerV2Context>());
+
+            var rounds = await _repo.GetAll();
 
             A.CallTo(() => _roundRepos.GetAll()).Returns(rounds);
 
@@ -60,16 +103,7 @@ namespace FootBallManagerV2Test.Controller
         public async Task RoundController_GetRoundById_ReturnOK()
         {
             //Arrange
-            var round = new Round() { 
-                Id = 1,
-                Footballmatches=null,
-                Iddisplay="",
-                Idgiaidau=1,
-                IdgiaidauNavigation=null,
-                Ngaybatdau=DateTime.Now,
-                Soluongdoi=32,
-                Tenvongdau=""
-            };
+            var round = await _repo.GetById(1);
 
             A.CallTo(() => _roundRepos.GetById(1)).Returns(round);
 
@@ -124,6 +158,7 @@ namespace FootBallManagerV2Test.Controller
             var round = A.Fake<Round>();
             round.Id = 2;
             round.Idgiaidau = 2;
+            await _repo.Update(round);
             var _controller = new RoundsController(_roundRepos);
             //Act
             var result = await _controller.UpdateRound(round.Id, round);
@@ -210,6 +245,7 @@ namespace FootBallManagerV2Test.Controller
             //Arrange
             Microsoft.AspNetCore.JsonPatch.JsonPatchDocument update = new Microsoft.AspNetCore.JsonPatch.JsonPatchDocument();
             update.Replace("TENVONGDAU", "Final");
+            await _repo.Patch(5, update);
             A.CallTo(() => _roundRepos.Patch(5, update)).Returns(true);
             var _controller = new RoundsController(_roundRepos);
             //Act
@@ -256,8 +292,18 @@ namespace FootBallManagerV2Test.Controller
         public async Task RoundController_CreateNewRound_ReturnOK()
         {
             //Arrange
-            var round = A.Fake<Round>();
-            A.CallTo(() => _roundRepos.Create(round)).Returns(round.Id);
+            var round = new Round()
+            {
+                Id = 1,
+                Footballmatches = null,
+                Iddisplay = "",
+                Idgiaidau = 1,
+                IdgiaidauNavigation = null,
+                Ngaybatdau = DateTime.Now,
+                Soluongdoi = 32,
+                Tenvongdau = ""
+            };
+            A.CallTo(() => _roundRepos.Create(round)).Returns(await _repo.Create(round));
             var _controller = new RoundsController(_roundRepos);
             //Act
             var result = await _controller.PostRound(round);
@@ -290,6 +336,7 @@ namespace FootBallManagerV2Test.Controller
         {
             //Arrange
             int idRound = 1;
+            await _repo.Delete(idRound);
             A.CallTo(() => _roundRepos.Delete(idRound)).Returns(true);
             var _controller = new RoundsController(_roundRepos);
             //Act

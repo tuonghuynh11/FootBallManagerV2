@@ -10,6 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FootBallManagerAPI.Entities;
+using Moq;
+using MockQueryable.Moq;
 
 namespace FootBallManagerV2Test.Controller
 {
@@ -17,10 +19,52 @@ namespace FootBallManagerV2Test.Controller
     public class LeagueControllerTest
     {
         public readonly ILeagueRepository _leagueRepo;
+        private readonly Mock<FootBallManagerV2Context> _dbContextMock;
+        private readonly LeagueRepository _repo;
         public LeagueControllerTest()
         {
             this._leagueRepo = A.Fake<ILeagueRepository>();
+            var mock = GetFakeLeagueList().BuildMock().BuildMockDbSet();
+            this._dbContextMock = new Mock<FootBallManagerV2Context>();
+            this._dbContextMock.Setup(x => x.Leagues).Returns(mock.Object);
+            this._repo = new LeagueRepository(this._dbContextMock.Object);
         }
+        private static List<League> GetFakeLeagueList()
+        {
+            return new List<League>() {
+                new League() {
+                     Id = 1,
+                     Ngaybatdau = new DateTime(2024, 1, 1),
+                     Ngayketthuc = new DateTime(2024, 1, 2),
+                     Tengiaidau = "Champions League",
+                     Idquocgia = 1,
+                     Hinhanh = new byte[10],
+                     IdquocgiaNavigation = new Quoctich(),
+                     Leaguesuppliers = new List<Leaguesupplier>(),
+                     Rounds = new List<Round>(),
+                     Teamofleagues = new List<Teamofleague>(),
+                     Thongtingiaidaus = new List<Thongtingiaidau>(),
+
+        },
+                new League() {
+                     Id = 2,
+                     Ngaybatdau = new DateTime(2024, 1, 1),
+                     Ngayketthuc = new DateTime(2024, 1, 2),
+                     Tengiaidau = "League 1",
+                     Idquocgia = 1,
+                     Hinhanh = new byte[10],
+                     IdquocgiaNavigation = new Quoctich(),
+                     Leaguesuppliers = new List<Leaguesupplier>(),
+                     Rounds = new List<Round>(),
+                     Teamofleagues = new List<Teamofleague>(),
+                     Thongtingiaidaus = new List<Thongtingiaidau>(),
+
+                }
+
+
+            };
+        }
+
         private static int? GetStatusCode<T>(ActionResult<T?> actionResult)
         {
             IConvertToActionResult convertToActionResult = actionResult; // ActionResult implicit implements IConvertToActionResult
@@ -31,7 +75,9 @@ namespace FootBallManagerV2Test.Controller
         [TestMethod]
         public async Task GetAllMethodOk()
         {
-            var Leagues = A.Fake<List<League>>();
+            LeagueRepository res = new LeagueRepository(A.Fake<FootBallManagerV2Context>());
+
+            var Leagues = await _repo.GetAllLeagueListAsync();
             A.CallTo(() => _leagueRepo.GetAllLeagueListAsync()).Returns(Leagues);
             var controller = new LeaguesController(_leagueRepo);
             var result = await controller.GetLeagues();
@@ -102,6 +148,7 @@ namespace FootBallManagerV2Test.Controller
             League.Rounds = new List<Round>();
             League.Teamofleagues = new List<Teamofleague>();
             League.Thongtingiaidaus = new List<Thongtingiaidau>();
+            await _repo.updateLeagueAsync(1, League) ;
             A.CallTo(() => _leagueRepo.updateLeagueAsync(1, League)).Invokes(() => {
                 Assert.AreEqual(League.Id, 1);
             });
@@ -148,8 +195,9 @@ namespace FootBallManagerV2Test.Controller
         [TestMethod]
         public async Task Post()
         {
-            var League = new League();
-            League.Id = 1;
+            var newLeague = new League();
+            newLeague.Id = 1;
+            var League = await _repo.addLeagueAsync(newLeague);
             A.CallTo(() => _leagueRepo.addLeagueAsync(League)).Returns(League);
             var controller = new LeaguesController(_leagueRepo);
 
@@ -194,6 +242,7 @@ namespace FootBallManagerV2Test.Controller
         public async Task Delete()
         {
             int id = 1;
+            await _repo.deleteLeagueAsync(id);
             A.CallTo(() => _leagueRepo.deleteLeagueAsync(id)).Invokes(() => {
                 Assert.AreEqual(id, 1);
             });

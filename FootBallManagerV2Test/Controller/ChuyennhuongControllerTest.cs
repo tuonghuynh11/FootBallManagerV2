@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 using FootBallManagerAPI.Controllers;
 using Microsoft.AspNetCore.Http;
 using FootBallManagerAPI.Entities;
+using Moq;
+using MockQueryable.Moq;
 
 namespace FootBallManagerV2Test.Controller
 {
@@ -17,10 +19,41 @@ namespace FootBallManagerV2Test.Controller
     public class ChuyennhuongControllerTest
     {
         private readonly IChuyennhuongRepository _chuyennhuongRepo;
+        private readonly Mock<FootBallManagerV2Context> _dbContextMock;
+        private readonly ChuyennhuongRepository _repo;
         public ChuyennhuongControllerTest()
         {
             this._chuyennhuongRepo = A.Fake<IChuyennhuongRepository>();
+            var mock = GetFakeChuyenNhuongList().BuildMock().BuildMockDbSet();
+            this._dbContextMock = new Mock<FootBallManagerV2Context>();
+            this._dbContextMock.Setup(x => x.Chuyennhuongs).Returns(mock.Object);
+            this._repo = new ChuyennhuongRepository(this._dbContextMock.Object);
         }
+
+        private static List<Chuyennhuong> GetFakeChuyenNhuongList()
+        {
+            return new List<Chuyennhuong>() {
+                new Chuyennhuong() {
+                   Id = 1,
+                   Idcauthu = 1,
+                   IdcauthuNavigation=null,
+                   Iddoimua="atm",
+                   IddoimuaNavigation=null
+
+                },
+             new Chuyennhuong() {
+                   Id = 2,
+                   Idcauthu = 12,
+                   IdcauthuNavigation=null,
+                   Iddoimua="mc",
+                   IddoimuaNavigation=null
+
+                },
+
+
+            };
+        }
+
         private static int? GetStatusCode<T>(ActionResult<T?> actionResult)
         {
             IConvertToActionResult convertToActionResult = actionResult; // ActionResult implicit implements IConvertToActionResult
@@ -31,7 +64,9 @@ namespace FootBallManagerV2Test.Controller
         [TestMethod]
         public async Task GetAllMethodOk()
         {
-            var chuyennhuongs = A.Fake<List<Chuyennhuong>>();
+            ChuyennhuongRepository res = new ChuyennhuongRepository(A.Fake<FootBallManagerV2Context>());
+
+            var chuyennhuongs = await _repo.GetAllChuyennhuongAsync();
             A.CallTo(() => _chuyennhuongRepo.GetAllChuyennhuongAsync()).Returns(chuyennhuongs);
             var controller = new ChuyennhuongsController(_chuyennhuongRepo);
             var result = await controller.GetChuyennhuongs();
@@ -96,6 +131,7 @@ namespace FootBallManagerV2Test.Controller
             chuyennhuong.Iddoimua = "qwe";
             chuyennhuong.IdcauthuNavigation = new Cauthu();
             chuyennhuong.IddoimuaNavigation = new Doibong();
+            await _repo.updateChuyennhuongAsync(1, chuyennhuong);
             A.CallTo(() => _chuyennhuongRepo.updateChuyennhuongAsync(1, chuyennhuong)).Invokes(() => {
                 Assert.AreEqual(chuyennhuong.Id, 1);
             });
@@ -142,8 +178,9 @@ namespace FootBallManagerV2Test.Controller
         [TestMethod]
         public async Task Post()
         {
-            var chuyennhuong = new Chuyennhuong();
-            chuyennhuong.Id = 1;
+            var newChuyenNhuong = new Chuyennhuong();
+            newChuyenNhuong.Id = 1;
+            var chuyennhuong = await _repo.addChuyennhuongAsync(newChuyenNhuong);
             A.CallTo(() => _chuyennhuongRepo.addChuyennhuongAsync(chuyennhuong)).Returns(chuyennhuong);
             var controller = new ChuyennhuongsController(_chuyennhuongRepo);
 
@@ -188,6 +225,7 @@ namespace FootBallManagerV2Test.Controller
         public async Task Delete()
         {
             int id = 1;
+            await _repo.deleteChuyennhuongAsync(1);
             A.CallTo(() => _chuyennhuongRepo.deleteChuyennhuongAsync(1)).Invokes(() => {
                 Assert.AreEqual(id, 1);
             }); ;

@@ -79,8 +79,25 @@ namespace FootBallManagerV2Test.Controller
         [TestMethod]
         public async Task UsersController_GetUserById_ReturnOK()
         {
+
             var _controller = new UsersController(_context, _appSettings);
             //Act
+            var user = new User()
+            {
+                Avatar=null,
+                Displayname="",
+                Email="",
+                Id=1,
+                Idavatar=1,
+                Idnhansu=1,
+                Idotp=1,
+                IdotpNavigation=null,
+                Iduserrole=1,
+                IduserroleNavigation=null,
+                Password="",
+                Refreshtokens=null,
+                Username=""
+            };
             int idUser = 1;
             var result = await _controller.GetUser(idUser);
 

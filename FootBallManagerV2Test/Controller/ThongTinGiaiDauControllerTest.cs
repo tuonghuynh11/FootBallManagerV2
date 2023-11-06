@@ -1,10 +1,13 @@
 ﻿using FakeItEasy;
 using FootBallManagerAPI.Controllers;
 using FootBallManagerAPI.Entities;
+using FootBallManagerAPI.Repositories;
 using FootBallManagerAPI.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MockQueryable.Moq;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +20,48 @@ namespace FootBallManagerV2Test.Controller
     public class ThongTinGiaiDauControllerTest
     {
         private readonly IThongtinGiaiDauRepository _thongTinGiaiDauRepos;
+        private readonly Mock<FootBallManagerV2Context> _dbContextMock;
+        private readonly ThongTinGiaiDauRepository _repo;
         public ThongTinGiaiDauControllerTest()
         {
             this._thongTinGiaiDauRepos = A.Fake<IThongtinGiaiDauRepository>();
+            var mock = GetFakeThongTinGiaiDauList().BuildMock().BuildMockDbSet();
+            this._dbContextMock = new Mock<FootBallManagerV2Context>();
+            this._dbContextMock.Setup(x => x.Thongtingiaidaus).Returns(mock.Object);
+            this._repo = new ThongTinGiaiDauRepository(this._dbContextMock.Object);
+        }
+        private static List<Thongtingiaidau> GetFakeThongTinGiaiDauList()
+        {
+            return new List<Thongtingiaidau>() {
+                new Thongtingiaidau() {
+                     Ga=1,
+                   Gd=1,
+                   Draw=1,
+                   Iddoibong="atm",
+                   IddoibongNavigation=null,
+                   Idgiaidau=1,
+                   IdgiaidauNavigation=null,
+                   Lose=1,
+                   Points=1,
+                   Win=1
+
+                },
+                new Thongtingiaidau() {
+                    Ga=1,
+                   Gd=1,
+                   Draw=1,
+                   Iddoibong="mc",
+                   IddoibongNavigation=null,
+                   Idgiaidau=1,
+                   IdgiaidauNavigation=null,
+                   Lose=1,
+                   Points=1,
+                   Win=1
+
+                }
+
+
+            };
         }
 
         #region GetThongtingiaidaus()
@@ -27,7 +69,11 @@ namespace FootBallManagerV2Test.Controller
         public async Task ThongTinGiaiDausController_GetThongtingiaidaus_ReturnOK()
         {
             //Arrange
-            var thongtingiaidaus = A.Fake<IEnumerable<Thongtingiaidau>>();
+            var _thongTinGiaiDauRepos = A.Fake<IThongtinGiaiDauRepository>(options => options.Wrapping(new ThongTinGiaiDauRepository(A.Fake<FootBallManagerV2Context>())));
+
+            ThongTinGiaiDauRepository res = new ThongTinGiaiDauRepository(A.Fake<FootBallManagerV2Context>());
+
+            var thongtingiaidaus =await _repo.GetAll();
 
             A.CallTo(() => _thongTinGiaiDauRepos.GetAll()).Returns(thongtingiaidaus);
 
@@ -43,6 +89,7 @@ namespace FootBallManagerV2Test.Controller
         public async Task ThongTinGiaiDausController_GetThongtingiaidaus_ReturnsProblemResultOnException()
         {
             // Arrange
+            var _thongTinGiaiDauRepos = A.Fake<IThongtinGiaiDauRepository>(options => options.Wrapping(new ThongTinGiaiDauRepository(A.Fake<FootBallManagerV2Context>())));
 
             A.CallTo(() => _thongTinGiaiDauRepos.GetAll()).Throws<Exception>(); // Simulate an exception
             var controller = new ThongtingiaidausController(_thongTinGiaiDauRepos);
@@ -61,23 +108,9 @@ namespace FootBallManagerV2Test.Controller
         public async Task ThongTinGiaiDausController_GetThongtingiaidauById_ReturnOK()
         {
             //Arrange
-            List<Thongtingiaidau> list = new List<Thongtingiaidau>()
-            {
-                new Thongtingiaidau()
-                {
-                   Ga=1,
-                   Gd=1,
-                   Draw=1,
-                   Iddoibong="atm",
-                   IddoibongNavigation=null,
-                   Idgiaidau=1,
-                   IdgiaidauNavigation=null,
-                   Lose=1,
-                   Points=1,
-                   Win=1
-                }
-            };
+            var _thongTinGiaiDauRepos = A.Fake<IThongtinGiaiDauRepository>(options => options.Wrapping(new ThongTinGiaiDauRepository(A.Fake<FootBallManagerV2Context>())));
 
+            List<Thongtingiaidau> list = (List<Thongtingiaidau>)await _repo.GetById(1);
 
 
             A.CallTo(() => _thongTinGiaiDauRepos.GetById(1)).Returns(list);
@@ -95,6 +128,7 @@ namespace FootBallManagerV2Test.Controller
         public async Task ThongTinGiaiDausController_GetThongtingiaidauById_ReturnNotFound()
         {
             //Arrange
+            var _thongTinGiaiDauRepos = A.Fake<IThongtinGiaiDauRepository>(options => options.Wrapping(new ThongTinGiaiDauRepository(A.Fake<FootBallManagerV2Context>())));
 
             A.CallTo(() => _thongTinGiaiDauRepos.GetById(1)).Returns<IEnumerable<Thongtingiaidau>>(null);
 
@@ -111,6 +145,7 @@ namespace FootBallManagerV2Test.Controller
         public async Task ThongTinGiaiDausController_GetThongtingiaidauById_ReturnsProblemResultOnException()
         {
             //Arrange
+            var _thongTinGiaiDauRepos = A.Fake<IThongtinGiaiDauRepository>(options => options.Wrapping(new ThongTinGiaiDauRepository(A.Fake<FootBallManagerV2Context>())));
 
             A.CallTo(() => _thongTinGiaiDauRepos.GetById(1)).Throws<Exception>();
 
@@ -134,7 +169,7 @@ namespace FootBallManagerV2Test.Controller
             Thongtingiaidau thongtingiaidau = A.Fake<Thongtingiaidau>();
             thongtingiaidau.Iddoibong ="atm";
             thongtingiaidau.Idgiaidau = 2;
-
+            await _repo.Update(thongtingiaidau);
             var _controller = new ThongtingiaidausController(_thongTinGiaiDauRepos);
             //Act
             var result = await _controller.UpdateThongtingiaidau(thongtingiaidau.Idgiaidau,thongtingiaidau.Iddoibong, thongtingiaidau);
@@ -221,8 +256,10 @@ namespace FootBallManagerV2Test.Controller
         public async Task ThongTinGiaiDausController_PatchThongTinGiaiDau_ReturnNoContent()
         {
             //Arrange
+            var _thongTinGiaiDauRepos = A.Fake<IThongtinGiaiDauRepository>(options => options.Wrapping(new ThongTinGiaiDauRepository(A.Fake<FootBallManagerV2Context>())));
+
             Microsoft.AspNetCore.JsonPatch.JsonPatchDocument update = new Microsoft.AspNetCore.JsonPatch.JsonPatchDocument();
-            update.Replace("IDDOIBONG", "atm");
+            update.Replace("Win", 13);
             A.CallTo(() => _thongTinGiaiDauRepos.Patch(5,"atm", update)).Returns(true);
             var _controller = new ThongtingiaidausController(_thongTinGiaiDauRepos);
             //Act
@@ -236,6 +273,8 @@ namespace FootBallManagerV2Test.Controller
         public async Task ThongTinGiaiDausController_PatchThongTinGiaiDau_ReturnBadRequest()
         {
             //Arrange
+            var _thongTinGiaiDauRepos = A.Fake<IThongtinGiaiDauRepository>(options => options.Wrapping(new ThongTinGiaiDauRepository(A.Fake<FootBallManagerV2Context>())));
+
             Microsoft.AspNetCore.JsonPatch.JsonPatchDocument update = new Microsoft.AspNetCore.JsonPatch.JsonPatchDocument();
             update.Replace("IDDOIBONG", "atm");
             A.CallTo(() => _thongTinGiaiDauRepos.Patch(5, "atm", update)).Returns(false);
@@ -251,6 +290,8 @@ namespace FootBallManagerV2Test.Controller
         public async Task ThongTinGiaiDausController_PatchThongTinGiaiDau_ReturnsProblemResultOnException()
         {
             //Arrange
+            var _thongTinGiaiDauRepos = A.Fake<IThongtinGiaiDauRepository>(options => options.Wrapping(new ThongTinGiaiDauRepository(A.Fake<FootBallManagerV2Context>())));
+
             Microsoft.AspNetCore.JsonPatch.JsonPatchDocument update = new Microsoft.AspNetCore.JsonPatch.JsonPatchDocument();
             update.Replace("IDDOIBONG", "atm");
 
@@ -270,8 +311,22 @@ namespace FootBallManagerV2Test.Controller
         public async Task ThongTinGiaiDausController_CreateNewThongtingiaidau_ReturnOK()
         {
             //Arrange
-            Thongtingiaidau thongtingiaidau = A.Fake<Thongtingiaidau>();
-            A.CallTo(() => _thongTinGiaiDauRepos.Create(thongtingiaidau)).Returns(thongtingiaidau.Idgiaidau);
+            var _thongTinGiaiDauRepos = A.Fake<IThongtinGiaiDauRepository>(options => options.Wrapping(new ThongTinGiaiDauRepository(A.Fake<FootBallManagerV2Context>())));
+
+            Thongtingiaidau thongtingiaidau = new Thongtingiaidau()
+            {
+                Ga = 1,
+                Gd = 1,
+                Draw = 1,
+                Iddoibong = "atm",
+                IddoibongNavigation = null,
+                Idgiaidau = 1,
+                IdgiaidauNavigation = null,
+                Lose = 1,
+                Points = 1,
+                Win = 1
+            };
+            A.CallTo(() => _thongTinGiaiDauRepos.Create(thongtingiaidau)).Returns(await _repo.Create(thongtingiaidau));
             var _controller = new ThongtingiaidausController(_thongTinGiaiDauRepos);
             //Act
             var result = await _controller.PostThongtingiaidau(thongtingiaidau);
@@ -284,6 +339,8 @@ namespace FootBallManagerV2Test.Controller
         public async Task ThongTinGiaiDausController_CreateNewThongtingiaidau_ReturnsProblemResultOnException()
         {
             //Arrange
+            var _thongTinGiaiDauRepos = A.Fake<IThongtinGiaiDauRepository>(options => options.Wrapping(new ThongTinGiaiDauRepository(A.Fake<FootBallManagerV2Context>())));
+
             Thongtingiaidau thongtingiaidau = A.Fake<Thongtingiaidau>();
             A.CallTo(() => _thongTinGiaiDauRepos.Create(thongtingiaidau)).Throws<Exception>();
             var _controller = new ThongtingiaidausController(_thongTinGiaiDauRepos);
@@ -304,8 +361,11 @@ namespace FootBallManagerV2Test.Controller
         public async Task ThongTinGiaiDausController_DeleteThongtingiaidau_ReturnNoContent()
         {
             //Arrange
+            var _thongTinGiaiDauRepos = A.Fake<IThongtinGiaiDauRepository>(options => options.Wrapping(new ThongTinGiaiDauRepository(A.Fake<FootBallManagerV2Context>())));
+
             int idGiaiDau = 1;
             string idDoiBong= "atm";
+            await _repo.Delete(idGiaiDau, idDoiBong);
             A.CallTo(() => _thongTinGiaiDauRepos.Delete(idGiaiDau,idDoiBong)).Returns(true);
             var _controller = new ThongtingiaidausController(_thongTinGiaiDauRepos);
             //Act
@@ -319,6 +379,8 @@ namespace FootBallManagerV2Test.Controller
         public async Task ThongTinGiaiDausController_DeleteThongtingiaidau_ReturnNotFound()
         {
             //Arrange
+            var _thongTinGiaiDauRepos = A.Fake<IThongtinGiaiDauRepository>(options => options.Wrapping(new ThongTinGiaiDauRepository(A.Fake<FootBallManagerV2Context>())));
+
             int idGiaiDau = 1;
             string idDoiBong = "atm";
             A.CallTo(() => _thongTinGiaiDauRepos.Delete(idGiaiDau, idDoiBong)).Returns(false);
@@ -335,6 +397,8 @@ namespace FootBallManagerV2Test.Controller
         public async Task ThongTinTranDausController_DeleteThongtintrandau_ReturnsProblemResultOnException()
         {
             //Arrange
+            var _thongTinGiaiDauRepos = A.Fake<IThongtinGiaiDauRepository>(options => options.Wrapping(new ThongTinGiaiDauRepository(A.Fake<FootBallManagerV2Context>())));
+
             int idGiaiDau = 1;
             string idDoiBong = "atm";
             A.CallTo(() => _thongTinGiaiDauRepos.Delete(idGiaiDau, idDoiBong)).Throws<Exception>();

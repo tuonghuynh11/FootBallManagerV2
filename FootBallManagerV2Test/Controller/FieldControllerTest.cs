@@ -10,6 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FootBallManagerAPI.Entities;
+using Moq;
+using MockQueryable.Moq;
 
 namespace FootBallManagerV2Test.Controller
 {
@@ -17,10 +19,53 @@ namespace FootBallManagerV2Test.Controller
     public class FieldControllerTest
     {
         public readonly IFieldRepository _fieldRepo;
+        private readonly Mock<FootBallManagerV2Context> _dbContextMock;
+        private readonly FieldRepository _repo;
         public FieldControllerTest()
         {
             this._fieldRepo = A.Fake<IFieldRepository>();
+            var mock = GetFakeFieldList().BuildMock().BuildMockDbSet();
+            this._dbContextMock = new Mock<FootBallManagerV2Context>();
+            this._dbContextMock.Setup(x => x.Fields).Returns(mock.Object);
+            this._repo = new FieldRepository(this._dbContextMock.Object);
         }
+
+        private static List<Field> GetFakeFieldList()
+        {
+            return new List<Field>() {
+                new Field() {
+                   IdField = 1,
+                   IdDiaDiem = 1,
+                   Images = new byte[10],
+                   FieldName = "Stanford Bridge",
+                   TechnicalInformation = "abc",
+                   NumOfSeats = 20000,
+                   Status = 1,
+                   Fieldservices = new List<Fieldservice>(),
+                   Footballmatches = new List<Footballmatch>(),
+                   IdDiaDiemNavigation = new Diadiem(),
+
+        },
+                new Field() {
+                   IdField = 2,
+                   IdDiaDiem = 1,
+                   Images = new byte[10],
+                   FieldName = "Etihad",
+                   TechnicalInformation = "abc",
+                   NumOfSeats = 20000,
+                   Status = 1,
+                   Fieldservices = new List<Fieldservice>(),
+                   Footballmatches = new List<Footballmatch>(),
+                   IdDiaDiemNavigation = new Diadiem(),
+
+        },
+
+
+            };
+        }
+
+
+
         private static int? GetStatusCode<T>(ActionResult<T?> actionResult)
         {
             IConvertToActionResult convertToActionResult = actionResult; // ActionResult implicit implements IConvertToActionResult
@@ -31,7 +76,9 @@ namespace FootBallManagerV2Test.Controller
         [TestMethod]
         public async Task GetAllMethodOk()
         {
-            var Fields = A.Fake<List<Field>>();
+            FieldRepository res = new FieldRepository(A.Fake<FootBallManagerV2Context>());
+
+            var Fields = await _repo.GetAllFieldsAsync();
             A.CallTo(() => _fieldRepo.GetAllFieldsAsync()).Returns(Fields);
             var controller = new FieldsController(_fieldRepo);
             var result = await controller.GetFields();
@@ -101,6 +148,7 @@ namespace FootBallManagerV2Test.Controller
             Field.Fieldservices = new List<Fieldservice>();
             Field.Footballmatches = new List<Footballmatch>();
             Field.IdDiaDiemNavigation = new Diadiem();
+            await _repo.updateFieldAsync(1, Field);
             A.CallTo(() => _fieldRepo.updateFieldAsync(1, Field)).Invokes(() => {
                 Assert.AreEqual(Field.IdField, 1);
             });
@@ -147,8 +195,9 @@ namespace FootBallManagerV2Test.Controller
         [TestMethod]
         public async Task Post()
         {
-            var Field = new Field();
-            Field.IdField = 1;
+            var newField = new Field();
+            newField.IdField = 1;
+            var Field = await _repo.addFieldAsync(newField);
             A.CallTo(() => _fieldRepo.addFieldAsync(Field)).Returns(Field);
             var controller = new FieldsController(_fieldRepo);
 
@@ -193,6 +242,7 @@ namespace FootBallManagerV2Test.Controller
         public async Task Delete()
         {
             int id = 1;
+            await _repo.deleteFieldAsync(id);
             A.CallTo(() => _fieldRepo.deleteFieldAsync(id)).Invokes(() => {
                 Assert.AreEqual(id, 1);
             }); ;

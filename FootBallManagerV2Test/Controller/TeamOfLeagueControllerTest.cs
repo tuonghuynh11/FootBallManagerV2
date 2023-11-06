@@ -1,10 +1,13 @@
 ﻿using FakeItEasy;
 using FootBallManagerAPI.Controllers;
 using FootBallManagerAPI.Entities;
+using FootBallManagerAPI.Repositories;
 using FootBallManagerAPI.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MockQueryable.Moq;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,18 +20,49 @@ namespace FootBallManagerV2Test.Controller
     public class TeamOfLeagueControllerTest
     {
         private readonly ITeamOfLeagueRepository _teamOfLeagueRepos;
+        private readonly Mock<FootBallManagerV2Context> _dbContextMock;
+        private readonly TeamOfLeagueRepository _repo;
         public TeamOfLeagueControllerTest()
         {
             this._teamOfLeagueRepos = A.Fake<ITeamOfLeagueRepository>();
+            var mock = GetFakeTeamOfLeagueList().BuildMock().BuildMockDbSet();
+            this._dbContextMock = new Mock<FootBallManagerV2Context>();
+            this._dbContextMock.Setup(x => x.Teamofleagues).Returns(mock.Object);
+            this._repo = new TeamOfLeagueRepository(this._dbContextMock.Object);
         }
 
+        private static List<Teamofleague> GetFakeTeamOfLeagueList()
+        {
+            return new List<Teamofleague>() {
+                new Teamofleague() {
+                     Id = 1,
+                    Iddoibong="atm",
+                    IddoibongNavigation=null,
+                    Idgiaidau=1,
+                    IdgiaidauNavigation=null
+
+                },
+                new Teamofleague() {
+                    Id = 2,
+                    Iddoibong="mc",
+                    IddoibongNavigation=null,
+                    Idgiaidau=1,
+                    IdgiaidauNavigation=null
+
+                }
+
+
+            };
+        }
 
         #region GetTeamofleagues()
         [TestMethod]
         public async Task TeamOfLeagueController_GetTeamofleagues_ReturnOK()
         {
             //Arrange
-            var teamofleagues = A.Fake<IEnumerable<Teamofleague>>();
+            TeamOfLeagueRepository res = new TeamOfLeagueRepository(A.Fake<FootBallManagerV2Context>());
+
+            var teamofleagues = await _repo.GetAll();
 
             A.CallTo(() => _teamOfLeagueRepos.GetAll()).Returns(teamofleagues);
 
@@ -62,17 +96,7 @@ namespace FootBallManagerV2Test.Controller
         public async Task TeamOfLeagueController_GetTeamOfLeagueById_ReturnOK()
         {
             //Arrange
-            List<Teamofleague> list = new List<Teamofleague>()
-            {
-                new Teamofleague()
-                {
-                    Id = 1,
-                    Iddoibong="atm",
-                    IddoibongNavigation=null,
-                    Idgiaidau=1,
-                    IdgiaidauNavigation=null
-                }
-            };
+            List<Teamofleague> list = await _repo.GetById(1);
 
             A.CallTo(() => _teamOfLeagueRepos.GetById(1)).Returns(list);
 
@@ -128,6 +152,7 @@ namespace FootBallManagerV2Test.Controller
             Teamofleague teamofleague = A.Fake<Teamofleague>();
             teamofleague.Iddoibong = "mc";
             teamofleague.Id = 1;
+            await _repo.Update(teamofleague);
             var _controller = new TeamOfLeaguesController(_teamOfLeagueRepos);
             //Act
             var result = await _controller.UpdateTeamofleague(teamofleague.Id, teamofleague);
@@ -214,6 +239,7 @@ namespace FootBallManagerV2Test.Controller
             //Arrange
             Microsoft.AspNetCore.JsonPatch.JsonPatchDocument update = new Microsoft.AspNetCore.JsonPatch.JsonPatchDocument();
             update.Replace("IDDOIBONG", "atm");
+            await _repo.Patch(5, update);
             A.CallTo(() => _teamOfLeagueRepos.Patch(5, update)).Returns(true);
             var _controller = new TeamOfLeaguesController(_teamOfLeagueRepos);
             //Act
@@ -262,8 +288,15 @@ namespace FootBallManagerV2Test.Controller
         public async Task TeamOfLeagueController_CreateNewTeamofleague_ReturnOK()
         {
             //Arrange
-            Teamofleague teamofleague = A.Fake<Teamofleague>();
-            A.CallTo(() => _teamOfLeagueRepos.Create(teamofleague)).Returns(teamofleague.Id);
+            Teamofleague teamofleague = new Teamofleague()
+            {
+                Id = 1,
+                Iddoibong = "atm",
+                IddoibongNavigation = null,
+                Idgiaidau = 1,
+                IdgiaidauNavigation = null
+            };
+            A.CallTo(() => _teamOfLeagueRepos.Create(teamofleague)).Returns(await _repo.Create(teamofleague));
             var _controller = new TeamOfLeaguesController(_teamOfLeagueRepos);
             //Act
             var result = await _controller.PostTeamofleague(teamofleague);
@@ -296,6 +329,7 @@ namespace FootBallManagerV2Test.Controller
             //Arrange
             int idGiaiDau = 1;
             string idTeam = "atm";
+            await _repo.Delete(idGiaiDau, idTeam);
             A.CallTo(() => _teamOfLeagueRepos.Delete(idGiaiDau,idTeam)).Returns(true);
             var _controller = new TeamOfLeaguesController(_teamOfLeagueRepos);
             //Act
@@ -347,7 +381,7 @@ namespace FootBallManagerV2Test.Controller
             //Arrange
             int idGiaiDau = 1;
             string idTeam = "atm";
-            A.CallTo(() => _teamOfLeagueRepos.IsTeamJoinLeague(idGiaiDau, idTeam)).Returns(true);
+            A.CallTo(() => _teamOfLeagueRepos.IsTeamJoinLeague(idGiaiDau, idTeam)).Returns(await _repo.IsTeamJoinLeague(idGiaiDau,idTeam));
 
             var _controller = new TeamOfLeaguesController(_teamOfLeagueRepos);
             //Act
