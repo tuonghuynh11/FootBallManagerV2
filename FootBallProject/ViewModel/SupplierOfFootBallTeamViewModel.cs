@@ -89,8 +89,14 @@ namespace FootBallProject.ViewModel
             SuppliersCooperated = new ObservableCollection<DOIBONGSUPPLIER>(allDoiBongSupplier.Where(db =>db.idDoiBong== AccessUser.userLogin.IDDOIBONG&& db.status == 2));
 
             SuppliersWaitConfirm = new ObservableCollection<DOIBONGSUPPLIER>(allDoiBongSupplier.Where(t => t.idDoiBong == AccessUser.userLogin.IDDOIBONG && t.status == 0));
-
-
+            if (SuppliersCooperated == null)
+            {
+                SuppliersCooperated = new ObservableCollection<DOIBONGSUPPLIER>(new List<DOIBONGSUPPLIER>());
+            }
+            if (SuppliersWaitConfirm == null)
+            {
+                SuppliersWaitConfirm = new ObservableCollection<DOIBONGSUPPLIER>(new List<DOIBONGSUPPLIER>());
+            }
             supplierInfo = SuppliersCooperated[0].SUPPLIER;
             supplierService = new ObservableCollection<SERVICE>();
             List<SUPPLIERSERVICE> supplierServicess = await APIService.ins.getAllSupplierServices();
@@ -111,14 +117,17 @@ namespace FootBallProject.ViewModel
         {
             supplierInfo = SuppliersCooperated.Where(s=>s.idSupplier==idSupplier).FirstOrDefault().SUPPLIER;
             supplierService = new ObservableCollection<SERVICE>();
-         
-            foreach (SUPPLIERSERVICE service in allServices)
+            if (allServices != null)
             {
-                if (service.idSupplier == idSupplier)
+                foreach (SUPPLIERSERVICE service in allServices)
                 {
-                    supplierService.Add(service.SERVICE);
+                    if (service.idSupplier == idSupplier)
+                    {
+                        supplierService.Add(service.SERVICE);
+                    }
                 }
             }
+           
         }
         public async Task LoadSupplierWaitConfirm()
         {

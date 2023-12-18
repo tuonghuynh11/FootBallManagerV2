@@ -788,8 +788,8 @@ namespace FootBallManagerV2Test.Controller
             //Act
 
             TokenModel tk = new TokenModel() {
-                accessToken = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImNvYWNoMSIsImVtYWlsIjoiaG10QGdtYWlsLmNvbSIsImp0aSI6Ijg5MTI4YTU4LTBkNTAtNGVkNi1iMTcxLTFhM2ZjMzRjMDc0MyIsIlVzZXJOYW1lIjoiY29hY2giLCJJZCI6IjIiLCJSb2xlIjoiUHJlc2lkZW50IiwidG9rZW5JZCI6ImEwYTdhNDRhLTZlOTYtNDQ0OS05NDQ1LTg4ODk5MzIwZjRiYiIsIm5iZiI6MTY5ODgzMDYwNCwiZXhwIjoxNzAxNDIyNjA0LCJpYXQiOjE2OTg4MzA2MDR9.y2gmn4pnzTWcltKfsJd0J0C-gkQWvYltPxhuefR7UHOO26TdtsawGyBMUHavEqVzvtlhO6WxDm8mV63CKE0Maw",
-                refreshToken = "6JybzuR01udoffO6wUO182u0R2Dsqn5fkjgbsOB8SII="
+                accessToken = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6Ik5ndXnhu4VuIFRo4buLIMOBdCBNaW5oIiwiZW1haWwiOiJoaWVubGVwaGFuMjAwM0BnbWFpbC5jb20iLCJqdGkiOiJhMDA0M2RmOS0xMzQxLTQ0OGQtYjY2My1iNmM3NWJlODI0MWEiLCJVc2VyTmFtZSI6ImFkbWluIiwiSWQiOiIxIiwiUm9sZSI6IkFkbWluIiwidG9rZW5JZCI6ImFiNDQwYzRmLTE0MTEtNDUwOC1hZDU2LWI4MjgzYTdiNjQ1MSIsIm5iZiI6MTcwMjU0ODE4MiwiZXhwIjoyMDE4MTY3MzgyLCJpYXQiOjE3MDI1NDgxODJ9.uWj10Zw_hfADkpgemZUuxNqiWPevZjKq-l6FqhevsFdG0_DGnbEaIzU-CJnnHIUWjaa-LmQCgyHSB4TWDkLA5w",
+                refreshToken = "ltl6Vf6NGNVSM0IegF/8XIo2YsuixWjKby4pN2Fi4zY="
 
             };
             var result = await controller.RenewToken(tk);

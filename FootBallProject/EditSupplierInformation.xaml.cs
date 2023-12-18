@@ -171,6 +171,11 @@ namespace FootBallProject
                 Error error = new Error("Số điện thoại không hợp lệ");
                 error.ShowDialog();
             }
+            else if (etsdp.SelectedDate > DateTime.Now)
+            {
+                Error error = new Error("Ngày thành lập không hợp lệ");
+                error.ShowDialog();
+            }
             else
             {
                 //Update to API

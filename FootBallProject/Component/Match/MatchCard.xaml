@@ -170,7 +170,7 @@
                             FontSize="12"
                             TextWrapping="Wrap">
                             <Run Text="Địa điểm:" />
-                            <Run Text="{Binding DisplayPlace.TENDIADIEM, FallbackValue='Địa điểm thi đấu'}" />
+                            <Run Text="{Binding DisplayField.fieldName, FallbackValue='Địa điểm thi đấu'}" />
                         </TextBlock>
                     </StackPanel>
                     <Grid Grid.Row="3" Width="{Binding ActualWidth, ElementName=CardImage}"
