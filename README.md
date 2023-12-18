@@ -131,7 +131,17 @@ tổ chức bóng đá nào cũng có thể sử dụng được là cực kỳ 
   - Xóa
 
   </details>
+ <details>
+    <summary>Quản lý toàn bộ danh sách các supplier</summary>
 
+  - Tìm kiếm
+  - Sắp xếp
+  - Xóa
+  - Xem chi tiết
+  - Sửa
+  - Xác nhận/ Hủy bỏ offer
+
+  </details>
 
   ###### President (Chủ tịch CLB)
 
