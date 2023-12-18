@@ -65,6 +65,7 @@ namespace FootBallProject.ViewModel
         public Visibility TransferConfirmisibility { get; set; }
         public Visibility SupplierHomeScreenVisibility { get; set; }
         public Visibility SupplierOfFootBallTeamVisibility { get; set; }
+        public Visibility StatisticalChartVisibility { get; set; }
         
         public MenuBarViewModel()
         {
@@ -101,6 +102,7 @@ namespace FootBallProject.ViewModel
             {
                 ALLTEAMVisibility = Visibility.Collapsed;
                 TransferConfirmisibility = Visibility.Collapsed;
+                StatisticalChartVisibility = Visibility.Collapsed;
             }
             else
             {

@@ -85,8 +85,10 @@ namespace FootBallProject.ViewModel
         public async Task LoadFootBallTeamsWaitConfirm()
         {
             List<DOIBONGSUPPLIER> allDoiBongSupplier = (await Task.Run(() => APIService.ins.getDoiBongSuppliers()));
+            if(allDoiBongSupplier != null) { 
+             FootBallTeamsWaitConfirm = new ObservableCollection<DOIBONGSUPPLIER>(allDoiBongSupplier.Where(t => t.idSupplier == AccessUser.userLogin.IDSUPPLIER && t.status == 0));
 
-            FootBallTeamsWaitConfirm = new ObservableCollection<DOIBONGSUPPLIER>(allDoiBongSupplier.Where(t => t.idSupplier == AccessUser.userLogin.IDSUPPLIER && t.status == 0));
+            }
         }
     }
 }

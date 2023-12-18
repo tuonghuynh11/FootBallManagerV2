@@ -76,7 +76,7 @@
                         Grid.Row="1"
                         materialDesign:HintAssist.Hint="Thời gian diễn ra"
                         SelectedTime="{Binding CurrentCard.DisplayDay, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}"
-                       
+    
                         BorderBrush="{StaticResource Black}"
                         BorderThickness="2"
                         Style="{StaticResource MaterialDesignOutlinedTimePicker}"
@@ -110,6 +110,34 @@
                         </ComboBox>
 
                     </Grid>
+
+                    <Grid Style="{StaticResource text_grid_item}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <TextBlock
+         Grid.Row="0"
+         FontWeight="Bold"
+         Style="{StaticResource textblock_item}"
+         Text="Sân bóng" />
+                        <ComboBox
+             Grid.Row="1"
+             Margin="4,4,4,4"
+             materialDesign:HintAssist.Hint="Chọn sân bóng"
+             ItemsSource="{Binding CurrentCard.DisplayFields, UpdateSourceTrigger=PropertyChanged}"
+             SelectedItem="{Binding CurrentCard.DisplayField, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+             Style="{StaticResource combobox_item}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding fieldName}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+
+                    </Grid>
+
 
                     <Grid>
                         <Grid.RowDefinitions>

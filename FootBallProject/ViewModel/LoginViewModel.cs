@@ -197,7 +197,10 @@ namespace FootBallProject.ViewModel
 
         public ICommand ConFirmCommand { get => _conFirmCommand; set => _conFirmCommand = value; }
 
-        private ICommand _conFirmCommand;
+        private ICommand _conFirmCommand; 
+        public ICommand GoBackLoginCommand { get => _goBackLoginCommand; set => _goBackLoginCommand = value; }
+
+        private ICommand _goBackLoginCommand;
         #endregion
         public static USER user;
         public LoginViewModel()
@@ -273,6 +276,9 @@ namespace FootBallProject.ViewModel
             Hoangmang = new RelayCommand<object>((p) => { return true; }, (p) => { RememberUser(); });
             GetOTPCodeCommand = new RelayCommand<object>((p) => { return true; }, async (p) => await GetOPTAsync());
             ConFirmCommand = new RelayCommand<object>((p) => true, (p) => ConFirm());
+
+            GoBackLoginCommand = new RelayCommand<object>((p) => { return true; }, (p) => { CurrentView = new Login(); });
+
         }
         private void DoOpenMainWindow()
         {

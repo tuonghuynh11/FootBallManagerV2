@@ -194,7 +194,7 @@ namespace FootBallProject.UserControlBar.ScreenNavigation
 
         private async void Focus_GotFocus(object sender, RoutedEventArgs e)
         {
-            await(this.DataContext as SupplierHomeScreenViewModel).LoadFootBallTeamsWaitConfirm();
+            await (this.DataContext as SupplierHomeScreenViewModel).LoadFootBallTeamsWaitConfirm();
             DTG_wait.Items.Refresh();
         }
 

@@ -240,11 +240,12 @@ namespace FootBallProject.UserControlBar
 
         private void lvUsers_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ListView listView = (ListView)sender;
-            Notification notification = listView.SelectedItem as Notification;
-            Notification update = DataProvider.ins.DB.Notifications.Find(notification.ID);
+          
             try
             {
+                ListView listView = (ListView)sender;
+                Notification notification = listView.SelectedItem as Notification;
+                Notification update = DataProvider.ins.DB.Notifications.Find(notification.ID);
                 update.CHECKED = "Đã xem";
                 DataProvider.ins.DB.SaveChanges();
             }

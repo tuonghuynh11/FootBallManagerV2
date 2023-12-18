@@ -101,6 +101,10 @@ namespace FootBallProject.UserControlBar.ScreenNavigation
 
                     DTG_SupplierContracted.ItemsSource = (this.DataContext as SupplierOfFootBallTeamViewModel).SuppliersCooperated;
                 }
+                if((this.DataContext as SupplierOfFootBallTeamViewModel).SuppliersCooperated == null)
+                {
+                    return;
+                }
                 List<DOIBONGSUPPLIER> temp = (this.DataContext as SupplierOfFootBallTeamViewModel).SuppliersCooperated.ToList();
                 List<DOIBONGSUPPLIER> filter = new List<DOIBONGSUPPLIER>();
                 foreach (DOIBONGSUPPLIER item in temp)

@@ -41,6 +41,7 @@ namespace FootBallProject.Object
         #endregion
         private DateTime? _displayDay;
         private DIADIEM _displayPlace;
+        private FIELD _displayField;
         private string _scoreTeamA;
         private string _scoreTeamB;
         private string _nameTeamA;
@@ -165,6 +166,11 @@ namespace FootBallProject.Object
                 {
                     _errorBaseViewModel.AddError(nameof(_displayPlace), "Vui lòng chọn địa điểm!");
                 }
+                else
+                {
+                    DisplayFields = new ObservableCollection<FIELD>(DataProvider.ins.DB.FIELDs.Where(x => x.idDiaDiem == value.ID &&x.status==0));
+                    DisplayField = DisplayFields.FirstOrDefault();
+                }
                 OnPropertyChanged();
             }
         }
@@ -174,6 +180,28 @@ namespace FootBallProject.Object
             get => _displayplaces;
             set { _displayplaces = value; OnPropertyChanged(); }
         }
+        ///Field <summary>
+        public FIELD DisplayField
+        {
+            get => _displayField; set
+            {
+                _displayField = value;
+                _errorBaseViewModel.ClearErrors();
+                if (DisplayField == null)
+                {
+                    _errorBaseViewModel.AddError(nameof(_displayPlace), "Vui lòng chọn sân đấu!");
+                }
+                OnPropertyChanged();
+            }
+        }
+        private ObservableCollection<FIELD> _displayFields;
+        public ObservableCollection<FIELD> DisplayFields
+        {
+            get => _displayFields;
+            set { _displayFields = value; OnPropertyChanged(); }
+        }
+        /// Field
+        /// </summary>
         public DateTime? DisplayDay
         {
 
@@ -250,7 +278,11 @@ namespace FootBallProject.Object
                 if (currentMatch.DIADIEM != null)
                 {
                     int vari = (int)currentMatch.DIADIEM;
-                    DisplayPlace = DisplayPlaces.Where(x=>x.ID == vari).FirstOrDefault();
+                    DisplayFields = new ObservableCollection<FIELD>(DataProvider.ins.DB.FIELDs.Where(x => x.idDiaDiem ==vari));
+                    DisplayField = DataProvider.ins.DB.FIELDs.Where(x => x.idField == vari).FirstOrDefault();
+                    DisplayPlace = DisplayPlaces.Where(x => x.ID == DisplayField.idDiaDiem).FirstOrDefault();
+
+
                 }
                 InitTeamPlayerOfMatch();
                 InitListTeam();
@@ -404,9 +436,10 @@ namespace FootBallProject.Object
         private int roundtruoc = -1;
         public bool CheckTime()
         {
-
+           
             if (DisplayDay != null && Rounds != null)
             {
+           
                 if (CurrentMatch.ROUND.ID == Rounds.Last().ID)
                 {
                     if (DateTime.Compare(CurrentMatch.ROUND.NGAYBATDAU.TryConvertToDateTime(), DisplayDay.TryConvertToDateTime()) <= 0)
@@ -423,7 +456,10 @@ namespace FootBallProject.Object
                 else if (DateTime.Compare(CurrentMatch.ROUND.NGAYBATDAU.TryConvertToDateTime(), DisplayDay.TryConvertToDateTime()) > 0 ||
                     DateTime.Compare(DisplayDay.TryConvertToDateTime(), Rounds[Convert.ToInt16(CurrentMatch.ROUND.IDDISPLAY)].NGAYBATDAU.TryConvertToDateTime()) > 0)
                 {
-                    ChanTime = Rounds[Convert.ToInt16(CurrentMatch.ROUND.IDDISPLAY)].NGAYBATDAU;
+                    int check1 = DateTime.Compare(CurrentMatch.ROUND.NGAYBATDAU.TryConvertToDateTime(), DisplayDay.TryConvertToDateTime());
+                    int check2 = DateTime.Compare(DisplayDay.Value, Rounds[Convert.ToInt16(CurrentMatch.ROUND.IDDISPLAY)].NGAYBATDAU.TryConvertToDateTime());
+                    DateTime t1 = Rounds[Convert.ToInt16(CurrentMatch.ROUND.IDDISPLAY)].NGAYBATDAU.TryConvertToDateTime();
+                    ChanTime = Rounds[Convert.ToInt16(CurrentMatch.ROUND.IDDISPLAY)].NGAYBATDAU.TryConvertToDateTime();
                     if (CurrentMatch.ROUND.IDDISPLAY != "1") roundtruoc = Rounds[Convert.ToInt16(CurrentMatch.ROUND.IDDISPLAY) - 2].ID;
                     return false;
                 }
@@ -483,7 +519,9 @@ namespace FootBallProject.Object
                 //CurrentMatch.DIADIEM1.TENDIADIEM = DisplayPlace;
 
                 CurrentMatch.TENTRANDAU = DisplayName;
-                CurrentMatch.DIADIEM = DisplayPlace.ID;
+                CurrentMatch.DIADIEM = DisplayField.idField;
+                FIELD currField = DataProvider.Instance.Database.FIELDs.FirstOrDefault(x => x.idField == DisplayField.idField);
+                currField.status = currField.status == 0 ? 1 : 0;
                 DataProvider.Instance.Database.FOOTBALLMATCHes.AddOrUpdate(CurrentMatch);
                 DataProvider.Instance.Database.SaveChanges();
                 InfoTeamA.DIEM = Convert.ToInt16(ScoreTeamA);

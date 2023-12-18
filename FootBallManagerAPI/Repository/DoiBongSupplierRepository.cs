@@ -39,6 +39,7 @@ namespace FootBallManagerAPI.Repository
             {
                 return new List<Doibongsupplier>();
             }
+            var data = await _context.Doibongsuppliers.Include(t => t.IdDoiBongNavigation).Include(t => t.IdSupplierNavigation).ToListAsync();
             return await _context.Doibongsuppliers.Include(t=>t.IdDoiBongNavigation).Include(t => t.IdSupplierNavigation).ToListAsync();
         }
 

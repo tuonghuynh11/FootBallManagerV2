@@ -24,7 +24,7 @@
             <Label Content="Thất bại" FontSize="25" Height="40" 
                    Width="150" Margin="94,142,40,102" Foreground="#ec2c2c"/>
             <TextBlock x:Name="cterror" TextWrapping="WrapWithOverflow" FontSize="12" Margin="10,182,10,64" 
-                   Foreground="Black" TextAlignment="Center">
+                   Foreground="Black" TextAlignment="Center" >
                     
             </TextBlock>
             <Button Width="100" Margin="94,225,90,27" Background="#ec2c2c" BorderBrush="{x:Null}" 
