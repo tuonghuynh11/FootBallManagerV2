@@ -1,0 +1,177 @@
+﻿<Window x:Class="FootBallProject.SupplierAppear"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FootBallProject"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+TextElement.FontWeight="Regular"
+TextElement.FontSize="13"
+TextOptions.TextFormattingMode="Ideal"
+TextOptions.TextRenderingMode="Auto"
+AllowsTransparency="True" Background="Transparent" WindowStyle="None"
+FontFamily="{DynamicResource MaterialDesignFont}"
+
+DataContext="{StaticResource MainVM}"
+WindowStartupLocation="CenterScreen"
+mc:Ignorable="d"
+Title="SupAppear" Height="580" Width="600" Icon="/Icons/appicon.png">
+    <Border CornerRadius="10" BorderBrush="#fbc42d" BorderThickness="2" Padding="6" Background="#d3ffce">
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="15"></RowDefinition>
+                <RowDefinition Height="402"></RowDefinition>
+                <RowDefinition Height="248"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Button x:Name="Close_but" Height="20" Width="20" VerticalAlignment="Top"
+            HorizontalAlignment="Left" Margin="559,-2,0,0" BorderBrush="{x:Null}" Click="Close_but_Click">
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Images/x_icon.png"/>
+                    </Button.Background>
+
+                </Button>
+            </Grid>
+            <Grid Grid.Row="1" Grid.RowSpan="2">
+                <Label FontSize="30" Height="50" Width="320" Margin="40,-8,224,608">
+                    Nhà Cung Cấp
+                </Label>
+                <Label x:Name="nncname" Margin="27,72,377,552" Height="25" Width="180">
+                    Tên nhà cung cấp
+                </Label>
+                <Label x:Name="htname" Margin="31,134,474,490" Height="25">
+                    Địa chỉ
+                </Label>
+                <Label x:Name="nsname" Margin="324,260,80,365" Height="25" Width="180">
+                    Ngày thành lập
+                </Label>
+                <Label x:Name="cvname" Margin="31,194,373,432" Height="25" Width="180">
+                    Số điện thoại
+                </Label>
+                <Label x:Name="qtname" Margin="31,260,474,365" Height="25">
+                    Tên đại diện
+                </Label>
+                <TextBox x:Name="tbname" Width="160" 
+               IsReadOnly="True"
+               HorizontalAlignment="Left"
+               Height="25" Background="White" Margin="147,72,0,552"/>
+                <TextBox x:Name="tbadress" Width="160" 
+              IsReadOnly="True"
+               HorizontalAlignment="Left"
+               Height="25" Background="White" Margin="147,134,0,490"/>
+                <TextBox x:Name="tbphone" Width="160" 
+               IsReadOnly="True"
+               HorizontalAlignment="Left"
+               Height="25" Background="White" Margin="147,194,0,431"/>
+                <ComboBox x:Name="cbcv" Width="160" 
+               Visibility="Hidden"
+               HorizontalAlignment="Left"
+               Height="25" Background="White" Margin="115,208,0,116"/>
+                <TextBox x:Name="tbrep" Width="160" 
+               IsReadOnly="True"
+               HorizontalAlignment="Left"
+               Height="25" Background="White" Margin="147,260,0,365"/>
+                <ComboBox x:Name="cbqt" Width="160" Visibility="Hidden"
+               HorizontalAlignment="Left"
+               Height="25" Background="White" Margin="115,262,0,64"/>
+                <TextBox x:Name="tbdate" Width="160" 
+                IsReadOnly="True"
+                HorizontalAlignment="Left"
+                Height="26" Margin="424,260,0,0"
+                Background="White" VerticalAlignment="Top">
+                </TextBox>
+                <DatePicker x:Name="dpns" Width="160" Visibility="Hidden"
+                HorizontalAlignment="Left"
+                Height="25" Margin="424,260,0,0"
+                Background="White" VerticalAlignment="Top"
+                />
+                <Image x:Name="bldimg" HorizontalAlignment="Left" 
+           Height="186" Margin="360,0,0,0" 
+           VerticalAlignment="Top" Width="190"
+           Source="Images/bldavt.png"
+           Stretch="Fill"/>
+                <Button 
+        x:Name="delete"
+        VerticalAlignment="Top"
+        Background="#fc5959"
+        Style="{StaticResource PrimaryButton}"
+        Width="100" ToolTip="Xóa" RenderTransformOrigin="-0.3,0.156" 
+        Content="_Xóa" Margin="347,495,137,0" Click="delete_Click" />
+                <Button 
+        x:Name="editbtt"
+        VerticalAlignment="Top"
+        Background="#fbc42d"
+        Style="{StaticResource PrimaryButton}"
+        Width="100" ToolTip="Sửa" RenderTransformOrigin="-0.3,0.156" 
+        Content="_Sửa" Margin="474,495,10,0" Click="editbtt_Click"  />
+                <Button 
+x:Name="cancelbtt"
+VerticalAlignment="Top" Visibility="Hidden"
+Background="#fc5959"
+Style="{StaticResource PrimaryButton}"
+Width="100" ToolTip="Hủy" RenderTransformOrigin="-0.3,0.156" 
+Content="Hủy" Margin="167,495,317,0" Click="cancelbtt_Click"  />
+                <Button 
+        x:Name="savebtt"
+        VerticalAlignment="Top"
+        Background="#fbc42d" Visibility="Hidden"
+        Style="{StaticResource PrimaryButton}"
+        Width="100" ToolTip="Lưu" RenderTransformOrigin="-0.3,0.156" 
+        Content="_Lưu" Margin="27,495,457,0" Click="savebtt_Click" 
+       />
+                <Button 
+        x:Name="uploadbtt"
+        VerticalAlignment="Top" 
+        Background="#8abeb7" Visibility="Hidden"
+        Style="{StaticResource PrimaryButton}"
+        Width="100" ToolTip="Upload" RenderTransformOrigin="-0.3,0.156" 
+        Content="_Upload" Margin="405,198,79,0" Click="uploadbtt_Click"   />
+            </Grid>
+            <DataGrid Height="100" Width="400" Margin="92,325,92,0" x:Name="dtgSer"
+                          Background="White" RenderTransformOrigin="0.494,0.52" SelectionMode="Single"
+                          CanUserAddRows="False" ScrollViewer.CanContentScroll="True"
+AutoGenerateColumns="False" VerticalAlignment="Top" IsReadOnly="True" SelectionChanged="dtgSer_SelectionChanged"
+ScrollViewer.VerticalScrollBarVisibility="Hidden" Grid.Row="1" Grid.RowSpan="2">
+                <DataGrid.Resources>
+                    <Style TargetType="{x:Type DataGridColumnHeader}">
+                        <Setter Property="Background" Value="#31AC4C"/>
+                        <Setter Property="Height" Value="25"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    </Style>
+                </DataGrid.Resources>
+                <DataGrid.Columns>
+
+
+                    <DataGridTextColumn Header="Tên dịch vụ" Width="150" 
+Binding="{Binding serviceName}">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Center" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+
+
+                    <DataGridTextColumn Header="Chi tiết" Width="190"
+Binding="{Binding detail}">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Center" />
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <Button 
+x:Name="AddService"
+VerticalAlignment="Top"
+HorizontalAlignment="Center"
+Background="#3483eb"
+Style="{StaticResource PrimaryButton}"
+Width="160" Height="40" Visibility="Hidden"
+ToolTip="Thêm Dịch Vụ" 
+RenderTransformOrigin="-0.35,0.314" Margin="0,40,0,0" Content="Thêm Dịch Vụ" Click="AddService_Click" Grid.Row="2" />
+        </Grid>
+    </Border>
+</Window>

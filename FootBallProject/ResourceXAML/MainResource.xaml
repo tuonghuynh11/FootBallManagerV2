@@ -26,4 +26,7 @@
     <viewmodel:SupplierHomeScreenViewModel x:Key="SupplierHomeScreenkVM"></viewmodel:SupplierHomeScreenViewModel>
     <viewmodel:SupplierInformationVIewModel x:Key="SupplierInformationVM"></viewmodel:SupplierInformationVIewModel>
     <viewmodel:SupplierOfFootBallTeamViewModel x:Key="SupplierOfFootBallTeamVM"></viewmodel:SupplierOfFootBallTeamViewModel>
+    <viewmodel:ManageFieldViewModel x:Key="ManageFieldVM"></viewmodel:ManageFieldViewModel>
+    <viewmodel:ConfirmSupplierViewModel x:Key="ConfirmSupplierVM"></viewmodel:ConfirmSupplierViewModel>
+    <viewmodel:SupplierViewModel x:Key="SupplierVM"></viewmodel:SupplierViewModel>
 </ResourceDictionary>

@@ -298,7 +298,11 @@ namespace FootBallProject.ViewModel
             if (user.ROLENAME != "Admin")
             {
                 //lấy id đội bóng của hlv đang đăng nhập trừ admin
-                USER.IDDB = DataProvider.ins.Database.HUANLUYENVIENs.Where(x => x.ID == user.IDNHANSU).FirstOrDefault().IDDOIBONG;
+                if (user.IDUSERROLE != 5)
+                {
+                    //lấy id đội bóng của hlv đang đăng nhập trừ admin
+                    USER.IDDB = DataProvider.ins.Database.HUANLUYENVIENs.Where(x => x.ID == user.IDNHANSU).FirstOrDefault().IDDOIBONG;
+                }
             }
 
             //Window window = Application.Current.MainWindow as Window;

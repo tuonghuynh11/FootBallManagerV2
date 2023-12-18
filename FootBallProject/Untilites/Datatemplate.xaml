@@ -43,4 +43,13 @@
     <DataTemplate DataType="{x:Type vm:SupplierOfFootBallTeamViewModel}">
         <view:SupplierOfFootballTeam />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:ManageFieldViewModel}">
+        <view1:ManageFieldUC/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:ConfirmSupplierViewModel}">
+        <view1:ConfirmSupplierUC/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type vm:SupplierViewModel}">
+        <view1:SupplierUC/>
+    </DataTemplate>
 </ResourceDictionary>

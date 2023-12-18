@@ -41,6 +41,9 @@ namespace FootBallProject.ViewModel
         public ICommand FeedBackCommand { get; set; }
         public ICommand SupplierHomeScreenCommand { get; set; }
         public ICommand SupplierOfFootBallTeamCommand { get; set; }
+        public ICommand StadiumCommand { get; set; }
+        public ICommand ConfirmSupplierCommand { get; set; }
+        public ICommand SupplierCommand { get; set; }
 
         private void Home() => CurrentView = new AdminScreenViewModel();
         private void Tactic() => CurrentView = new TeamBuilderViewModel(USER.IDDB);
@@ -56,6 +59,9 @@ namespace FootBallProject.ViewModel
         private void League() => CurrentView = new MainLeagueViewModel();
         private void SupplierHomeScreen() => CurrentView = new SupplierHomeScreenViewModel();
         private void SupplierOfFootballTeam() => CurrentView = new SupplierOfFootBallTeamViewModel();
+        private void ManageField() => CurrentView = new ManageFieldViewModel();
+        private void ConfirmSupplier() => CurrentView = new ConfirmSupplierViewModel();
+        private void Supplier() => CurrentView = new SupplierViewModel();
 
 
 
@@ -66,7 +72,10 @@ namespace FootBallProject.ViewModel
         public Visibility SupplierHomeScreenVisibility { get; set; }
         public Visibility SupplierOfFootBallTeamVisibility { get; set; }
         public Visibility StatisticalChartVisibility { get; set; }
-        
+        public Visibility StadiumVisibility { get; set; }
+        public Visibility ConfirmSupplierVisibility { get; set; }
+        public Visibility SupplierVisibility { get; set; }
+
         public MenuBarViewModel()
         {
             //Tạo các màn hình cho các nút
@@ -91,8 +100,11 @@ namespace FootBallProject.ViewModel
             });
             SupplierHomeScreenCommand = new RelayCommand<object>((p) => { return true; }, (p) => { SupplierHomeScreen(); });
             SupplierOfFootBallTeamCommand = new RelayCommand<object>((p) => { return true; }, (p) => { SupplierOfFootballTeam(); });
+            StadiumCommand = new RelayCommand<object>((p) => { return true; }, (p) => { ManageField(); });
+            ConfirmSupplierCommand = new RelayCommand<object>((p) => { return true; }, (p) => { ConfirmSupplier(); });
+            SupplierCommand = new RelayCommand<object>((p) => { return true; }, (p) => { Supplier(); });
 
-            
+
             // Startup Page
             CurrentView = new AdminScreenViewModel();
 
@@ -103,6 +115,10 @@ namespace FootBallProject.ViewModel
                 ALLTEAMVisibility = Visibility.Collapsed;
                 TransferConfirmisibility = Visibility.Collapsed;
                 StatisticalChartVisibility = Visibility.Collapsed;
+                StadiumVisibility = Visibility.Collapsed;
+                ConfirmSupplierVisibility = Visibility.Collapsed;
+                SupplierVisibility = Visibility.Collapsed;
+
             }
             else
             {

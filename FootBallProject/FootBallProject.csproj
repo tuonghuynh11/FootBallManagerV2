@@ -141,6 +141,21 @@
     <Compile Include="Addnewusers.xaml.cs">
       <DependentUpon>Addnewusers.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AddScheduleStadium.xaml.cs">
+      <DependentUpon>AddScheduleStadium.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddService.xaml.cs">
+      <DependentUpon>AddService.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddStadium.xaml.cs">
+      <DependentUpon>AddStadium.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddSupAccount.xaml.cs">
+      <DependentUpon>AddSupAccount.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddSupplier.xaml.cs">
+      <DependentUpon>AddSupplier.xaml</DependentUpon>
+    </Compile>
     <Compile Include="BLD_Appear.xaml.cs">
       <DependentUpon>BLD_Appear.xaml</DependentUpon>
     </Compile>
@@ -382,6 +397,9 @@
       <DependentUpon>Loading.xaml</DependentUpon>
     </Compile>
     <Compile Include="RequestModel\DoiBongSupplierRequest.cs" />
+    <Compile Include="ServiceAppear.xaml.cs">
+      <DependentUpon>ServiceAppear.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Service\APIService.cs" />
     <Compile Include="Service\LoginServices.cs" />
     <Compile Include="Service\MatchCardService.cs" />
@@ -393,8 +411,17 @@
     <Compile Include="Error.xaml.cs">
       <DependentUpon>Error.xaml</DependentUpon>
     </Compile>
+    <Compile Include="StadiumAppear.xaml.cs">
+      <DependentUpon>StadiumAppear.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Success.xaml.cs">
       <DependentUpon>Success.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SupplierAppear.xaml.cs">
+      <DependentUpon>SupplierAppear.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SupplierConfirm.xaml.cs">
+      <DependentUpon>SupplierConfirm.xaml</DependentUpon>
     </Compile>
     <Compile Include="SupplierInformation.xaml.cs">
       <DependentUpon>SupplierInformation.xaml</DependentUpon>
@@ -418,6 +445,9 @@
       <DependentUpon>ThongTinGiaiDau.xaml</DependentUpon>
     </Compile>
     <Compile Include="Untilites\Btn.cs" />
+    <Compile Include="UserControlBar\ConfirmSupplierUC.xaml.cs">
+      <DependentUpon>ConfirmSupplierUC.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControlBar\ControlBarUC.xaml.cs">
       <DependentUpon>ControlBarUC.xaml</DependentUpon>
     </Compile>
@@ -429,6 +459,9 @@
     </Compile>
     <Compile Include="UserControlBar\Formation\442UC.xaml.cs">
       <DependentUpon>442UC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControlBar\ManageFieldUC.xaml.cs">
+      <DependentUpon>ManageFieldUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControlBar\MenuBarUC.xaml.cs">
       <DependentUpon>MenuBarUC.xaml</DependentUpon>
@@ -453,6 +486,9 @@
     </Compile>
     <Compile Include="UserControlBar\ScreenNavigation\TransferAccept.xaml.cs">
       <DependentUpon>TransferAccept.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControlBar\SupplierUC.xaml.cs">
+      <DependentUpon>SupplierUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControlBar\TeamPlayersUC.xaml.cs">
       <DependentUpon>TeamPlayersUC.xaml</DependentUpon>
@@ -491,6 +527,7 @@
     <Compile Include="ViewModel\ConfigThanhCong.cs" />
     <Compile Include="ViewModel\ConfigVongLoai1ViewModel.cs" />
     <Compile Include="ViewModel\ConfigVongLoai2ViewModel.cs" />
+    <Compile Include="ViewModel\ConfirmSupplierViewModel.cs" />
     <Compile Include="ViewModel\ControlBarViewModel.cs" />
     <Compile Include="ViewModel\CreateNewLeague.cs" />
     <Compile Include="ViewModel\DH433VIewModel.cs" />
@@ -502,6 +539,7 @@
     <Compile Include="ViewModel\MainLeagueViewModel.cs" />
     <Compile Include="ViewModel\MainMatchViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
+    <Compile Include="ViewModel\ManageFieldViewModel.cs" />
     <Compile Include="ViewModel\MatchInformationViewModel.cs" />
     <Compile Include="ViewModel\MatchNoDisPlayViewModel.cs" />
     <Compile Include="ViewModel\MenuBarViewModel.cs" />
@@ -509,6 +547,7 @@
     <Compile Include="ViewModel\SupplierHomeScreenViewModel.cs" />
     <Compile Include="ViewModel\SupplierInformationVIewModel.cs" />
     <Compile Include="ViewModel\SupplierOfFootBallTeamViewModel.cs" />
+    <Compile Include="ViewModel\SupplierViewModel.cs" />
     <Compile Include="ViewModel\TeamBuilderViewModel.cs" />
     <Compile Include="ViewModel\TitleBarViewModel.cs" />
     <Compile Include="ViewModel\TournamentInformationViewModel.cs" />
@@ -540,6 +579,26 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Addnewusers.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddScheduleStadium.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddService.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddStadium.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddSupAccount.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddSupplier.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -727,11 +786,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ServiceAppear.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="StadiumAppear.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Styles\Button.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Styles\Page.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SupplierAppear.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SupplierConfirm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -763,6 +838,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControlBar\ConfirmSupplierUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControlBar\ControlBarUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -776,6 +855,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControlBar\Formation\442UC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControlBar\ManageFieldUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -808,6 +891,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControlBar\ScreenNavigation\TransferAccept.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControlBar\SupplierUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -904,6 +991,13 @@
     <Resource Include="Icons\feedback.png" />
     <Resource Include="Icons\appicon.png" />
     <Resource Include="Icons\deal.png" />
+    <Resource Include="Images\stadium.jpg" />
+    <Resource Include="Images\service.jpg" />
+    <Resource Include="Images\supplier.jpg" />
+    <Resource Include="Icons\confirmsupplier.png" />
+    <Resource Include="Icons\iconStadium.png" />
+    <Resource Include="Icons\supplierIcon.jpg" />
+    <Resource Include="Icons\supplier.png" />
     <Content Include="Model\Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>Model1.edmx</DependentUpon>

@@ -32,156 +32,183 @@
             <Image VerticalAlignment="Top"  Source="https://cdn-icons-png.flaticon.com/512/861/861512.png" Height="53" Margin="-14,-6,-16,0"/>
 
         </materialDesign:ColorZone>
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Width="auto">
-            <ToggleButton Margin="5 10 5 10" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"
-                        Style="{DynamicResource MaterialDesignHamburgerToggleButton}" Click="Menu_Click" />
+        <ScrollViewer VerticalScrollBarVisibility="Hidden" Padding="0 0 0 10">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Width="auto" Margin="0 0 0 10">
+                <ToggleButton Margin="5 10 5 10" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center"
+                Style="{DynamicResource MaterialDesignHamburgerToggleButton}" Click="Menu_Click" />
 
-            <menu:Btn Width="130"  HorizontalAlignment="Left" IsChecked="True" Background="Transparent" VerticalAlignment="Center" Command="{Binding AdminCommand}" BorderThickness="0" Height="45" Style="{StaticResource BtnStyle}">
-                <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
-                    <Border Background="White" Height="30" Width="30" CornerRadius="2" >
-                        <Image Source="/Icons/home.png" Height="30" VerticalAlignment="Center"   ></Image>
-                    </Border>
-                    <TextBlock Text="Trang chủ" Margin="15 0 0 0" Foreground="White" VerticalAlignment="Center"></TextBlock>
-                </StackPanel>
-            </menu:Btn>
+                <menu:Btn Width="130"  HorizontalAlignment="Left" IsChecked="True" Background="Transparent" VerticalAlignment="Center" Command="{Binding AdminCommand}" BorderThickness="0" Height="45" Style="{StaticResource BtnStyle}">
+                    <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
+                        <Border Background="White" Height="30" Width="30" CornerRadius="2" >
+                            <Image Source="/Icons/home.png" Height="30" VerticalAlignment="Center"   ></Image>
+                        </Border>
+                        <TextBlock Text="Trang chủ" Margin="15 0 0 0" Foreground="White" VerticalAlignment="Center"></TextBlock>
+                    </StackPanel>
+                </menu:Btn>
 
-            <Separator Background="Transparent" Foreground="Transparent" BorderBrush="Transparent" BorderThickness="0"></Separator>
+                <Separator Background="Transparent" Foreground="Transparent" BorderBrush="Transparent" BorderThickness="0"></Separator>
 
-            <menu:Btn Width="130" HorizontalAlignment="Left" Background="Transparent" VerticalAlignment="Center" Command="{Binding LeagueCommand}" BorderThickness="0" Height="45" Style="{StaticResource BtnStyle}">
-                <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
-                    <Border Background="White" Height="30" Width="30" CornerRadius="2" >
-                        <Image Source="/Icons/tournament.png" Height="32" Width="32" VerticalAlignment="Center"  ></Image>
-                    </Border>
-                    <TextBlock Text="Giải đấu" Margin="15 0 0 0" Foreground="White" VerticalAlignment="Center"></TextBlock>
-                </StackPanel>
-            </menu:Btn>
-            <Separator Background="Transparent" Foreground="Transparent" BorderBrush="Transparent" BorderThickness="0"></Separator>
-
-
-            <menu:Btn x:Name="adminbutton" Width="130" HorizontalAlignment="Left" Background="Transparent" VerticalAlignment="Center" Command="{Binding MatchCommand}" BorderThickness="0" Height="45" Style="{StaticResource BtnStyle}">
-                <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
-                    <Border Background="White" Height="30" Width="30" CornerRadius="2" >
-                        <Image Source="/Icons/match.png" Height="30" Width="30" VerticalAlignment="Center"  ></Image>
-                    </Border>
-                    <TextBlock Text="Trận đấu" Margin="15 0 0 0" Foreground="White" VerticalAlignment="Center"></TextBlock>
-                </StackPanel>
-            </menu:Btn>
-
-            <Separator Background="Transparent"  Foreground="Transparent" BorderBrush="Transparent" BorderThickness="0"></Separator>
-
-            <menu:Btn Width="130" Visibility="{Binding ALLTEAMVisibility}" HorizontalAlignment="Left" Background="Transparent" VerticalAlignment="Center" Command="{Binding FootballTeamListCommand}" BorderThickness="0" Height="45" Style="{StaticResource BtnStyle}">
-                <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
-                    <Border Background="White" Height="30" Width="30" CornerRadius="2" >
-                        <Image Source="/Icons/team.png" Height="27" Width="27"   VerticalAlignment="Center" ></Image>
-                    </Border>
-                    <TextBlock Text="Đội bóng" Margin="15 0 0 0" Foreground="White" VerticalAlignment="Center"></TextBlock>
-                </StackPanel>
-            </menu:Btn>
-
-            <Separator Background="Transparent" Foreground="Transparent" BorderBrush="Transparent" BorderThickness="0"></Separator>
+                <menu:Btn Width="130" HorizontalAlignment="Left" Background="Transparent" VerticalAlignment="Center" Command="{Binding LeagueCommand}" BorderThickness="0" Height="45" Style="{StaticResource BtnStyle}">
+                    <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
+                        <Border Background="White" Height="30" Width="30" CornerRadius="2" >
+                            <Image Source="/Icons/tournament.png" Height="32" Width="32" VerticalAlignment="Center"  ></Image>
+                        </Border>
+                        <TextBlock Text="Giải đấu" Margin="15 0 0 0" Foreground="White" VerticalAlignment="Center"></TextBlock>
+                    </StackPanel>
+                </menu:Btn>
+                <Separator Background="Transparent" Foreground="Transparent" BorderBrush="Transparent" BorderThickness="0"></Separator>
 
 
-            <menu:Btn x:Name="leaderbtt" Width="130" HorizontalAlignment="Left" Background="Transparent" VerticalAlignment="Center" Command="{Binding LeaderListCommand}" BorderThickness="0" Height="45" Style="{StaticResource BtnStyle}">
-                <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
-                    <Border Background="White" Height="30" Width="30" CornerRadius="2" >
-                        <Image Source="/Icons/leader.png" Height="27" VerticalAlignment="Center"  ></Image>
-                    </Border>
-                    <TextBlock Text="Ban lãnh đạo" Margin="15 0 0 0" Foreground="White" VerticalAlignment="Center"></TextBlock>
-                </StackPanel>
-            </menu:Btn>
+                <menu:Btn x:Name="adminbutton" Width="130" HorizontalAlignment="Left" Background="Transparent" VerticalAlignment="Center" Command="{Binding MatchCommand}" BorderThickness="0" Height="45" Style="{StaticResource BtnStyle}">
+                    <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
+                        <Border Background="White" Height="30" Width="30" CornerRadius="2" >
+                            <Image Source="/Icons/match.png" Height="30" Width="30" VerticalAlignment="Center"  ></Image>
+                        </Border>
+                        <TextBlock Text="Trận đấu" Margin="15 0 0 0" Foreground="White" VerticalAlignment="Center"></TextBlock>
+                    </StackPanel>
+                </menu:Btn>
+
+                <Separator Background="Transparent"  Foreground="Transparent" BorderBrush="Transparent" BorderThickness="0"></Separator>
+
+                <menu:Btn Width="130" Visibility="{Binding ALLTEAMVisibility}" HorizontalAlignment="Left" Background="Transparent" VerticalAlignment="Center" Command="{Binding FootballTeamListCommand}" BorderThickness="0" Height="45" Style="{StaticResource BtnStyle}">
+                    <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
+                        <Border Background="White" Height="30" Width="30" CornerRadius="2" >
+                            <Image Source="/Icons/team.png" Height="27" Width="27"   VerticalAlignment="Center" ></Image>
+                        </Border>
+                        <TextBlock Text="Đội bóng" Margin="15 0 0 0" Foreground="White" VerticalAlignment="Center"></TextBlock>
+                    </StackPanel>
+                </menu:Btn>
+
+                <Separator Background="Transparent" Foreground="Transparent" BorderBrush="Transparent" BorderThickness="0"></Separator>
 
 
-            <Separator Background="Transparent" Foreground="Transparent" BorderBrush="Transparent" BorderThickness="0"></Separator>
+                <menu:Btn x:Name="leaderbtt" Width="130" HorizontalAlignment="Left" Background="Transparent" VerticalAlignment="Center" Command="{Binding LeaderListCommand}" BorderThickness="0" Height="45" Style="{StaticResource BtnStyle}">
+                    <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
+                        <Border Background="White" Height="30" Width="30" CornerRadius="2" >
+                            <Image Source="/Icons/leader.png" Height="27" VerticalAlignment="Center"  ></Image>
+                        </Border>
+                        <TextBlock Text="Ban lãnh đạo" Margin="15 0 0 0" Foreground="White" VerticalAlignment="Center"></TextBlock>
+                    </StackPanel>
+                </menu:Btn>
 
-            <menu:Btn Width="130" HorizontalAlignment="Left" Background="Transparent" VerticalAlignment="Center" Command="{Binding TeamPlayersCommand}" BorderThickness="0" Height="45" Style="{StaticResource BtnStyle}">
-                <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
-                    <Border Background="White" Height="30" Width="30" CornerRadius="2" >
-                        <Image Source="/Icons/addplayer.png" Height="30" VerticalAlignment="Center"  ></Image>
-                    </Border>
-                    <TextBlock Text="Cầu thủ" Margin="15 0 0 0" Foreground="White" VerticalAlignment="Center"></TextBlock>
-                </StackPanel>
-            </menu:Btn>
 
-            <Separator Background="Transparent" Foreground="Transparent" BorderBrush="Transparent" BorderThickness="0"></Separator>
-            <menu:Btn Width="130" Visibility="{Binding TaticOfTEAMVisibility}" HorizontalAlignment="Left" Background="Transparent" VerticalAlignment="Center" Command="{Binding TacticCommand}" BorderThickness="0" Height="45" Style="{StaticResource BtnStyle}">
-                <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
-                    <Border Background="White" Height="30" Width="30" CornerRadius="2" >
-                        <Image  Source="/Icons/tactics.png" Height="32" Width="30" VerticalAlignment="Center"  ></Image>
+                <Separator Background="Transparent" Foreground="Transparent" BorderBrush="Transparent" BorderThickness="0"></Separator>
 
-                    </Border>
-                    <TextBlock Text="Chiến thuật" Margin="15 0 0 0" Foreground="White" VerticalAlignment="Center"></TextBlock>
-                </StackPanel>
-            </menu:Btn>
+                <menu:Btn Width="130" HorizontalAlignment="Left" Background="Transparent" VerticalAlignment="Center" Command="{Binding TeamPlayersCommand}" BorderThickness="0" Height="45" Style="{StaticResource BtnStyle}">
+                    <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
+                        <Border Background="White" Height="30" Width="30" CornerRadius="2" >
+                            <Image Source="/Icons/addplayer.png" Height="30" VerticalAlignment="Center"  ></Image>
+                        </Border>
+                        <TextBlock Text="Cầu thủ" Margin="15 0 0 0" Foreground="White" VerticalAlignment="Center"></TextBlock>
+                    </StackPanel>
+                </menu:Btn>
 
-            <Separator Background="Transparent" Foreground="Transparent" BorderBrush="Transparent" BorderThickness="0"></Separator>
+                <Separator Background="Transparent" Foreground="Transparent" BorderBrush="Transparent" BorderThickness="0"></Separator>
+                <menu:Btn Width="130" Visibility="{Binding TaticOfTEAMVisibility}" HorizontalAlignment="Left" Background="Transparent" VerticalAlignment="Center" Command="{Binding TacticCommand}" BorderThickness="0" Height="45" Style="{StaticResource BtnStyle}">
+                    <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
+                        <Border Background="White" Height="30" Width="30" CornerRadius="2" >
+                            <Image  Source="/Icons/tactics.png" Height="32" Width="30" VerticalAlignment="Center"  ></Image>
 
-            <menu:Btn Width="130" HorizontalAlignment="Left" Background="Transparent" VerticalAlignment="Center" Command="{Binding TrainingCalendarCommand}" BorderThickness="0" Height="45" Style="{StaticResource BtnStyle}">
-                <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
-                    <Border Background="White" Height="30" Width="30" CornerRadius="2" >
-                        <Image Source="/Icons/calendar.png" Height="30" Margin="2" VerticalAlignment="Center"  ></Image>
-                    </Border>
-                    <TextBlock Text="Lịch tập" Margin="15 0 0 0" Foreground="White" VerticalAlignment="Center"></TextBlock>
-                </StackPanel>
-            </menu:Btn>
-            <Separator Background="Transparent" Foreground="Transparent" BorderBrush="Transparent" BorderThickness="0"></Separator>
+                        </Border>
+                        <TextBlock Text="Chiến thuật" Margin="15 0 0 0" Foreground="White" VerticalAlignment="Center"></TextBlock>
+                    </StackPanel>
+                </menu:Btn>
 
-            <menu:Btn Width="140" HorizontalAlignment="Left" Background="Transparent" VerticalAlignment="Center" Command="{Binding TransferCommand}" BorderThickness="0" Height="45" Style="{StaticResource BtnStyle}">
-                <StackPanel Orientation="Horizontal" Margin="0 0 0 0">
-                    <Border Background="White" Height="30" Width="30" CornerRadius="2">
-                        <Image Source="/Icons/transfer.png" Height="30" Width="30"  VerticalAlignment="Center"  ></Image>
-                    </Border>
-                    <TextBlock Text="Chuyển nhượng" Margin="9.5 0 0 0" Foreground="White" VerticalAlignment="Center"></TextBlock>
-                </StackPanel>
-            </menu:Btn>
+                <Separator Background="Transparent" Foreground="Transparent" BorderBrush="Transparent" BorderThickness="0"></Separator>
 
-            <Separator Background="Transparent" Foreground="Transparent" BorderBrush="Transparent" BorderThickness="0"></Separator>
+                <menu:Btn Width="130" HorizontalAlignment="Left" Background="Transparent" VerticalAlignment="Center" Command="{Binding TrainingCalendarCommand}" BorderThickness="0" Height="45" Style="{StaticResource BtnStyle}">
+                    <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
+                        <Border Background="White" Height="30" Width="30" CornerRadius="2" >
+                            <Image Source="/Icons/calendar.png" Height="30" Margin="2" VerticalAlignment="Center"  ></Image>
+                        </Border>
+                        <TextBlock Text="Lịch tập" Margin="15 0 0 0" Foreground="White" VerticalAlignment="Center"></TextBlock>
+                    </StackPanel>
+                </menu:Btn>
+                <Separator Background="Transparent" Foreground="Transparent" BorderBrush="Transparent" BorderThickness="0"></Separator>
 
-            <menu:Btn Width="140" Visibility="{Binding StatisticalChartVisibility}" HorizontalAlignment="Left" Background="Transparent" VerticalAlignment="Center" Command="{Binding StatisticalChartCommand}" BorderThickness="0" Height="45" Style="{StaticResource BtnStyle}">
-                <StackPanel Orientation="Horizontal" Margin="0 0 0 0">
-                    <Border Background="White" Height="30" Width="30" CornerRadius="2" >
-                        <Image Source="/Icons/process.png" Height="30" Margin="2" VerticalAlignment="Center"  ></Image>
-                    </Border>
-                    <TextBlock Text="Thống kê chung" Margin="8 0 0 0" Foreground="White" VerticalAlignment="Center"></TextBlock>
-                </StackPanel>
-            </menu:Btn>
-            <Separator Background="Transparent" Foreground="Transparent" BorderBrush="Transparent" BorderThickness="0"></Separator>
+                <menu:Btn Width="140" HorizontalAlignment="Left" Background="Transparent" VerticalAlignment="Center" Command="{Binding TransferCommand}" BorderThickness="0" Height="45" Style="{StaticResource BtnStyle}">
+                    <StackPanel Orientation="Horizontal" Margin="0 0 0 0">
+                        <Border Background="White" Height="30" Width="30" CornerRadius="2">
+                            <Image Source="/Icons/transfer.png" Height="30" Width="30"  VerticalAlignment="Center"  ></Image>
+                        </Border>
+                        <TextBlock Text="Chuyển nhượng" Margin="9.5 0 0 0" Foreground="White" VerticalAlignment="Center"></TextBlock>
+                    </StackPanel>
+                </menu:Btn>
 
-            <menu:Btn Width="130" Visibility="{Binding TransferConfirmisibility}" HorizontalAlignment="Left" Background="Transparent" VerticalAlignment="Center" Command="{Binding TransferConfirmCommand}" BorderThickness="0" Height="45" Style="{StaticResource BtnStyle}">
-                <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
-                    <Border Background="White" Height="30" Width="30" CornerRadius="2" >
-                        <Image Source="/Icons/confirm.png" Height="30" VerticalAlignment="Center"  ></Image>
-                    </Border>
-                    <TextBlock Text="Xác nhận" Margin="15 0 0 0" Foreground="White" VerticalAlignment="Center"></TextBlock>
-                </StackPanel>
-            </menu:Btn>
-            <Separator Background="Transparent" Foreground="Transparent" BorderBrush="Transparent" BorderThickness="0"></Separator>
+                <Separator Background="Transparent" Foreground="Transparent" BorderBrush="Transparent" BorderThickness="0"></Separator>
 
-            <menu:Btn Width="130"  HorizontalAlignment="Left" Background="Transparent" VerticalAlignment="Center" Command="{Binding FeedBackCommand}" BorderThickness="0" Height="45" Style="{StaticResource BtnStyle}">
-                <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
-                    <Border Background="White" Height="30" Width="30" CornerRadius="2" >
-                        <Image Source="/Icons/feedback.png" Height="30" VerticalAlignment="Center"  ></Image>
-                    </Border>
-                    <TextBlock Text="Feedback" Margin="15 0 0 0" Foreground="White" VerticalAlignment="Center"></TextBlock>
-                </StackPanel>
-            </menu:Btn>
-            <menu:Btn Width="130"  Visibility="{Binding SupplierHomeScreenVisibility}"  HorizontalAlignment="Left" Background="Transparent" VerticalAlignment="Center" Command="{Binding SupplierHomeScreenCommand}" BorderThickness="0" Height="45" Style="{StaticResource BtnStyle}">
-                <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
-                    <Border Background="White" Height="30" Width="30" CornerRadius="2" >
-                        <Image Source="/Icons/deal.png" Height="30" VerticalAlignment="Center"  ></Image>
-                    </Border>
-                    <TextBlock Text="Supplier" Margin="15 0 0 0" Foreground="White" VerticalAlignment="Center"></TextBlock>
-                </StackPanel>
-            </menu:Btn>
+                <menu:Btn Width="140" Visibility="{Binding StatisticalChartVisibility}" HorizontalAlignment="Left" Background="Transparent" VerticalAlignment="Center" Command="{Binding StatisticalChartCommand}" BorderThickness="0" Height="45" Style="{StaticResource BtnStyle}">
+                    <StackPanel Orientation="Horizontal" Margin="0 0 0 0">
+                        <Border Background="White" Height="30" Width="30" CornerRadius="2" >
+                            <Image Source="/Icons/process.png" Height="30" Margin="2" VerticalAlignment="Center"  ></Image>
+                        </Border>
+                        <TextBlock Text="Thống kê chung" Margin="8 0 0 0" Foreground="White" VerticalAlignment="Center"></TextBlock>
+                    </StackPanel>
+                </menu:Btn>
+                <Separator Background="Transparent" Foreground="Transparent" BorderBrush="Transparent" BorderThickness="0"></Separator>
 
-            <menu:Btn Width="130" Visibility="{Binding SupplierOfFootBallTeamVisibility}"  HorizontalAlignment="Left" Background="Transparent" VerticalAlignment="Center" Command="{Binding SupplierOfFootBallTeamCommand}" BorderThickness="0" Height="45" Style="{StaticResource BtnStyle}">
-                <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
-                    <Border Background="White" Height="30" Width="30" CornerRadius="2" >
-                        <Image Source="/Icons/deal.png" Height="30" VerticalAlignment="Center"  ></Image>
-                    </Border>
-                    <TextBlock Text="Supplier" Margin="15 0 0 0" Foreground="White" VerticalAlignment="Center"></TextBlock>
-                </StackPanel>
-            </menu:Btn>
-        </StackPanel>
+                <menu:Btn Width="130" Visibility="{Binding TransferConfirmisibility}" HorizontalAlignment="Left" Background="Transparent" VerticalAlignment="Center" Command="{Binding TransferConfirmCommand}" BorderThickness="0" Height="45" Style="{StaticResource BtnStyle}">
+                    <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
+                        <Border Background="White" Height="30" Width="30" CornerRadius="2" >
+                            <Image Source="/Icons/confirm.png" Height="30" VerticalAlignment="Center"  ></Image>
+                        </Border>
+                        <TextBlock Text="Xác nhận" Margin="15 0 0 0" Foreground="White" VerticalAlignment="Center"></TextBlock>
+                    </StackPanel>
+                </menu:Btn>
+                <Separator Background="Transparent" Foreground="Transparent" BorderBrush="Transparent" BorderThickness="0"></Separator>
+
+                <menu:Btn Width="130"  HorizontalAlignment="Left" Background="Transparent" VerticalAlignment="Center" Command="{Binding FeedBackCommand}" BorderThickness="0" Height="45" Style="{StaticResource BtnStyle}">
+                    <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
+                        <Border Background="White" Height="30" Width="30" CornerRadius="2" >
+                            <Image Source="/Icons/feedback.png" Height="30" VerticalAlignment="Center"  ></Image>
+                        </Border>
+                        <TextBlock Text="Feedback" Margin="15 0 0 0" Foreground="White" VerticalAlignment="Center"></TextBlock>
+                    </StackPanel>
+                </menu:Btn>
+                <menu:Btn Width="130"  Visibility="{Binding SupplierHomeScreenVisibility}"  HorizontalAlignment="Left" Background="Transparent" VerticalAlignment="Center" Command="{Binding SupplierHomeScreenCommand}" BorderThickness="0" Height="45" Style="{StaticResource BtnStyle}">
+                    <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
+                        <Border Background="White" Height="30" Width="30" CornerRadius="2" >
+                            <Image Source="/Icons/deal.png" Height="30" VerticalAlignment="Center"  ></Image>
+                        </Border>
+                        <TextBlock Text="Supplier" Margin="15 0 0 0" Foreground="White" VerticalAlignment="Center"></TextBlock>
+                    </StackPanel>
+                </menu:Btn>
+
+                <menu:Btn Width="130" Visibility="{Binding SupplierOfFootBallTeamVisibility}"  HorizontalAlignment="Left" Background="Transparent" VerticalAlignment="Center" Command="{Binding SupplierOfFootBallTeamCommand}" BorderThickness="0" Height="45" Style="{StaticResource BtnStyle}">
+                    <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
+                        <Border Background="White" Height="30" Width="30" CornerRadius="2" >
+                            <Image Source="/Icons/deal.png" Height="30" VerticalAlignment="Center"  ></Image>
+                        </Border>
+                        <TextBlock Text="Supplier" Margin="15 0 0 0" Foreground="White" VerticalAlignment="Center"></TextBlock>
+                    </StackPanel>
+                </menu:Btn>
+                <menu:Btn Width="130" Visibility="{Binding StadiumVisibility}"  HorizontalAlignment="Left" Background="Transparent" VerticalAlignment="Center" Command="{Binding StadiumCommand}" BorderThickness="0" Height="45" Style="{StaticResource BtnStyle}">
+                    <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
+                        <Border Background="White" Height="30" Width="30" CornerRadius="2" >
+                            <Image Source="/Icons/iconStadium.png" Height="30" VerticalAlignment="Center"  ></Image>
+                        </Border>
+                        <TextBlock Text="Stadium" Margin="15 0 0 0" Foreground="White" VerticalAlignment="Center"></TextBlock>
+                    </StackPanel>
+                </menu:Btn>
+                <menu:Btn Width="130" Visibility="{Binding ConfirmSupplierVisibility}"  HorizontalAlignment="Left" Background="Transparent" VerticalAlignment="Center" Command="{Binding ConfirmSupplierCommand}" BorderThickness="0" Height="45" Style="{StaticResource BtnStyle}">
+                    <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
+                        <Border Background="White" Height="30" Width="30" CornerRadius="2" >
+                            <Image Source="/Icons/confirmsupplier.png" Height="30" VerticalAlignment="Center"  ></Image>
+                        </Border>
+                        <TextBlock Text="Confirm Offer" Margin="15 0 0 0" Foreground="White" VerticalAlignment="Center"></TextBlock>
+                    </StackPanel>
+                </menu:Btn>
+                <menu:Btn Width="130" Visibility="{Binding SupplierVisibility}"  HorizontalAlignment="Left" Background="Transparent" VerticalAlignment="Center" Command="{Binding SupplierCommand}" BorderThickness="0" Height="45" Style="{StaticResource BtnStyle}">
+                    <StackPanel Orientation="Horizontal" Margin="5 0 0 0">
+                        <Border Background="White" Height="30" Width="30" CornerRadius="2" >
+                            <Image Source="/Icons/supplier.png" Height="30" VerticalAlignment="Center"  ></Image>
+                        </Border>
+                        <TextBlock Text="Supplier" Margin="15 0 0 0" Foreground="White" VerticalAlignment="Center"></TextBlock>
+                    </StackPanel>
+                </menu:Btn>
+            </StackPanel>
+        </ScrollViewer>
+        
     </Grid>
 
 </UserControl>
