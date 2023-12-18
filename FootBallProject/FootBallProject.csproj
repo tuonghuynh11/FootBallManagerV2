@@ -52,7 +52,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="DevExpress.Charts.v21.2.Core, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <!-- <Reference Include="DevExpress.Charts.v21.2.Core, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Data.Desktop.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Data.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.DataVisualization.v21.2.Core, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
@@ -62,7 +62,7 @@
     <Reference Include="DevExpress.Xpf.Core.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpf.Grid.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.Xpf.Grid.v21.2.Core, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
-    <Reference Include="DevExpress.Xpf.Printing.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Printing.v21.2, Version=21.2.6.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" /> -->
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -202,12 +202,12 @@
       <DependentUpon>MatchNoDisPlay.xaml</DependentUpon>
     </Compile>
     <Compile Include="DragAndDrop\DraggableExtender.cs" />
-    <Compile Include="DS_CLB.xaml.cs">
+    <Compile Include="DS_CLB.xaml.cs" Exclude="True">
       <DependentUpon>DS_CLB.xaml</DependentUpon>
     </Compile>
     <Compile Include="Class\Players.cs" />
     <Compile Include="Class\Teams.cs" />
-    <Compile Include="DS_GiaiDau.xaml.cs">
+    <Compile Include="DS_GiaiDau.xaml.cs" Exclude="True">
       <DependentUpon>DS_GiaiDau.xaml</DependentUpon>
     </Compile>
     <Compile Include="EditSupplierInformation.xaml.cs">
@@ -469,10 +469,10 @@
     <Compile Include="UserControlBar\ScreenNavigation\Admin.xaml.cs">
       <DependentUpon>Admin.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControlBar\ScreenNavigation\FootballTeamList.xaml.cs">
+    <Compile Include="UserControlBar\ScreenNavigation\FootballTeamList.xaml.cs" Exclude="True">
       <DependentUpon>FootballTeamList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControlBar\ScreenNavigation\StatisticalChart.xaml.cs">
+    <Compile Include="UserControlBar\ScreenNavigation\StatisticalChart.xaml.cs" Exclude="True">
       <DependentUpon>StatisticalChart.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControlBar\ScreenNavigation\SupplierHomeScreen.xaml.cs">
@@ -531,10 +531,10 @@
     <Compile Include="ViewModel\ControlBarViewModel.cs" />
     <Compile Include="ViewModel\CreateNewLeague.cs" />
     <Compile Include="ViewModel\DH433VIewModel.cs" />
-    <Compile Include="ViewModel\DSCLBViewModel.cs" />
-    <Compile Include="ViewModel\DS_GiaiDauViewModel.cs" />
+    <Compile Include="ViewModel\DSCLBViewModel.cs" Exclude="True"/>
+    <Compile Include="ViewModel\DS_GiaiDauViewModel.cs" Exclude="True"/>
     <Compile Include="ViewModel\FeedBackViewModel.cs" />
-    <Compile Include="ViewModel\FootballTeamListViewModel.cs" />
+    <Compile Include="ViewModel\FootballTeamListViewModel.cs" Exclude="True"/>
     <Compile Include="ViewModel\LeaderListViewModel.cs" />
     <Compile Include="ViewModel\MainLeagueViewModel.cs" />
     <Compile Include="ViewModel\MainMatchViewModel.cs" />
@@ -543,7 +543,7 @@
     <Compile Include="ViewModel\MatchInformationViewModel.cs" />
     <Compile Include="ViewModel\MatchNoDisPlayViewModel.cs" />
     <Compile Include="ViewModel\MenuBarViewModel.cs" />
-    <Compile Include="ViewModel\StatisticalChartViewModel.cs" />
+    <Compile Include="ViewModel\StatisticalChartViewModel.cs" Exclude="True"/>
     <Compile Include="ViewModel\SupplierHomeScreenViewModel.cs" />
     <Compile Include="ViewModel\SupplierInformationVIewModel.cs" />
     <Compile Include="ViewModel\SupplierOfFootBallTeamViewModel.cs" />
@@ -650,11 +650,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DS_CLB.xaml">
+    <Page Include="DS_CLB.xaml" Exclude="True">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DS_GiaiDau.xaml">
+    <Page Include="DS_GiaiDau.xaml" Exclude="True">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -870,11 +870,12 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControlBar\ScreenNavigation\FootballTeamList.xaml">
+    <Page Include="UserControlBar\ScreenNavigation\FootballTeamList.xaml" Exclude="True">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControlBar\ScreenNavigation\StatisticalChart.xaml">
+    <Page Include="UserControlBar\ScreenNavigation\StatisticalChart.xaml" 
+Exclude="True">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

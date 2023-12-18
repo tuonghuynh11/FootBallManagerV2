@@ -1,0 +1,79 @@
+name: WPF CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup .NET Core SDK 6.0
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: 6.0.x
+
+      - name: Setup Nuget
+        uses: Nuget/setup-nuget@v1.0.5
+
+      #devexpress
+      - name: Feed devexpress
+        run: |
+          cd FootBallProject
+          nuget install devexpress.wpf.controls -Source https://nuget.devexpress.com/hbF6HtNkYOYYjqs2HYRQkmb91d9H5i4f6yL3QLabLsQ7oYEsvh/api -Source https://api.nuget.org/v3/index.json
+          cd ..
+     
+      # run : dotnet nuget add source https://nuget.devexpress.com/api -n DXFeed -u DevExpress -p hbF6HtNkYOYYjqs2HYRQkmb91d9H5i4f6yL3QLabLsQ7oYEsvh
+      # - name: Add packages to your project
+      #   run:  dotnet add FootBallProject/FootBallProject.csproj package devexpress.wpf.controls -v 21.2.3
+
+      
+      
+      - name: Install Interactivity
+        run:  Install-Package System.Windows.Interactivity.WPF 
+
+      - name: Restore nuget packages
+        run: nuget restore FootBallProject.sln
+        
+      - name: Restore dependencies
+        run: dotnet restore
+
+        
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1.1
+        with:
+          msbuild-architecture: x86
+
+     
+        
+      - name: Install Stryker
+        run: dotnet tool install --global dotnet-stryker
+
+        
+      - name: Build solution
+        run: msbuild FootBallManagerAPI/FootBallManagerAPI.csproj -t:rebuild -verbosity:diag -property:Configuration=Release
+        # run: msbuild FootBallProject/FootBallProject.csproj -t:rebuild -verbosity:diag -property:Configuration=Release 
+      - name: Run unit tests
+        run: dotnet test --configuration Release
+
+      # - name: Change directory to testProject
+      #   run: cd FootBallManagerV2Test
+        
+      - name: Run mutation tests
+        run: |
+          cd FootBallManagerV2Test
+          dotnet stryker
+        # run:  dotnet stryker --project "FootBallManagerAPI/FootBallManagerAPI.csproj"  --test-project "FootBallManagerV2Test/FootBallManagerV2Test.csproj" --mutate "!Program.cs" -m "!Repositories/*.cs" -m  "!Repository/*.cs" -m "!Entities/*.cs"
+        
+        
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: wpf-app
+          path: publish/*.exe

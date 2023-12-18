@@ -1,5 +1,4 @@
-﻿using DevExpress.Data.Utils;
-using FootBallProject.Model;
+﻿using FootBallProject.Model;
 using FootBallProject.Object;
 using System;
 using System.Collections.Generic;
@@ -56,7 +55,7 @@ namespace FootBallProject.ViewModel
             }
 
             TotalTeam = count.ToString();
-            if (CreateNewLeague.Instance != null)numofTeam = Convert.ToInt32(CreateNewLeague.Instance.SelectedSoluong);
+            if (CreateNewLeague.Instance != null) numofTeam = Convert.ToInt32(CreateNewLeague.Instance.SelectedSoluong);
             CurrentTeam = numofTeam.ToString();
             if (count == numofTeam) Enable = true;
             else Enable = false;

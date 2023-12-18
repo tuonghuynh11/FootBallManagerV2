@@ -1,5 +1,4 @@
-﻿using DevExpress.XtraPrinting.BarCode.Native;
-using FootBallProject.Model;
+﻿using FootBallProject.Model;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;

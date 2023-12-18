@@ -53,7 +53,7 @@ namespace FootBallProject
             }
             else if (!mailr.IsMatch(tbdc.Text))
             {
-                Error error = new Error("Địa chỉ mail không hợp lệ");
+                Error error = new Error("Địa chỉ mail không hợp lệ!");
                 error.ShowDialog();
             }
             else
