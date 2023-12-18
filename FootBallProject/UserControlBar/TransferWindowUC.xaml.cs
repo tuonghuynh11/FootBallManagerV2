@@ -12,7 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using DevExpress.Xpf.Core.Native;
 using FootBallProject.Model;
 
 namespace FootBallProject.UserControlBar
@@ -39,7 +38,7 @@ namespace FootBallProject.UserControlBar
                     border2.Margin = new Thickness(0, 50, 10, 0);
                     txblTransfer.Margin = txbDS.Margin;
                     dgrid2.Height = border2.Height = 600;
-                    Reload.Margin= new Thickness(718, 25, 10, 0);
+                    Reload.Margin = new Thickness(718, 25, 10, 0);
                 }
                 //var i1 = dgrid1.Columns.Single(c => c.Header.ToString() == "Button").DisplayIndex;
                 //var i2 = dgrid2.Columns.Single(c => c.Header.ToString() == "Button").DisplayIndex;

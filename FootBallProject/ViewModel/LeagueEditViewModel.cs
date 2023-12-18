@@ -1,8 +1,6 @@
-﻿using DevExpress.Xpf.Charts;
-using FootBallProject.Class;
+﻿using FootBallProject.Class;
 using FootBallProject.Model;
 using FootBallProject.Object;
-using Microsoft.Office.Interop.Excel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -55,15 +53,17 @@ namespace FootBallProject.ViewModel
             }
             else Enable = false;
         }
-        public void SaveInfoFuntion() {
+        public void SaveInfoFuntion()
+        {
             ActualCard.DisplayName = SelectedLeague.DisplayName;
             ActualCard.QuocTich = SelectedLeague.QuocTich;
             ActualCard.SaveLeague();
             LeagueRightBarViewModel.Instance.ShowInfoFuntion2(SelectedLeague);
         }
-        public void CancelFuntion() {
+        public void CancelFuntion()
+        {
             SelectedLeague = ActualCard;
             LeagueRightBarViewModel.Instance.ShowInfoFuntion2(SelectedLeague);
-        } 
+        }
     }
 }

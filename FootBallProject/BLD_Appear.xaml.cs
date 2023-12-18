@@ -14,7 +14,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Microsoft.Office.Core;
 using System.Windows.Interop;
 using Microsoft.Win32;
 using System.IO;
@@ -61,13 +60,13 @@ namespace FootBallProject
             {
                 delete.Visibility = Visibility.Hidden;
             }
-            if(role == 1 || role == 3)
+            if (role == 1 || role == 3)
             {
                 delete.Visibility = Visibility.Hidden;
                 editbtt.Visibility = Visibility.Hidden;
             }
         }
-        public void Init(string Iddoibong, string name, DateTime dateofbirth, string position,string mailcontact, string nationality, ImageSource imgs)
+        public void Init(string Iddoibong, string name, DateTime dateofbirth, string position, string mailcontact, string nationality, ImageSource imgs)
         {
             tbID.Text = Iddoibong;
             tbht.Text = name;

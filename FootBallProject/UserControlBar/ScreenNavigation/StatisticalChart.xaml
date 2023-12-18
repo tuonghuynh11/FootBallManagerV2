@@ -1,4 +1,4 @@
-﻿<UserControl
+﻿<!--<UserControl
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -123,4 +123,33 @@
         </Grid>
    
     </Border>
+</UserControl>-->
+
+
+<!--Chạy thì bỏ comment trên-->
+
+<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:FootBallProject.UserControlBar.ScreenNavigation" 
+              xmlns:uc="clr-namespace:FootBallProject.UserControlBar"
+            xmlns:ucFormatTeam="clr-namespace:FootBallProject.UserControlBar.Formation"
+             xmlns:convert ="clr-namespace:FootBallProject.Class"
+            xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+     
+         mc:Ignorable="d" 
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+     Style="{StaticResource Page_Style}" 
+        FontFamily="{DynamicResource MaterialDesignFont}"
+    DataContext="{StaticResource StatisticalChartVM}"
+             d:DesignHeight="720" d:DesignWidth="1290">
+    <Grid>
+
+    </Grid>
 </UserControl>

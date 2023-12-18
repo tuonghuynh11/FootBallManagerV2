@@ -1,6 +1,4 @@
-﻿using DevExpress.Data.Extensions;
-using DevExpress.Xpf.Bars.Helpers;
-using DevExpress.Xpf.Editors.Helpers;
+﻿//using DevExpress.Xpf.Editors.Helpers;
 using FootBallProject.Model;
 using FootBallProject.Object;
 using FootBallProject.Usercontrol;
@@ -118,7 +116,7 @@ namespace FootBallProject.ViewModel
 
             byte[] data;
             BitmapEncoder encoder = new PngBitmapEncoder();
-            var extension = Path.GetExtension( CreateNewLeague.Instance.LinkAvatar);
+            var extension = Path.GetExtension(CreateNewLeague.Instance.LinkAvatar);
             switch (extension)
             {
                 case ".png":
@@ -137,37 +135,39 @@ namespace FootBallProject.ViewModel
         }
         public bool CheckWithLeague(RoundObject round, LEAGUE league)
         {
-            DateTime starttime = league.NGAYBATDAU.TryConvertToDateTime();
-            DateTime endtime = league.NGAYKETTHUC.TryConvertToDateTime();
-            DateTime roundtime = round.StartTime.TryConvertToDateTime();
-            if (DateTime.Compare(starttime, roundtime) <= 0 && DateTime.Compare(roundtime, endtime) <= 0)
-            {
-                return true;
-            }
+            //DateTime starttime = league.NGAYBATDAU.TryConvertToDateTime();
+            //DateTime endtime = league.NGAYKETTHUC.TryConvertToDateTime();
+            //DateTime roundtime = round.StartTime.TryConvertToDateTime();
+            //if (DateTime.Compare(starttime, roundtime) <= 0 && DateTime.Compare(roundtime, endtime) <= 0)
+            //{
+            //    return true;
+            //}
+            //Chạy thì bỏ comment
             return false;
         }
         public bool CheckRound()
         {
-            foreach (var item in ListRoundObjects)
-            {
-                if (CheckWithLeague(item, CreateNewLeague.Instance.League) == false)
-                {
-                    return false;
-                }
-                else if (item == ListRoundObjects.First())
-                {
-                    continue;
-                }
-                else if (item == ListRoundObjects.Last())
-                {
-                    if (DateTime.Compare(item.StartTime.TryConvertToDateTime(), ListRoundObjects[ListRoundObjects.IndexOf(item) - 1].StartTime.TryConvertToDateTime()) < 0)
-                        return false;
-                    else return true;
-                }
-                else if (DateTime.Compare(item.StartTime.TryConvertToDateTime(), ListRoundObjects[ListRoundObjects.IndexOf(item) + 1].StartTime.TryConvertToDateTime()) > 0 ||
-                    DateTime.Compare(item.StartTime.TryConvertToDateTime(), ListRoundObjects[ListRoundObjects.IndexOf(item) - 1].StartTime.TryConvertToDateTime()) < 0
-                    ) return false;
-            }
+            //foreach (var item in ListRoundObjects)
+            //{
+            //    if (CheckWithLeague(item, CreateNewLeague.Instance.League) == false)
+            //    {
+            //        return false;
+            //    }
+            //    else if (item == ListRoundObjects.First())
+            //    {
+            //        continue;
+            //    }
+            //    else if (item == ListRoundObjects.Last())
+            //    {
+            //        if (DateTime.Compare(item.StartTime.TryConvertToDateTime(), ListRoundObjects[ListRoundObjects.IndexOf(item) - 1].StartTime.TryConvertToDateTime()) < 0)
+            //            return false;
+            //        else return true;
+            //    }
+            //    else if (DateTime.Compare(item.StartTime.TryConvertToDateTime(), ListRoundObjects[ListRoundObjects.IndexOf(item) + 1].StartTime.TryConvertToDateTime()) > 0 ||
+            //        DateTime.Compare(item.StartTime.TryConvertToDateTime(), ListRoundObjects[ListRoundObjects.IndexOf(item) - 1].StartTime.TryConvertToDateTime()) < 0
+            //        ) return false;
+            //}
+            //Chạy thì bỏ comment
             return true;
         }
         public void CompleteFuntion()

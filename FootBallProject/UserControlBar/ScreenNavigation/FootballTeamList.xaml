@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="FootBallProject.UserControlBar.ScreenNavigation.FootballTeamList"
+﻿<!--<UserControl x:Class="FootBallProject.UserControlBar.ScreenNavigation.FootballTeamList"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -24,20 +24,20 @@
         FontFamily="{DynamicResource MaterialDesignFont}"
          DataContext="{StaticResource FootballTeamListVM}"
              d:DesignHeight="720" d:DesignWidth="1290">
-    <!--<i:Interaction.Triggers>
+    <i:Interaction.Triggers>
         <i:EventTrigger EventName="ValidateRowDeletion">
             <i:InvokeCommandAction Command="{Binding DeleteValidateRowCommand }" CommandParameter="{Binding ElementName=tbviewCLB}"  />
         </i:EventTrigger>
-    </i:Interaction.Triggers>-->
+    </i:Interaction.Triggers>
     
-    <!--<devexpressmvvm:Interaction.Behaviors>
+    <devexpressmvvm:Interaction.Behaviors>
         <devexpressmvvm:EventToCommand EventName="ValidateRowDeletion" Command="{Binding DeleteValidateRowCommand}" PassEventArgsToCommand="True" CommandParameter="{Binding ElementName=grdcontrolCLB}" />
-    </devexpressmvvm:Interaction.Behaviors>-->
+    </devexpressmvvm:Interaction.Behaviors>
 
     <Grid Margin="60,0,15,0" Height="690"  >
         <Border CornerRadius="10" Background="LightSeaGreen" >
             <Grid  Margin="10 10 10 5">
-                <!--<DataGrid x:Name="dtg_DsClb"  CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False" IsReadOnly="True" Background="White" Margin="0,59,0,10"  HorizontalAlignment="Center" Width="976" AutoGenerateColumns="False">
+                <DataGrid x:Name="dtg_DsClb"  CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserResizeRows="False" IsReadOnly="True" Background="White" Margin="0,59,0,10"  HorizontalAlignment="Center" Width="976" AutoGenerateColumns="False">
 
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ID" Binding="{Binding ID}"></DataGridTextColumn>
@@ -58,7 +58,7 @@
                         <DataGridTextColumn Header="Huấn luyện viên" Binding="{Binding Coach}"></DataGridTextColumn>
 
                     </DataGrid.Columns>
-                </DataGrid>-->
+                </DataGrid>
 
 
                 <devexpress:GridControl Margin="0,-1,0,6"  Name="grdcontrolCLB"   ItemsSource="{Binding DoiBongList}"  SelectionMode="Row" Grid.ColumnSpan="3" AllowRecursiveSelectionForCollapsedGroups="False" AllowCollectionView="False" >
@@ -66,7 +66,9 @@
 
                         <devexpress:TableView   Name="tbviewCLB"  BestFitMode="Smart"  AddingNewRowCommand="{Binding AddingNewRowCommand}"  ValidateRowCommand="{Binding ValidateRowCommand}" ShowCheckBoxSelectorColumn="True"  ShowUpdateRowButtons="OnCellValueChange" AllowEditing="True" SearchPanelNullText="Tìm kiếm"  ShowSearchPanelMode="Always" SearchPanelFindMode="Always" SearchPanelHighlightResults="False" RowEditFinished="tbviewCLB_RowEditFinished" ValidateRow="tbviewCLB_ValidateRow" CellValueChanging="tbviewCLB_CellValueChanging" >
 
-                            <!--Thay đổi group text-->
+                            -->
+<!--Thay đổi group text-->
+<!--
                             <devexpress:TableView.RuntimeLocalizationStrings>
                                 <devexpress:GridRuntimeStringCollection>
                                     <devexpress:RuntimeStringIdInfo Id="GridGroupPanelText" Value="Kéo tiêu đề cột vào đây để gom nhóm theo cột đó"/>
@@ -148,4 +150,27 @@
         </Border>
 
     </Grid>
+</UserControl>-->
+
+<!--Chạy thì bỏ comment trên-->
+
+<UserControl x:Class="FootBallProject.UserControlBar.ScreenNavigation.FootballTeamList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+           
+             
+             
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+         Style="{StaticResource Page_Style}" 
+        FontFamily="{DynamicResource MaterialDesignFont}"
+         DataContext="{StaticResource FootballTeamListVM}"
+             d:DesignHeight="720" d:DesignWidth="1290">
+
 </UserControl>

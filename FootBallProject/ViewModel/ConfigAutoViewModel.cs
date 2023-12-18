@@ -1,5 +1,4 @@
-﻿using DevExpress.Xpf.Charts;
-using FootBallProject.Component.League;
+﻿using FootBallProject.Component.League;
 using FootBallProject.Model;
 using FootBallProject.Object;
 using System;
@@ -52,8 +51,8 @@ namespace FootBallProject.ViewModel
             Instance = this;
             Currentleague = new LeagueCardOb(ins.Currentleague.League);
             Ins = ListofLeagueViewModel.Instance;
-            Teams = new ObservableCollection<TEAMOFLEAGUE>( ins.Teams);
-            RoundList = new ObservableCollection<RoundObject>( ins.RoundList);
+            Teams = new ObservableCollection<TEAMOFLEAGUE>(ins.Teams);
+            RoundList = new ObservableCollection<RoundObject>(ins.RoundList);
         }
         public void Update()
         {
