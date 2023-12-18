@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Controls;
 using System.Data.Entity.Migrations;
-using DevExpress.Xpf.Core.ReflectionExtensions;
 using FootBallProject.Component.RightBar;
 
 namespace FootBallProject.ViewModel
@@ -158,53 +157,53 @@ namespace FootBallProject.ViewModel
 
         public MatchResultViewModel(UserControl p)
         {
-            
-                _errorBaseViewModel = new ErrorBaseViewModel();
-                _errorBaseViewModel.ErrorsChanged += ErrorBaseViewModel_ErrorsChanged;
-                FootballMatchCard card = p.DataContext as FootballMatchCard;
-                FootballMatchCard = card;
-                PlayerTeamAs = new ObservableCollection<CAUTHU>(DataProvider.Instance.Database.CAUTHUs.Where(x => x.IDDOIBONG == FootballMatchCard.TeamA.ID));
-                PlayerTeamBs = new ObservableCollection<CAUTHU>(DataProvider.Instance.Database.CAUTHUs.Where(x => x.IDDOIBONG == FootballMatchCard.TeamB.ID));
-                MatchTeamInfoTeamA = FootballMatchCard.InfoTeamA;
-                MatchTeamInfoTeamB = FootballMatchCard.InfoTeamB;
-                CardTeamAs = new ObservableCollection<CardItem>();
-                var itemAs = DataProvider.Instance.Database.ITEMs.Where(x => x.IDTHONGTINTRANDAU == MatchTeamInfoTeamA.ID).ToList();
-                foreach (var item in itemAs)
-                {
-                    CardTeamAs.Add(new CardItem(item, PlayerTeamAs, this));
-                }
-                CardTeamBs = new ObservableCollection<CardItem>();
-                var itemBs = DataProvider.Instance.Database.ITEMs.Where(x => x.IDTHONGTINTRANDAU == MatchTeamInfoTeamB.ID).ToList();
-                foreach (var item in itemBs)
-                {
-                    CardTeamBs.Add(new CardItem(item, PlayerTeamBs, this));
-                }
-                CardTeamADisplays = new ObservableCollection<CardItem>(CardTeamAs);
-                CardTeamBDisplays = new ObservableCollection<CardItem>(CardTeamBs);
-                if (MatchTeamInfoTeamA.DIEM == null)
-                {
-                    MatchTeamInfoTeamA.DIEM = 0;
-                    DataProvider.ins.DB.THONGTINTRANDAUs.AddOrUpdate(MatchTeamInfoTeamA);
-                    DataProvider.ins.DB.SaveChanges();
-                }
-                if (MatchTeamInfoTeamB.DIEM == null)
-                {
-                    MatchTeamInfoTeamB.DIEM = 0;
-                    DataProvider.ins.DB.THONGTINTRANDAUs.AddOrUpdate(MatchTeamInfoTeamB);
-                    DataProvider.ins.DB.SaveChanges();
-                }
 
-                ScoreTeamA = MatchTeamInfoTeamA.DIEM.ToString();
-                ScoreTeamB = MatchTeamInfoTeamB.DIEM.ToString();
-                CreateNewCard1 = new RelayCommand<object>((x) => { return true; }, (x) => { CreateNewItemCard1(); });
-                CreateNewCard2 = new RelayCommand<object>((x) => { return true; }, (x) => { CreateNewItemCard2(); });
-                SaveCommand = new RelayCommand<object>((x) => { return true; }, (x) => { SaveFuntion(); });
-                CancelCommand = new RelayCommand<object>((x) => { return true; }, (x) => { CancelFuntion(); });
+            _errorBaseViewModel = new ErrorBaseViewModel();
+            _errorBaseViewModel.ErrorsChanged += ErrorBaseViewModel_ErrorsChanged;
+            FootballMatchCard card = p.DataContext as FootballMatchCard;
+            FootballMatchCard = card;
+            PlayerTeamAs = new ObservableCollection<CAUTHU>(DataProvider.Instance.Database.CAUTHUs.Where(x => x.IDDOIBONG == FootballMatchCard.TeamA.ID));
+            PlayerTeamBs = new ObservableCollection<CAUTHU>(DataProvider.Instance.Database.CAUTHUs.Where(x => x.IDDOIBONG == FootballMatchCard.TeamB.ID));
+            MatchTeamInfoTeamA = FootballMatchCard.InfoTeamA;
+            MatchTeamInfoTeamB = FootballMatchCard.InfoTeamB;
+            CardTeamAs = new ObservableCollection<CardItem>();
+            var itemAs = DataProvider.Instance.Database.ITEMs.Where(x => x.IDTHONGTINTRANDAU == MatchTeamInfoTeamA.ID).ToList();
+            foreach (var item in itemAs)
+            {
+                CardTeamAs.Add(new CardItem(item, PlayerTeamAs, this));
+            }
+            CardTeamBs = new ObservableCollection<CardItem>();
+            var itemBs = DataProvider.Instance.Database.ITEMs.Where(x => x.IDTHONGTINTRANDAU == MatchTeamInfoTeamB.ID).ToList();
+            foreach (var item in itemBs)
+            {
+                CardTeamBs.Add(new CardItem(item, PlayerTeamBs, this));
+            }
+            CardTeamADisplays = new ObservableCollection<CardItem>(CardTeamAs);
+            CardTeamBDisplays = new ObservableCollection<CardItem>(CardTeamBs);
+            if (MatchTeamInfoTeamA.DIEM == null)
+            {
+                MatchTeamInfoTeamA.DIEM = 0;
+                DataProvider.ins.DB.THONGTINTRANDAUs.AddOrUpdate(MatchTeamInfoTeamA);
+                DataProvider.ins.DB.SaveChanges();
+            }
+            if (MatchTeamInfoTeamB.DIEM == null)
+            {
+                MatchTeamInfoTeamB.DIEM = 0;
+                DataProvider.ins.DB.THONGTINTRANDAUs.AddOrUpdate(MatchTeamInfoTeamB);
+                DataProvider.ins.DB.SaveChanges();
+            }
+
+            ScoreTeamA = MatchTeamInfoTeamA.DIEM.ToString();
+            ScoreTeamB = MatchTeamInfoTeamB.DIEM.ToString();
+            CreateNewCard1 = new RelayCommand<object>((x) => { return true; }, (x) => { CreateNewItemCard1(); });
+            CreateNewCard2 = new RelayCommand<object>((x) => { return true; }, (x) => { CreateNewItemCard2(); });
+            SaveCommand = new RelayCommand<object>((x) => { return true; }, (x) => { SaveFuntion(); });
+            CancelCommand = new RelayCommand<object>((x) => { return true; }, (x) => { CancelFuntion(); });
             //CurrentMatchResultViewModel = this;
-                listTiSo = new ObservableCollection<int?>() { 0, 1, 2, 3, 4, 5 };
-                TiSoLuanLuuDoiA = (int?) MatchTeamInfoTeamA.THEDO;
-                TiSoLuanLuuDoiB =(int?) MatchTeamInfoTeamB.THEDO;
-                IsEnable();
+            listTiSo = new ObservableCollection<int?>() { 0, 1, 2, 3, 4, 5 };
+            TiSoLuanLuuDoiA = (int?)MatchTeamInfoTeamA.THEDO;
+            TiSoLuanLuuDoiB = (int?)MatchTeamInfoTeamB.THEDO;
+            IsEnable();
         }
         public ObservableCollection<int?> listTiSo;
         private void RefreshTeamA()
@@ -235,18 +234,18 @@ namespace FootBallProject.ViewModel
         }
         private void SaveFuntion()
         {
-            if (TiSoLuanLuuDoiA!= null && TiSoLuanLuuDoiB!=null && TiSoLuanLuuDoiA == TiSoLuanLuuDoiB) return;
+            if (TiSoLuanLuuDoiA != null && TiSoLuanLuuDoiB != null && TiSoLuanLuuDoiA == TiSoLuanLuuDoiB) return;
             CardTeamAs = new ObservableCollection<CardItem>();
             var itemAs = DataProvider.Instance.Database.ITEMs.Where(x => x.IDTHONGTINTRANDAU == MatchTeamInfoTeamA.ID).ToList();
             foreach (var item in itemAs)
             {
-                CardTeamAs.Add(new CardItem(item, PlayerTeamAs,this));
+                CardTeamAs.Add(new CardItem(item, PlayerTeamAs, this));
             }
             CardTeamBs = new ObservableCollection<CardItem>();
             var itemBs = DataProvider.Instance.Database.ITEMs.Where(x => x.IDTHONGTINTRANDAU == MatchTeamInfoTeamB.ID).ToList();
             foreach (var item in itemBs)
             {
-                CardTeamBs.Add(new CardItem(item, PlayerTeamBs,this));
+                CardTeamBs.Add(new CardItem(item, PlayerTeamBs, this));
             }
 
             var oldlist = DataProvider.Instance.Database.ITEMs.Where(x => x.IDTHONGTINTRANDAU == MatchTeamInfoTeamA.ID).ToList();
@@ -272,8 +271,8 @@ namespace FootBallProject.ViewModel
                     };
                     DataProvider.Instance.Database.ITEMs.AddOrUpdate(temp);
                     if (!sobanthang.ContainsKey(card.Player.ID)) sobanthang.Add(card.Player.ID, 0);
-                    sobanthang[card.Player.ID] =0+ sobanthang[card.Player.ID] + 1;
-                    
+                    sobanthang[card.Player.ID] = 0 + sobanthang[card.Player.ID] + 1;
+
                 }
             }
             foreach (var card in CardTeamBDisplays)
@@ -285,9 +284,9 @@ namespace FootBallProject.ViewModel
                         THOIGIAN = card.Time,
                         CAUTHU = card.Player,
                         THONGTINTRANDAU = MatchTeamInfoTeamB
-                };
-                  if(!sobanthang.ContainsKey(card.Player.ID))  sobanthang.Add(card.Player.ID, 0);
-                    sobanthang[card.Player.ID] =0+ sobanthang[card.Player.ID] + 1;
+                    };
+                    if (!sobanthang.ContainsKey(card.Player.ID)) sobanthang.Add(card.Player.ID, 0);
+                    sobanthang[card.Player.ID] = 0 + sobanthang[card.Player.ID] + 1;
                     DataProvider.Instance.Database.ITEMs.AddOrUpdate(temp);
                 }
             }
@@ -306,7 +305,7 @@ namespace FootBallProject.ViewModel
             MatchTeamInfoTeamB.DIEM = Convert.ToInt16(ScoreTeamB);
             MatchTeamInfoTeamA.THEDO = TiSoLuanLuuDoiA;
             MatchTeamInfoTeamB.THEDO = TiSoLuanLuuDoiB;
-            if (MatchTeamInfoTeamA.DIEM > MatchTeamInfoTeamB.DIEM || MatchTeamInfoTeamA.THEDO > MatchTeamInfoTeamB.THEDO )
+            if (MatchTeamInfoTeamA.DIEM > MatchTeamInfoTeamB.DIEM || MatchTeamInfoTeamA.THEDO > MatchTeamInfoTeamB.THEDO)
             {
                 MatchTeamInfoTeamA.KETQUA = 1;
                 MatchTeamInfoTeamB.KETQUA = 0;
@@ -350,7 +349,7 @@ namespace FootBallProject.ViewModel
             {
                 CardTeamADisplays.Remove(x);
                 ScoreTeamA = CardTeamADisplays.Count().ToString();
-               
+
             }
             else if (CardTeamBDisplays.Contains(x))
             {

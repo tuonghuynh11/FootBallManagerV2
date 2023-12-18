@@ -1,5 +1,4 @@
-﻿using DevExpress.Data.Browsing;
-using FootBallProject.Class;
+﻿using FootBallProject.Class;
 using FootBallProject.Model;
 using FootBallProject.PopUp;
 using FootBallProject.Service;
@@ -19,7 +18,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using static DevExpress.Data.Helpers.FindSearchRichParser;
 
 namespace FootBallProject.UserControlBar.ScreenNavigation
 {
@@ -41,13 +39,13 @@ namespace FootBallProject.UserControlBar.ScreenNavigation
 
         private async void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-      
+
             DTG_SupplierContracted.Items.Refresh();
         }
 
         private async void refreshBtn_Click(object sender, RoutedEventArgs e)
         {
-         
+
             await (this.DataContext as SupplierHomeScreenViewModel).LoadingData();
             DTG_SupplierContracted.Items.Refresh();
 
@@ -71,7 +69,7 @@ namespace FootBallProject.UserControlBar.ScreenNavigation
 
             DOIBONG dOIBONG = lvUnCooperateFootBallTeams.SelectedItem as DOIBONG;
             //Chỉnh idSupplier thành idSupplier đăng nhập
-           DoiBongSupplierContractExtension db= new DoiBongSupplierContractExtension(idDoiBong:dOIBONG.ID,idSupplier:AccessUser.userLogin.IDSUPPLIER);
+            DoiBongSupplierContractExtension db = new DoiBongSupplierContractExtension(idDoiBong: dOIBONG.ID, idSupplier: AccessUser.userLogin.IDSUPPLIER);
             db.ShowDialog();
             await (this.DataContext as SupplierHomeScreenViewModel).LoadingData();
             DTG_SupplierContracted.Items.Refresh();
@@ -97,7 +95,7 @@ namespace FootBallProject.UserControlBar.ScreenNavigation
             TextBox textBox = (TextBox)sender;
             if (textBox != null)
             {
-                if(textBox.Text==null || textBox.Text == "")
+                if (textBox.Text == null || textBox.Text == "")
                 {
 
                     DTG_SupplierContracted.ItemsSource = (this.DataContext as SupplierHomeScreenViewModel).FootBallTeamsCooperated;
@@ -112,7 +110,7 @@ namespace FootBallProject.UserControlBar.ScreenNavigation
                     }
                 }
 
-                DTG_SupplierContracted.ItemsSource= filter;
+                DTG_SupplierContracted.ItemsSource = filter;
             }
         }
 
@@ -145,7 +143,7 @@ namespace FootBallProject.UserControlBar.ScreenNavigation
             DataGrid list = (DataGrid)sender;
             DOIBONGSUPPLIER dOIBONGSUPPLIER = list.SelectedItem as DOIBONGSUPPLIER;
 
-            if(dOIBONGSUPPLIER != null)
+            if (dOIBONGSUPPLIER != null)
             {
                 if (list.CurrentCell.Column.DisplayIndex == 0)
                 {
@@ -157,7 +155,7 @@ namespace FootBallProject.UserControlBar.ScreenNavigation
                     thongTinCLB.Show();
                 }
 
-             
+
                 if (list.CurrentCell.Column.DisplayIndex == 4)
                 {
                     TimeSpan difference = (TimeSpan)(dOIBONGSUPPLIER.endDate - DateTime.Now);
@@ -174,7 +172,7 @@ namespace FootBallProject.UserControlBar.ScreenNavigation
             }
 
 
-           
+
         }
 
         private async void DTG_wait_MouseDoubleClick(object sender, MouseButtonEventArgs e)

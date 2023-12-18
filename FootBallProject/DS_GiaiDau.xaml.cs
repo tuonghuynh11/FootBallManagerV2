@@ -1,4 +1,4 @@
-﻿using DevExpress.Xpf.Grid;
+﻿//using DevExpress.Xpf.Grid;
 using FootBallProject.Model;
 using FootBallProject.ViewModel;
 using System;
@@ -26,21 +26,25 @@ namespace FootBallProject
         public DS_GiaiDau()
         {
             InitializeComponent();
-            this.DataContext = giaiDauViewModel=new DS_GiaiDauViewModel();
-         }
-
-      
-       
-
-        private void tbviewGiaiDau_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            CardView cardView = sender as CardView;
-            var carditem = cardView.SelectedRows[0] as LEAGUE;
-           // MessageBox.Show(carditem.Name, "Name leagues");
-            ThongTinGiaiDau thongTinGiaiDau = new ThongTinGiaiDau(carditem.ID,carditem.TENGIAIDAU) ;
-            thongTinGiaiDau.Show();
-            
-          
         }
+        //public DS_GiaiDau()
+        //{
+        //    InitializeComponent();
+        //    this.DataContext = giaiDauViewModel=new DS_GiaiDauViewModel();
+        // }
+
+
+
+
+        //private void tbviewGiaiDau_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        //{
+        //    CardView cardView = sender as CardView;
+        //    var carditem = cardView.SelectedRows[0] as LEAGUE;
+        //   // MessageBox.Show(carditem.Name, "Name leagues");
+        //    ThongTinGiaiDau thongTinGiaiDau = new ThongTinGiaiDau(carditem.ID,carditem.TENGIAIDAU) ;
+        //    thongTinGiaiDau.Show();
+
+
+        //}
     }
 }

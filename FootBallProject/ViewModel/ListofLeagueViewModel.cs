@@ -1,6 +1,4 @@
-﻿using DevExpress.Mvvm.Native;
-using DevExpress.Mvvm.POCO;
-using DevExpress.Xpf.Editors.Helpers;
+﻿//using DevExpress.Mvvm.Native;
 using FootBallProject.Class;
 using FootBallProject.Model;
 using FootBallProject.Object;
@@ -99,7 +97,7 @@ namespace FootBallProject.ViewModel
         {
             Instance = this;
             ObservableCollection<LeagueCardOb> list3 = new ObservableCollection<LeagueCardOb>();
-            List<LEAGUE> list1 = DataProvider.Instance.Database.LEAGUEs.Where(x => x.NGAYBATDAU!= null).ToList();
+            List<LEAGUE> list1 = DataProvider.Instance.Database.LEAGUEs.Where(x => x.NGAYBATDAU != null).ToList();
             foreach (var item in list1)
             {
                 list3.Add(new LeagueCardOb(item));
@@ -162,7 +160,7 @@ namespace FootBallProject.ViewModel
         }
         public void ReturnConfig1()
         {
-            if (config1 == null)  config1 = new ConfigVongLoai1ViewModel(this);
+            if (config1 == null) config1 = new ConfigVongLoai1ViewModel(this);
             CurrentAhihi = config1;
         }
         public void ReturnCreate()

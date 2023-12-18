@@ -1,4 +1,4 @@
-﻿using DevExpress.Xpf.Editors.Helpers;
+﻿//using DevExpress.Xpf.Editors.Helpers;
 using FootBallProject.Object;
 using FootBallProject.View;
 using System;
@@ -128,16 +128,18 @@ namespace FootBallProject.ViewModel
         {
             var x = userControl.DataContext as FootballMatchCard;
 
-            if (Check(x) == true && x.DisplayDay != null && DateTime.Compare(x.TryConvertToDateTime(), DateTime.Now) < 0)
-            {
+            //if (Check(x) == true && x.DisplayDay != null && DateTime.Compare(x.TryConvertToDateTime(), DateTime.Now) < 0)
+            //{
 
-                Enable = true;
-                RightSideBarItemViewModel = new MatchResultViewModel(userControl);
-            }
-            else
-            {
-                RightSideBarItemViewModel = new MatchNoDisPlayViewModel();
-            }
+            //    Enable = true;
+            //    RightSideBarItemViewModel = new MatchResultViewModel(userControl);
+            //}
+            //else
+            //{
+            //    RightSideBarItemViewModel = new MatchNoDisPlayViewModel();
+            //}
+
+            //chạy thì bỏ commnent
         }
         private void ShowDetail(UserControl p)
         {
@@ -155,7 +157,7 @@ namespace FootBallProject.ViewModel
         }
         public void ShowInfomation(FootballMatchCard p)
         {
-            
+
             RightSideBarItemViewModel = new ListMatchRightSideBarInfo2(p);
         }
         private void CreateNewMatch1()

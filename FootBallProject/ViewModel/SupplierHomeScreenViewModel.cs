@@ -1,9 +1,7 @@
-﻿using DevExpress.Xpf.Grid;
-using FootBallProject.Class;
+﻿using FootBallProject.Class;
 using FootBallProject.Model;
 using FootBallProject.PopUp;
 using FootBallProject.Service;
-using Microsoft.Office.Core;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,9 +14,14 @@ namespace FootBallProject.ViewModel
     public class SupplierHomeScreenViewModel : BaseViewModel
     {
         private ObservableCollection<DOIBONGSUPPLIER> _FootBallTeamsCooperated;
-        public ObservableCollection<DOIBONGSUPPLIER> FootBallTeamsCooperated { get => _FootBallTeamsCooperated; set {
+        public ObservableCollection<DOIBONGSUPPLIER> FootBallTeamsCooperated
+        {
+            get => _FootBallTeamsCooperated; set
+            {
 
-                _FootBallTeamsCooperated = value; OnPropertyChanged(); } }
+                _FootBallTeamsCooperated = value; OnPropertyChanged();
+            }
+        }
 
 
         private ObservableCollection<DOIBONG> _FootBallTeamsUnCooperate;
@@ -45,9 +48,10 @@ namespace FootBallProject.ViewModel
                 _supplierInfo = value; OnPropertyChanged();
             }
         }
-        public SupplierHomeScreenViewModel() {
-         
-             LoadingData();
+        public SupplierHomeScreenViewModel()
+        {
+
+            LoadingData();
 
         }
 
@@ -56,8 +60,8 @@ namespace FootBallProject.ViewModel
             //Loading loading = new Loading();
             //loading.Show();
             //await Task.Delay(1000);
-            SingleSupplierResponse res = (await Task.Run(()=> APIService.ins.getSuppliersById(AccessUser.userLogin.IDSUPPLIER)));
-            FootBallTeamsCooperated = new ObservableCollection<DOIBONGSUPPLIER>(res.data.DOIBONGSUPPLIERs.Where(db=>db.status==2));
+            SingleSupplierResponse res = (await Task.Run(() => APIService.ins.getSuppliersById(AccessUser.userLogin.IDSUPPLIER)));
+            FootBallTeamsCooperated = new ObservableCollection<DOIBONGSUPPLIER>(res.data.DOIBONGSUPPLIERs.Where(db => db.status == 2));
             FootBallTeamsUnCooperate = new ObservableCollection<DOIBONG>(res.footBallTeamsUnCooperate);
 
 
@@ -85,10 +89,8 @@ namespace FootBallProject.ViewModel
         public async Task LoadFootBallTeamsWaitConfirm()
         {
             List<DOIBONGSUPPLIER> allDoiBongSupplier = (await Task.Run(() => APIService.ins.getDoiBongSuppliers()));
-            if(allDoiBongSupplier != null) { 
-             FootBallTeamsWaitConfirm = new ObservableCollection<DOIBONGSUPPLIER>(allDoiBongSupplier.Where(t => t.idSupplier == AccessUser.userLogin.IDSUPPLIER && t.status == 0));
 
-            }
+            FootBallTeamsWaitConfirm = new ObservableCollection<DOIBONGSUPPLIER>(allDoiBongSupplier.Where(t => t.idSupplier == AccessUser.userLogin.IDSUPPLIER && t.status == 0));
         }
     }
 }

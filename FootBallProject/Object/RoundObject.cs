@@ -1,4 +1,4 @@
-﻿using DevExpress.Xpf.Editors.Helpers;
+﻿//using DevExpress.Xpf.Editors.Helpers;
 using FootBallProject.Model;
 using FootBallProject.ViewModel;
 using System;
@@ -62,14 +62,17 @@ namespace FootBallProject.Object
         public DateTime? StartTime
         {
             get { return _startTime; }
-            set { _startTime = value;
+            set
+            {
+                _startTime = value;
                 _errorBaseViewModel.ClearErrors();
 
                 if (!IsValid(StartTime.ToString()))
                 {
                     _errorBaseViewModel.AddError(nameof(StartTime), "Vui lòng chọn thời gian");
                 }
-                OnPropertyChanged(nameof(StartTime));}
+                OnPropertyChanged(nameof(StartTime));
+            }
         }
         private int? soluong;
         public int? SoLuong
@@ -80,13 +83,13 @@ namespace FootBallProject.Object
                 soluong = value;
                 _errorBaseViewModel.ClearErrors();
 
-                
+
                 OnPropertyChanged();
             }
         }
         public RoundObject(ROUND round)
         {
-            _errorBaseViewModel= new ErrorBaseViewModel();
+            _errorBaseViewModel = new ErrorBaseViewModel();
             _errorBaseViewModel.ErrorsChanged += ErrorBaseViewModel_ErrorsChanged;
             CurrentRound = round;
             NameOfRound = round.TENVONGDAU;
