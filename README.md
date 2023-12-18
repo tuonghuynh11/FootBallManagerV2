@@ -1,3 +1,4 @@
+[![WPF CI/CD](https://github.com/tuonghuynh11/FootBallManagerV2/actions/workflows/main.yml/badge.svg)](https://github.com/tuonghuynh11/FootBallManagerV2/actions/workflows/main.yml)
 # FootballManager
 # Testing
 ## 1. Unit tests: coverage 93.4% total codes
