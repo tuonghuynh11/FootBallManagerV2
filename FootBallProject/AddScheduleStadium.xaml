@@ -1,0 +1,96 @@
+﻿<Window x:Class="FootBallProject.AddScheduleStadium"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FootBallProject" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+TextElement.FontWeight="Regular"
+TextElement.FontSize="13"
+TextOptions.TextFormattingMode="Ideal"
+TextOptions.TextRenderingMode="Auto"
+FontFamily="{DynamicResource MaterialDesignFont}"
+AllowsTransparency="True" Background="Transparent" WindowStyle="None"
+DataContext="{StaticResource MainVM}"
+WindowStartupLocation="CenterScreen"
+mc:Ignorable="d"
+Title="AddScheSta" Height="440" Width="600" Icon="/Icons/appicon.png">
+    <Border CornerRadius="10" Padding="6" BorderBrush="#fbc42d" BorderThickness="2" Background="#d3ffce">
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="15"></RowDefinition>
+                <RowDefinition Height="410"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Button x:Name="Close_but" Height="20" Width="20" VerticalAlignment="Top"
+HorizontalAlignment="Left" Margin="559,-2,0,0" BorderBrush="{x:Null}" Click="Close_but_Click" >
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Images/x_icon.png"/>
+                    </Button.Background>
+
+                </Button>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Label x:Name="title" 
+   HorizontalAlignment="Left"
+   FontSize="20" FontWeight="Bold" Height="40" Margin="247,0,0,370">
+                    Thêm lịch trình
+                </Label>
+                <Label x:Name="league" Margin="32,55,452,330" Height="25" Width="100" FontSize="15">
+                    Giải đấu
+                </Label>
+                <Label x:Name="round" Margin="32,102,452,283" Height="25" Width="100" FontSize="15">
+                    Vòng đấu
+                </Label>
+                <Label x:Name="match" Margin="32,150,452,235" Height="25" Width="100" FontSize="15">
+                    Trận đấu
+                </Label>
+                <Label x:Name="date" Margin="32,197,452,188" Height="25" Width="100" FontSize="15">
+                    Ngày thi đấu
+                </Label>
+                <Label x:Name="time" Margin="32,247,452,138" Height="25" Width="100" FontSize="15">
+                    Thời gian
+                </Label>
+                <Label x:Name="stadium" Margin="32,302,452,83" Height="25" Width="100" FontSize="15">
+                    Sân vận động
+                </Label>
+                <ComboBox x:Name="cbLeague" Width="300" 
+   HorizontalAlignment="Left" 
+   Height="25" Background="White" Margin="192,55,0,0" VerticalAlignment="Top"/>
+
+                <ComboBox x:Name="cbRound" Width="300" 
+HorizontalAlignment="Left" 
+Height="25" Background="White" Margin="192,102,0,0" VerticalAlignment="Top"/>
+
+                <ComboBox x:Name="cbMatch" Width="300" 
+HorizontalAlignment="Left" 
+Height="25" Background="White" Margin="192,150,0,0" VerticalAlignment="Top"/>
+                <DatePicker x:Name="dpntd" Width="300" 
+            HorizontalAlignment="Left"
+            Height="25" Margin="192,197,0,0"
+            Background="White" VerticalAlignment="Top"
+            />
+                <materialDesign:TimePicker
+Is24Hours="True" Background="White" 
+x:Name="PresetTimePicker"
+Width="300" Margin="192,247,92,0" VerticalAlignment="Top" 
+/>
+                <ComboBox x:Name="cbStadium" Width="300" 
+HorizontalAlignment="Left" 
+Height="24" Background="White" Margin="192,303,0,0" VerticalAlignment="Top"/>
+                <Button 
+x:Name="AddNewSchedule"
+VerticalAlignment="Top"
+HorizontalAlignment="Left"
+Background="#31AC4C"
+Style="{StaticResource MaterialDesignRaisedLightButton}"
+Width="100" Height="40"
+ToolTip="Thêm" 
+ RenderTransformOrigin="-0.35,0.314" Margin="457,357,0,0" >
+                    _Thêm
+                </Button>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

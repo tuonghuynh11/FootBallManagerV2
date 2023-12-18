@@ -1,0 +1,146 @@
+﻿<Window x:Class="FootBallProject.AddSupplier"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FootBallProject"
+TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+TextElement.FontWeight="Regular"
+TextElement.FontSize="13"
+TextOptions.TextFormattingMode="Ideal"
+TextOptions.TextRenderingMode="Auto"
+FontFamily="{DynamicResource MaterialDesignFont}"
+AllowsTransparency="True" Background="Transparent" WindowStyle="None"
+DataContext="{StaticResource MainVM}"
+WindowStartupLocation="CenterScreen"
+mc:Ignorable="d"
+Title="AddSup" Height="530" Width="600" Icon="/Icons/appicon.png">
+    <Border CornerRadius="10" Padding="6" BorderBrush="#fbc42d" BorderThickness="2" Background="#d3ffce">
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="15"></RowDefinition>
+                <RowDefinition Height="500"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <Button x:Name="Close_but" Height="20" Width="20" VerticalAlignment="Center"
+        HorizontalAlignment="Right" Margin="0 0 5 0" BorderBrush="{x:Null}" Click="Close_but_Click">
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Images/x_icon.png"/>
+                    </Button.Background>
+
+                </Button>
+            </Grid>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Label x:Name="ttname" 
+   HorizontalAlignment="Center"
+   FontSize="15" FontWeight="Bold" Height="40" Margin="0,11,0,449">
+                    Thêm Nhà Cung Cấp
+                </Label>
+                <Label x:Name="name" Margin="37,51,397,424" Height="25" Width="150">
+                    Tên nhà cung cấp
+                </Label>
+                <Label Margin="37,99,468,376" Height="25">
+                    Địa chỉ
+                </Label>
+                <Label  Margin="37,150,447,325" Height="25" Width="100">
+                    Số điện thoại
+                </Label>
+                <Label  Margin="37,202,447,273" Height="25" Width="100">
+                    Tên đại diện
+                </Label>
+                <Label  Margin="37,251,447,224" Height="25" Width="100">
+                    Ngày thành lập
+                </Label>
+                <TextBox x:Name="tbphone" Width="250" 
+       HorizontalAlignment="Center" 
+       Height="25" Background="White" Margin="0,150,0,325"/>
+                <TextBox x:Name="tbName" Width="250" 
+       HorizontalAlignment="Center"
+       Height="25" Background="White" Margin="0,51,0,424"/>
+                <TextBox x:Name="tbAddress" Width="250" 
+HorizontalAlignment="Center"
+Height="25" Background="White" Margin="0,99,0,376"/>
+                <TextBox x:Name="tbNameDD" Width="250" 
+HorizontalAlignment="Center"
+Height="25" Background="White" Margin="0,202,0,273"/>
+
+                <Button 
+x:Name="addStadium"
+VerticalAlignment="Top"
+HorizontalAlignment="Left"
+Background="#31AC4C"
+Style="{StaticResource PrimaryButton}"
+Width="100" Height="40"
+ToolTip="Thêm" 
+ RenderTransformOrigin="-0.35,0.314" Margin="459,207,0,0" Click="addStadium_Click" >
+                    _Thêm
+                </Button>
+                <Image x:Name = "stadiumImage" HorizontalAlignment="Left" Height="100" Margin="459,29,0,0" 
+       VerticalAlignment="Top" Width="100" 
+       Source="Images\supplier.jpg" Stretch="Fill"/>
+                <Button 
+    x:Name="Upload"
+    VerticalAlignment="Top"
+    HorizontalAlignment="Left"
+    Background="#ef9021"
+    Style="{StaticResource PrimaryButton}"
+    Width="100" Height="40"
+    ToolTip="Upload" 
+    RenderTransformOrigin="-0.35,0.314" Margin="459,150,0,0" Content="_Upload" Click="Upload_Click" />
+                <Button 
+x:Name="AddService"
+VerticalAlignment="Top"
+HorizontalAlignment="Center"
+Background="#3483eb"
+Style="{StaticResource PrimaryButton}"
+Width="160" Height="40"
+ToolTip="Thêm Dịch Vụ" 
+RenderTransformOrigin="-0.35,0.314" Margin="0,432,0,0" Content="Thêm Dịch Vụ" Click="AddService_Click" />
+                <DatePicker x:Name="dpntl" Width="250" 
+                    HorizontalAlignment="Center"
+                    Height="26" Margin="0,250,0,0"
+                    Background="White" VerticalAlignment="Top"
+            />
+                <DataGrid Height="100" Width="400" Margin="92,312,92,38" x:Name="dtgSer"
+                          Background="White" RenderTransformOrigin="0.494,0.52" SelectionMode="Single"
+                          CanUserAddRows="False" ScrollViewer.CanContentScroll="True"
+AutoGenerateColumns="False" VerticalAlignment="Top" IsReadOnly="True" SelectionChanged="dtgSer_SelectionChanged"
+ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                    <DataGrid.Resources>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="Background" Value="#31AC4C"/>
+                            <Setter Property="Height" Value="25"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                        </Style>
+                    </DataGrid.Resources>
+                    <DataGrid.Columns>
+
+
+                        <DataGridTextColumn Header="Tên dịch vụ" Width="150" 
+Binding="{Binding serviceName}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center" />
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+
+
+                        <DataGridTextColumn Header="Chi tiết" Width="190"
+Binding="{Binding detail}">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="HorizontalAlignment" Value="Center" />
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>
