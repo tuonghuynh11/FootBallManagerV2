@@ -24,11 +24,12 @@ jobs:
         uses: actions/setup-dotnet@v2
         with:
           dotnet-version: ${{ matrix.dotnet }}
+          
 
       - name: Setup Nuget
         uses: Nuget/setup-nuget@v1.0.5
-      - name: add Nuget
-        run: dotnet add package System.Windows.Interactivity.Wpf
+      # - name: add Nuget
+      #   run: dotnet add package System.Windows.Interactivity.Wpf
       #devexpress
       # - name: Feed devexpress
       #   run: |
