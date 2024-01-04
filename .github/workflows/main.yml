@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest]
-        dotnet: ['6.x', '7.x', '8.x']
+        dotnet: ['6.0.x', '7.0.x', '8.0.x']
     # runs-on: windows-latest
 
     steps:
@@ -27,8 +27,8 @@ jobs:
 
       - name: Setup Nuget
         uses: Nuget/setup-nuget@v1.0.5
-      - name: add Nuget
-        run: dotnet add package System.Windows.Interactivity.Wpf
+      # - name: add Nuget
+      #   run: dotnet add package System.Windows.Interactivity.Wpf
       #devexpress
       # - name: Feed devexpress
       #   run: |
@@ -42,8 +42,8 @@ jobs:
 
       
       
-      # - name: Install Interactivity
-      #   run:  Install-Package System.Windows.Interactivity.WPF 
+      - name: Install Interactivity
+        run:  Install-Package System.Windows.Interactivity.WPF 
 
       - name: Restore nuget packages
         run: nuget restore FootBallProject.sln
